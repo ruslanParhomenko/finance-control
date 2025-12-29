@@ -1,38 +1,25 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import type { NextAuthOptions } from "next-auth";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { firebaseAuth } from "./firebase-client";
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 
   providers: [
     CredentialsProvider({
-      name: "Email & Password",
-
+      name: "credentials",
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        email: { type: "text" },
+        uid: { type: "text" },
       },
 
       async authorize(credentials) {
-        if (!credentials?.email || !credentials.password) {
-          throw new Error("Нет email или пароля");
+        if (!credentials?.email || !credentials?.uid) {
+          return null;
         }
 
-        const userCredential = await signInWithEmailAndPassword(
-          firebaseAuth,
-          credentials.email,
-          credentials.password
-        );
-
-        const user = userCredential.user;
-
-        if (!user.email) return null;
-
         return {
-          id: user.uid,
-          email: user.email,
+          id: credentials.uid,
+          email: credentials.email,
         };
       },
     }),
@@ -53,7 +40,6 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.uid = user.id;
       }
-
       return token;
     },
 
@@ -61,7 +47,6 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         (session.user as any).uid = token.uid;
       }
-
       return session;
     },
   },

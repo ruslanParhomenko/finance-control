@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { signIn } from "next-auth/react";
+import { getCsrfToken, signIn } from "next-auth/react";
 
 export default function SignInPage() {
   const [email, setEmail] = useState("");
@@ -22,11 +22,45 @@ export default function SignInPage() {
     setLoading(true);
 
     try {
-      const firebaseUser = await signInWithEmailAndPassword(firebaseAuth, email, password);
-      await signIn("credentials", { email, uid: firebaseUser.user.uid, redirect: false });
-      router.push("/home"); // редирект после успешного входа
+      // 1️⃣ Firebase login
+      const userCredential = await signInWithEmailAndPassword(
+        firebaseAuth,
+        email,
+        password
+      );
+
+      const uid = userCredential.user.uid;
+      const userEmail = userCredential.user.email;
+
+      if (!uid || !userEmail) {
+        throw new Error("Firebase user invalid");
+      }
+
+      // 2️⃣ CSRF token (обязателен)
+      const csrfToken = await getCsrfToken();
+
+      if (!csrfToken) {
+        throw new Error("CSRF token not found");
+      }
+
+      // 3️⃣ NextAuth session
+      const res = await signIn("credentials", {
+        csrfToken,
+        email: userEmail,
+        uid,
+        redirect: false,
+      });
+
+      if (!res || res.error) {
+        throw new Error(res?.error ?? "NextAuth signIn failed");
+      }
+
+      // 4️⃣ Redirect
+      router.replace("/home");
     } catch (err: any) {
-      switch (err.code) {
+      console.error("SIGN IN ERROR:", err);
+
+      switch (err?.code) {
         case "auth/user-not-found":
           setError("Пользователь не найден");
           break;
@@ -45,7 +79,7 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen ">
+    <div className="flex items-center justify-center min-h-screen">
       <div className="w-full max-w-md p-8 rounded-lg shadow-md">
         <h1 className="text-2xl font-bold mb-6 text-center">Вход</h1>
 
@@ -55,7 +89,6 @@ export default function SignInPage() {
             <Input
               id="email"
               type="email"
-              placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -67,7 +100,6 @@ export default function SignInPage() {
             <Input
               id="password"
               type="password"
-              placeholder="Пароль"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
