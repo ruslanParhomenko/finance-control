@@ -1,112 +1,70 @@
-// import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-// import { expenseCategories } from "@/constants/expense";
-// import { getMonthDays } from "@/utils/get-month-days";
-// import { UseFormReturn } from "react-hook-form";
+import { TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { expenseCategories } from "@/constants/expense";
+import { getMonthDays } from "@/utils/get-month-days";
+import { FieldPath, UseFormReturn, useWatch } from "react-hook-form";
+import { ExpenseFormType } from "./schema";
+import React from "react";
+import { cn } from "@/lib/utils";
+import { handleTableNavigation } from "@/utils/handleTableNavigation";
 
-// export default function MonthBodyTable({
-//   form,
-//   monthDays,
-// }: {
-//   form: UseFormReturn<any>;
-//   monthDays: ReturnType<typeof getMonthDays> | [];
-// }) {
-//   const { register, watch } = form;
-//   const value = watch();
-//   const isClosed = value?.isClosed;
-//   const isDisabled = isClosed;
-//   return (
-//     <TableBody>
-//       <TableRow>
-//         <TableCell
-//           colSpan={monthDays.length + 2}
-//           className="h-10 border-0 text-bl"
-//         >
-//           CASH
-//         </TableCell>
-//       </TableRow>
-//       {expenseCategories.map((row, index) => {
-//         const total = (
-//           value[row.key as keyof CashFormType["rowCashData"]] as string[]
-//         )
-//           ?.reduce((acc: number, val: string) => acc + Number(val || 0), 0)
-//           .toFixed(2);
-//         return (
-//           <React.Fragment key={row.key}>
-//             <TableRow>
-//               <TableCell
-//                 colSpan={2}
-//                 className={cn(
-//                   "font-medium sticky left-0 p-0 text-start truncate",
-//                   row.colorText
-//                 )}
-//               >
-//                 {row.label}
-//               </TableCell>
+export default function MonthBodyTable({
+  form,
+  monthDays,
+}: {
+  form: UseFormReturn<ExpenseFormType>;
+  monthDays: ReturnType<typeof getMonthDays> | [];
+}) {
+  const { register, watch } = form;
+  const value = watch("rowExpense");
+  console.log("value", value);
 
-//               {monthDays.map((_, dayIndex) => {
-//                 if (
-//                   isClosed &&
-//                   (row.key === "tipsByDay" || row.key === "nbmPayByDay")
-//                 )
-//                   return null;
-//                 return (
-//                   <TableCell
-//                     key={dayIndex}
-//                     className="p-0 text-center border-x"
-//                   >
-//                     <input
-//                       type="text"
-//                       disabled={isDisabled}
-//                       data-row={index}
-//                       data-col={dayIndex}
-//                       {...register(
-//                         `rowCashData.${row.key}.${dayIndex}` as FieldPath<CashFormType>
-//                       )}
-//                       className={cn(
-//                         "border-0  p-0 h-7 text-center  shadow-none text-xs w-12",
-//                         row.colorText
-//                       )}
-//                       onKeyDown={(e) =>
-//                         handleTableNavigation(e, +index, dayIndex)
-//                       }
-//                     />
-//                   </TableCell>
-//                 );
-//               })}
-//               <TableCell className="text-rd font-bold">
-//                 {!isClosed && total}
-//               </TableCell>
-//             </TableRow>
-//             {(row.key === "visaCasinoByDay" ||
-//               row.key === "visaCasinoBarByDay") && (
-//               <TableRow>
-//                 <TableCell
-//                   colSpan={monthDays.length + 2}
-//                   className="h-10 border-0 text-bl"
-//                 >
-//                   BAR
-//                 </TableCell>
-//               </TableRow>
-//             )}
-//           </React.Fragment>
-//         );
-//       })}
-//       <TableRow>
-//         <TableCell className="h-10 border-0 text-bl">remaining cash</TableCell>
-//         <TableCell className="h-10 border-0 text-bl" colSpan={2}>
-//           {(totalCashBar - totalVisa - totalBank - totalNbmCollection).toFixed(
-//             2
-//           )}
-//         </TableCell>
-//       </TableRow>
-//       <TableRow>
-//         <TableCell className="h-10 border-0 text-bl">
-//           visa difference:
-//         </TableCell>
-//         <TableCell className="h-10 border-0 text-bl" colSpan={2}>
-//           {(totalVisaBar - totalVisa).toFixed(2)}
-//         </TableCell>
-//       </TableRow>
-//     </TableBody>
-//   );
-// }
+  return (
+    <TableBody>
+      {expenseCategories.map((row, index) => {
+        const total = (
+          value[row as keyof ExpenseFormType["rowExpense"]] as string[]
+        )
+          ?.reduce((acc: number, val: string) => acc + Number(val || 0), 0)
+          .toFixed(0);
+        console.log("total", total);
+        return (
+          <React.Fragment key={index + row}>
+            <TableRow>
+              <TableCell
+                colSpan={2}
+                className={cn("font-medium sticky left-0  text-start truncate")}
+              >
+                {row}
+              </TableCell>
+
+              {monthDays.map((_, dayIndex) => {
+                return (
+                  <TableCell
+                    key={dayIndex}
+                    className="p-0 text-center border-x"
+                  >
+                    <input
+                      type="text"
+                      data-row={index}
+                      data-col={dayIndex}
+                      {...register(
+                        `rowExpense.${row}.${dayIndex}` as FieldPath<ExpenseFormType>
+                      )}
+                      className={cn(
+                        "border-0  p-0 h-7 text-center  shadow-none  w-12.5"
+                      )}
+                      onKeyDown={(e) =>
+                        handleTableNavigation(e, +index, dayIndex)
+                      }
+                    />
+                  </TableCell>
+                );
+              })}
+              <TableCell className="text-rd font-bold w-22">{total}</TableCell>
+            </TableRow>
+          </React.Fragment>
+        );
+      })}
+    </TableBody>
+  );
+}
