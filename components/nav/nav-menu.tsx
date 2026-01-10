@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import SelectTabsByPatch from "./select-patch";
 import SelectByMonthYear from "./select-month-year";
+import LogOutButton from "../button/logout-button";
 
 export type PageNavType = {
   title: string;
@@ -32,6 +33,7 @@ export default function NavMenuHeader({
 
   return (
     <div className="md:py-2 mt-1 mb-4 sticky top-0 z-9 flex justify-center md:justify-start md:gap-4 gap-1.5">
+      <LogOutButton />
       {navItems.length > 0 && (
         <SelectTabsByPatch
           patch={patch}

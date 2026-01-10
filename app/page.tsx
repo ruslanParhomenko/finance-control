@@ -1,6 +1,9 @@
-import LoginButton from "@/components/button/LoginButton";
+import GoogleButton from "@/components/button/google-button";
+import AuthRedirect from "@/providers/auth-redirect";
 export default function Page() {
   return (
-      <LoginButton />
+    <AuthRedirect>
+      <GoogleButton />;
+    </AuthRedirect>
   );
 }
