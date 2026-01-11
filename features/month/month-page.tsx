@@ -69,8 +69,15 @@ export default function MonthPage({
 
   const formId = "month-expense-form";
 
+  const isLoading = form.formState.isSubmitting;
+
   return (
-    <FormWrapper form={form} onSubmit={onSubmit} formId={formId}>
+    <FormWrapper
+      form={form}
+      onSubmit={onSubmit}
+      formId={formId}
+      disabled={isLoading}
+    >
       <Table>
         <MonthHeaderTable month={month} monthDays={monthDays} />
         <MonthBodyTable form={form} monthDays={monthDays} />

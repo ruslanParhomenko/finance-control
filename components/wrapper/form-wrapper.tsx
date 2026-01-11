@@ -9,6 +9,7 @@ export function FormWrapper({
   children,
   onSubmit,
   className,
+  disabled,
   ...props
 }: {
   formId: string;
@@ -16,6 +17,7 @@ export function FormWrapper({
   children: React.ReactNode;
   onSubmit?: SubmitHandler<any>;
   className?: string;
+  disabled?: boolean;
   [key: string]: any;
 }) {
   return (
@@ -26,7 +28,12 @@ export function FormWrapper({
         {...props}
       >
         <div className="flex-1">{children}</div>
-        <Button id={formId} type="submit" className="w-30 ml-10">
+        <Button
+          disabled={disabled}
+          id={formId}
+          type="submit"
+          className="w-30 ml-10"
+        >
           save
         </Button>
       </form>
