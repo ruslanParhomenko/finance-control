@@ -12,7 +12,6 @@ export default function AuthRedirect({
   const router = useRouter();
   const { status, data } = useSession();
   const isAdmin = data?.user?.role === "ADMIN";
-  console.log(data);
   useEffect(() => {
     if (status === "loading") return;
 

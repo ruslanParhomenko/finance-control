@@ -1,13 +1,17 @@
 import { SubmitHandler, UseFormReturn } from "react-hook-form";
 import { Form } from "../ui/form";
+import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
 
 export function FormWrapper({
+  formId,
   form,
   children,
   onSubmit,
   className,
   ...props
 }: {
+  formId: string;
   form: UseFormReturn<any>;
   children: React.ReactNode;
   onSubmit?: SubmitHandler<any>;
@@ -18,10 +22,13 @@ export function FormWrapper({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit || (() => {}))}
-        className={className}
+        className={cn("flex flex-col h-[90vh] py-2", className)}
         {...props}
       >
-        {children}
+        <div className="flex-1">{children}</div>
+        <Button id={formId} type="submit" className="w-30 ml-10">
+          save
+        </Button>
       </form>
     </Form>
   );

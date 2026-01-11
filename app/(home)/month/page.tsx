@@ -1,4 +1,6 @@
+import { getExpenseByUniqueKey } from "@/app/action/month-data-actions";
 import MonthPage from "@/features/month/month-page";
+import { ExpenseFormType } from "@/features/month/schema";
 
 export default async function Page({
   searchParams,
@@ -7,5 +9,13 @@ export default async function Page({
 }) {
   const { month, year } = await searchParams;
   if (!month || !year) return;
-  return <MonthPage month={month?.toString()} year={year} />;
+  const uniqueKey = `${year}-${month}`;
+  const expenseData = await getExpenseByUniqueKey(uniqueKey);
+  return (
+    <MonthPage
+      expenseData={expenseData as ExpenseFormType & { id: string }}
+      month={month?.toString()}
+      year={year}
+    />
+  );
 }

@@ -17,7 +17,6 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   const { data: session, status } = useSession();
-  console.log(session, status);
   const router = useRouter();
 
   useEffect(() => {
