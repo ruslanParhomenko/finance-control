@@ -17,6 +17,7 @@ export const authOptions: NextAuthOptions = {
 
   pages: {
     signIn: "/signin",
+    error: "/403",
   },
 
   debug: true,
@@ -41,6 +42,13 @@ export const authOptions: NextAuthOptions = {
         (session.user as any).role = token.role || "OBSERVER";
       }
       return session;
+    },
+    async signIn({ profile }) {
+      const dbUser = profile?.email === process.env.ADMIN_EMAIL;
+
+      if (!dbUser) return "/403";
+
+      return true;
     },
   },
 };

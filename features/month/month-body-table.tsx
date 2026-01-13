@@ -32,7 +32,7 @@ export default function MonthBodyTable({
                 <TableCell
                   colSpan={2}
                   className={cn(
-                    "font-medium sticky left-0  text-start truncate"
+                    "font-medium sticky left-0  text-start truncate p-1.5 bg-background"
                   )}
                 >
                   {row}
@@ -42,7 +42,7 @@ export default function MonthBodyTable({
                   return (
                     <TableCell
                       key={dayIndex}
-                      className="p-0 text-center border-x"
+                      className="p-0 text-center border-x md:py-2"
                     >
                       <input
                         type="text"
@@ -52,7 +52,7 @@ export default function MonthBodyTable({
                           `rowExpenseData.${row}.${dayIndex}` as FieldPath<ExpenseFormType>
                         )}
                         className={cn(
-                          "border-0  p-0 h-7 text-center  shadow-none  w-12.5"
+                          "border-0  p-0 h-6 md:h-7 text-center  shadow-none   w-10"
                         )}
                         onKeyDown={(e) =>
                           handleTableNavigation(e, +index, dayIndex)
@@ -61,7 +61,7 @@ export default function MonthBodyTable({
                     </TableCell>
                   );
                 })}
-                <TableCell className="text-rd font-bold w-22">
+                <TableCell className="font-bold w-22 p-0 px-2 text-end">
                   {total}
                 </TableCell>
               </TableRow>
@@ -72,6 +72,11 @@ export default function MonthBodyTable({
           <TableCell></TableCell>
         </TableRow>
         {addCash.map((row, index) => {
+          const total = (
+            value?.[row as keyof ExpenseFormType["rowExpenseData"]] as string[]
+          )
+            ?.reduce((acc: number, val: string) => acc + Number(val || 0), 0)
+            .toFixed(0);
           return (
             <TableRow key={index}>
               <TableCell
@@ -94,13 +99,15 @@ export default function MonthBodyTable({
                         `rowExpenseData.${row}.${dayIndex}` as FieldPath<ExpenseFormType>
                       )}
                       className={cn(
-                        "border-0  p-0 h-7 text-center  shadow-none  w-12.5"
+                        "border-0  p-0 h-6 md:h-7 text-center  shadow-none   w-10"
                       )}
                     />
                   </TableCell>
                 );
               })}
-              <TableCell className="text-rd font-bold w-22"></TableCell>
+              <TableCell className="font-bold w-22 p-0 px-2 text-end">
+                {total}
+              </TableCell>
             </TableRow>
           );
         })}

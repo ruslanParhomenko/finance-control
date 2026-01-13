@@ -6,20 +6,21 @@ import SelectTabsByPatch from "./select-patch";
 import SelectByMonthYear from "./select-month-year";
 import LogOutButton from "../button/logout-button";
 
+const navItems = [
+  { title: "month", href: "month" },
+  { title: "year", href: "year" },
+];
+
 export type PageNavType = {
   title: string;
   href: string;
 };
 
-export default function NavMenuHeader({
-  navItems,
-}: {
-  navItems: PageNavType[];
-}) {
+export default function NavMenuHeader() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
-  const [patch, setPatch] = useState("home");
+  const [patch, setPatch] = useState("");
   const [month, setMonth] = useState((new Date().getMonth() + 1).toString());
   const [year, setYear] = useState(new Date().getFullYear().toString());
 
@@ -32,7 +33,7 @@ export default function NavMenuHeader({
   };
 
   return (
-    <div className="md:py-2 mt-1 mb-4 sticky top-0 z-9 flex justify-center md:justify-start md:gap-4 gap-1.5">
+    <div className="md:py-2 mt-1 mb-4 sticky top-0 z-9 flex justify-between md:justify-start md:gap-4 gap-1.5">
       <LogOutButton />
       {navItems.length > 0 && (
         <SelectTabsByPatch

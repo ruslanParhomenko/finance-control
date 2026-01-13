@@ -5,18 +5,12 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-const navItems = [
-  { title: "day", href: "day" },
-  { title: "month", href: "month" },
-  { title: "year", href: "year" },
-];
-
 export default function HomeLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
 
   useEffect(() => {
@@ -28,7 +22,7 @@ export default function HomeLayout({
 
   return (
     <div className="h-screen flex flex-col py-3  px-3">
-      <NavMenuHeader navItems={navItems} />
+      <NavMenuHeader />
 
       {children}
     </div>

@@ -8,9 +8,9 @@ export default function LogOutButton() {
     <div className="flex justify-center items-center">
       <button
         onClick={() => signOut({ callbackUrl: "/" })}
-        className="bg-black p-1 rounded-md h-8 w-8"
+        className="bg-gray-100  rounded-md h-7 w-7 px-1"
       >
-        <LogOut className="w-4 h-4 text-white font-bold" />
+        <LogOut className="w-4 h-4  font-bold" />
       </button>
     </div>
   );

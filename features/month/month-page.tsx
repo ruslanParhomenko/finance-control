@@ -28,7 +28,6 @@ export default function MonthPage({
 }) {
   const form = useForm<ExpenseFormTypeInput>({
     resolver: zodResolver(expenseSchema),
-
     defaultValues: expenseSchema.parse(expenseData || defaultExpenseForm),
   });
   const monthDays = getMonthDays({ month, year });
@@ -52,9 +51,12 @@ export default function MonthPage({
 
     const makeArray = () => Array(monthDays.length).fill("");
 
-    const newRowCashData = Object.fromEntries(
-      expenseCategories.map((category) => [category, makeArray()])
-    );
+    const newRowCashData = {
+      ...Object.fromEntries(
+        expenseCategories.map((category) => [category, makeArray()])
+      ),
+      "add-cash": makeArray(),
+    };
 
     form.setValue("rowExpenseData", newRowCashData);
   }, [expenseData, month, year]);

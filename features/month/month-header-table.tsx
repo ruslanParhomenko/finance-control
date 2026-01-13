@@ -29,7 +29,7 @@ export default function MonthHeaderTable({
       <TableRow className="h-10">
         <TableCell
           colSpan={2}
-          className="p-0 px-1 front-bold text-center text-xs"
+          className="p-0 px-1 front-bold text-center text-xs sticky left-0 bg-background"
         >
           {MONTH_STRINGS[parseInt(month) - 1].toUpperCase()}
         </TableCell>
