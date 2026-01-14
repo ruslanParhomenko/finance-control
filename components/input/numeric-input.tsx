@@ -44,7 +44,7 @@ export default function NumericInput({
               disabled={disabled}
               onClick={() => setOpen(true)}
               onChange={(e) => field.onChange(e.target.value)}
-              className={cn("cursor-pointer text-center h-8", className)}
+              className={cn("cursor-pointer text-center p-0", className)}
             />
           </FormControl>
         </PopoverTrigger>
