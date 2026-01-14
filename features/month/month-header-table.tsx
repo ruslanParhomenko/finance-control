@@ -14,6 +14,7 @@ const MONTH_STRINGS = [
   "october",
   "november",
   "december",
+  ``,
 ];
 
 export default function MonthHeaderTable({
@@ -25,7 +26,7 @@ export default function MonthHeaderTable({
 }) {
   const todayDay = new Date().getDate();
   return (
-    <TableHeader>
+    <TableHeader className="sticky top-0 z-20 bg-background">
       <TableRow className="h-10">
         <TableCell
           colSpan={2}
@@ -50,7 +51,7 @@ export default function MonthHeaderTable({
             </TableCell>
           );
         })}
-        <TableCell />
+        <TableCell className="md:w-30" />
       </TableRow>
     </TableHeader>
   );

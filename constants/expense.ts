@@ -11,7 +11,7 @@ export const expenseCategories = [
   "her",
   "utilities",
   "rent-home",
-  "household-goods",
+  "household",
   "documents",
   "travel",
   "flight",

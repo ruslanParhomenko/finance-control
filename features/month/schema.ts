@@ -1,14 +1,19 @@
-import { expenseCategories } from "@/constants/expense";
+import { addCash, expenseCategories } from "@/constants/expense";
 import { z } from "zod";
 
 const dayValueSchema = z.string().default("");
 
-const rowExpenseShape = Object.fromEntries(
-  expenseCategories.map((category) => [
-    category,
-    z.array(dayValueSchema).default([]),
-  ])
-);
+const rowExpenseShape = {
+  ...Object.fromEntries(
+    expenseCategories.map((category) => [
+      category,
+      z.array(dayValueSchema).default([]),
+    ])
+  ),
+  ...Object.fromEntries(
+    addCash.map((category) => [category, z.array(dayValueSchema).default([])])
+  ),
+};
 
 export const rowExpenseSchema = z.object(rowExpenseShape);
 
