@@ -18,7 +18,6 @@ export default function MonthBodyTable({
   const { register, watch } = form;
   const value = watch("rowExpenseData");
 
-  console.log(value);
   const totalExpenses = expenseCategories.reduce((acc, category) => {
     const rowTotal =
       value?.[category as keyof ExpenseFormType["rowExpenseData"]]?.reduce(
@@ -55,7 +54,7 @@ export default function MonthBodyTable({
               <TableCell
                 colSpan={2}
                 className={cn(
-                  "font-medium sticky left-0  text-start truncate p-1 bg-background"
+                  "font-medium sticky left-0  text-start truncate p-0 bg-background"
                 )}
               >
                 {row}
@@ -67,7 +66,7 @@ export default function MonthBodyTable({
                     <TableCell className="border-x p-0 md:hidden">
                       <NumericInput
                         fieldName={`rowExpenseData.${row}.${dayIndex}`}
-                        className="border-0 shadow-none rounded-none w-full h-8 text-center text-md"
+                        className="border-0 shadow-none rounded-none w-full h-7 text-center text-md"
                       />
                     </TableCell>
                     <TableCell
@@ -121,7 +120,7 @@ export default function MonthBodyTable({
             </TableCell>
           );
         })}
-        <TableCell className="font-bold text-end px-2 py-1">
+        <TableCell className="font-bold text-end px-2 py-0.5">
           {expenseCategories
             .reduce((acc, category) => {
               const rowTotal =
