@@ -24,16 +24,16 @@ export function FormWrapper({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit || (() => {}))}
-        className={cn("flex flex-col h-[80vh]", className)}
+        className={cn("flex flex-col h-[76vh] md:h-[90vh]", className)}
         {...props}
       >
         {children}
-        <div className="flex justify-end items-center mt-auto">
+        <div className="flex justify-end items-center  mt-auto">
           <Button
             disabled={disabled}
             id={formId}
             type="submit"
-            className="w-30"
+            className="w-24 h-8"
           >
             save
           </Button>

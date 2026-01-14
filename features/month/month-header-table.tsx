@@ -26,8 +26,8 @@ export default function MonthHeaderTable({
 }) {
   const todayDay = new Date().getDate();
   return (
-    <TableHeader className="sticky top-0 z-20 bg-background">
-      <TableRow className="h-10">
+    <TableHeader className="sticky top-0 z-10 bg-background">
+      <TableRow className="md:h-10 h-8">
         <TableCell
           colSpan={2}
           className="p-0 px-1 front-bold text-center text-xs sticky left-0 bg-background"
@@ -37,14 +37,15 @@ export default function MonthHeaderTable({
 
         {monthDays.map((day) => {
           return (
-            <TableCell
-              key={day.day}
-              className={cn(
-                "w-12 cursor-pointer p-0 ",
-                day.day === todayDay && "text-blue-900 front-bold"
-              )}
-            >
-              <div className="text-sm font-semibold text-center">{day.day}</div>
+            <TableCell key={day.day} className={"w-12 cursor-pointer p-0"}>
+              <div
+                className={cn(
+                  "md:text-sm text-xs font-semibold text-center",
+                  day.day === todayDay && "text-blue-900"
+                )}
+              >
+                {day.day}
+              </div>
               <div className="text-xs text-muted-foreground text-center">
                 {day.weekday}
               </div>

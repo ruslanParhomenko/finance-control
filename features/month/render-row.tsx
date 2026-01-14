@@ -1,0 +1,117 @@
+import { TableCell, TableRow } from "@/components/ui/table";
+import { getMonthDays } from "@/utils/get-month-days";
+import { ExpenseFormType, ExpenseFormTypeInput } from "./schema";
+import React from "react";
+import NumericInput from "@/components/input/numeric-input";
+import { UseFormReturn } from "react-hook-form";
+import { handleTableNavigation } from "@/utils/handleTableNavigation";
+import { cn } from "@/lib/utils";
+
+export default function RenderRow({
+  dataRow,
+  monthDays,
+  form,
+  viewTotalByDay = false,
+}: {
+  dataRow: readonly string[];
+  monthDays: ReturnType<typeof getMonthDays> | [];
+  form: UseFormReturn<ExpenseFormTypeInput>;
+  viewTotalByDay?: boolean;
+}) {
+  const { register, watch } = form;
+  const value = watch("rowExpenseData");
+  return (
+    <>
+      {dataRow.map((row, index) => {
+        const total = (
+          value?.[row as keyof ExpenseFormType["rowExpenseData"]] as string[]
+        )
+          ?.reduce((acc: number, val: string) => acc + Number(val || 0), 0)
+          .toFixed(0);
+        return (
+          <TableRow key={index + row}>
+            <TableCell
+              colSpan={2}
+              className={
+                "font-medium sticky left-0  text-start truncate p-0 md:px-2 bg-background"
+              }
+            >
+              {row}
+            </TableCell>
+
+            {monthDays.map((_, dayIndex) => {
+              return (
+                <React.Fragment key={dayIndex}>
+                  <TableCell className="border-x p-0 md:hidden">
+                    <NumericInput
+                      fieldName={`rowExpenseData.${row}.${dayIndex}`}
+                      className="border-0 shadow-none rounded-none w-10 h-6.5 text-center text-md"
+                    />
+                  </TableCell>
+                  <TableCell
+                    key={dayIndex}
+                    className="p-0 text-center border-x md:py-1 hidden md:table-cell"
+                  >
+                    <input
+                      type="text"
+                      data-row={index}
+                      data-col={dayIndex}
+                      {...register(`rowExpenseData.${row}.${dayIndex}`)}
+                      className={
+                        "border-0 h-6.5  p-0  text-center  shadow-none   w-10"
+                      }
+                      onKeyDown={(e) =>
+                        handleTableNavigation(e, +index, dayIndex)
+                      }
+                    />
+                  </TableCell>
+                </React.Fragment>
+              );
+            })}
+            <TableCell className="font-bold w-22 p-0 px-2 text-end">
+              {total}
+            </TableCell>
+          </TableRow>
+        );
+      })}
+      <TableRow className={cn(!viewTotalByDay && "hidden")}>
+        <TableCell
+          colSpan={2}
+          className="sticky left-0 bg-background"
+        ></TableCell>
+        {monthDays.map((_, dayIndex) => {
+          const totalByDay = dataRow
+            .reduce((acc, category) => {
+              const dayValue =
+                value?.[category as keyof ExpenseFormType["rowExpenseData"]]?.[
+                  dayIndex
+                ];
+
+              return acc + Number(dayValue || 0);
+            }, 0)
+            .toFixed(0);
+          return (
+            <TableCell
+              key={dayIndex}
+              className="p-0 text-center text-xs font-bold"
+            >
+              {totalByDay}
+            </TableCell>
+          );
+        })}
+        <TableCell className="font-bold text-end px-2 py-0.5">
+          {dataRow
+            .reduce((acc, category) => {
+              const rowTotal =
+                value?.[
+                  category as keyof ExpenseFormType["rowExpenseData"]
+                ]?.reduce((rowAcc, val) => rowAcc + Number(val || 0), 0) || 0;
+
+              return acc + rowTotal;
+            }, 0)
+            .toFixed(0)}
+        </TableCell>
+      </TableRow>
+    </>
+  );
+}
