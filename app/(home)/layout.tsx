@@ -21,7 +21,7 @@ export default function HomeLayout({
     return <p className="text-center mt-10">Загрузка...</p>;
 
   return (
-    <div className="h-screen flex flex-col py-3  px-3">
+    <div className="h-screen flex flex-col pt-2  px-2">
       <NavMenuHeader />
 
       {children}

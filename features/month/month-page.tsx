@@ -26,8 +26,6 @@ export default function MonthPage({
   month: string;
   year: string;
 }) {
-  console.log(expenseData);
-
   const form = useForm<ExpenseFormTypeInput>({
     resolver: zodResolver(expenseSchema),
     defaultValues: expenseSchema.parse(expenseData || defaultExpenseForm),
@@ -36,7 +34,6 @@ export default function MonthPage({
   const onSubmit: SubmitHandler<ExpenseFormType> = async (data) => {
     const formatData = { ...data, month, year, uniqueKey: `${year}-${month}` };
 
-    console.log("isSubmitting", formatData);
     if (expenseData?.id) {
       await updateExpense(expenseData.id as string, formatData);
       toast.success("Expense успешно обновлён!");
