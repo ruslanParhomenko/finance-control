@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import SelectTabsByPatch from "./select-patch";
 import SelectByMonthYear from "./select-month-year";
 import LogOutButton from "../button/logout-button";
+import SelectCurrency from "./select-currency";
 
 const navItems = [
   { title: "month", href: "month" },
@@ -23,14 +24,15 @@ export default function NavMenuHeader() {
   const [patch, setPatch] = useState("month");
   const [month, setMonth] = useState((new Date().getMonth() + 1).toString());
   const [year, setYear] = useState(new Date().getFullYear().toString());
+  const [currency, setCurrency] = useState("MDL");
 
   useLayoutEffect(() => {
-    const url = `/${patch}?month=${month}&year=${year}`;
+    const url = `/${patch}?month=${month}&year=${year}&currency=${currency}`;
 
     startTransition(() => {
       router.push(url);
     });
-  }, [patch, month, year, router]);
+  }, [patch, month, year, currency, router]);
 
   return (
     <div className="mb-1 md:mb-3 sticky top-0 bg-background z-10 flex justify-between md:justify-start md:gap-4 gap-1.5">
@@ -49,6 +51,11 @@ export default function NavMenuHeader() {
         year={year}
         setMonth={setMonth}
         setYear={setYear}
+        isLoading={isPending}
+      />
+      <SelectCurrency
+        currency={currency}
+        setCurrency={setCurrency}
         isLoading={isPending}
       />
     </div>

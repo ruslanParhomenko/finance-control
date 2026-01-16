@@ -20,9 +20,11 @@ const MONTH_STRINGS = [
 export default function MonthHeaderTable({
   month,
   monthDays,
+  currencyRates,
 }: {
   month: string;
   monthDays: ReturnType<typeof getMonthDays> | [];
+  currencyRates: string;
 }) {
   const todayDay = new Date().getDate();
   return (
@@ -32,7 +34,7 @@ export default function MonthHeaderTable({
           colSpan={2}
           className="p-0 px-1 front-bold text-center text-xs sticky left-0 bg-background"
         >
-          {MONTH_STRINGS[parseInt(month) - 1].toUpperCase()}
+          {MONTH_STRINGS[parseInt(month) - 1].toUpperCase()} : {currencyRates}
         </TableCell>
 
         {monthDays.map((day) => {
@@ -41,7 +43,7 @@ export default function MonthHeaderTable({
               <div
                 className={cn(
                   "md:text-sm text-xs font-semibold text-center",
-                  day.day === todayDay && "text-blue-900"
+                  day.day === todayDay && "text-blue-900",
                 )}
               >
                 {day.day}

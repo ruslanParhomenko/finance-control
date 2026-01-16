@@ -13,6 +13,8 @@ export const MONTHS = [
   "12",
 ];
 
+export const CURRENCY = ["MDL", "EUR", "USD"];
+
 export const YEAR = ["2025", "2026", "2027", "2028", "2029", "2030"];
 
 export type MonthDayType = {
@@ -30,7 +32,7 @@ export const getMonthDays = ({
   if (!month) return [];
 
   const monthIndex = MONTHS.findIndex(
-    (m) => m.toLowerCase() === month.toLowerCase()
+    (m) => m.toLowerCase() === month.toLowerCase(),
   );
   if (monthIndex < 0) return [];
 

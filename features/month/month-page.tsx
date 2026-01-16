@@ -21,10 +21,14 @@ export default function MonthPage({
   expenseData,
   month,
   year,
+  currencyRates,
+  currency,
 }: {
   expenseData?: ExpenseFormType & { id: string };
   month: string;
   year: string;
+  currencyRates: string;
+  currency: string;
 }) {
   const form = useForm<ExpenseFormTypeInput>({
     resolver: zodResolver(expenseSchema),
@@ -54,7 +58,7 @@ export default function MonthPage({
 
     const newRowCashData = {
       ...Object.fromEntries(
-        expenseCategories.map((category) => [category, makeArray()])
+        expenseCategories.map((category) => [category, makeArray()]),
       ),
       "add-cash": makeArray(),
     };
@@ -82,8 +86,17 @@ export default function MonthPage({
       disabled={isLoading}
     >
       <Table>
-        <MonthHeaderTable month={month} monthDays={monthDays} />
-        <MonthBodyTable form={form} monthDays={monthDays} />
+        <MonthHeaderTable
+          month={month}
+          monthDays={monthDays}
+          currencyRates={currencyRates}
+        />
+        <MonthBodyTable
+          form={form}
+          monthDays={monthDays}
+          currencyRates={currencyRates}
+          currency={currency}
+        />
       </Table>
     </FormWrapper>
   );

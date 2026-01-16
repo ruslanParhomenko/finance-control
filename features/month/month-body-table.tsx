@@ -9,9 +9,13 @@ import RenderRow from "./render-row";
 export default function MonthBodyTable({
   form,
   monthDays,
+  currencyRates,
+  currency,
 }: {
   form: UseFormReturn<ExpenseFormTypeInput>;
   monthDays: ReturnType<typeof getMonthDays> | [];
+  currencyRates: string;
+  currency: string;
 }) {
   const { watch } = form;
   const value = watch("rowExpenseData");
@@ -20,7 +24,7 @@ export default function MonthBodyTable({
     const rowTotal =
       value?.[category as keyof ExpenseFormType["rowExpenseData"]]?.reduce(
         (rowAcc, val) => rowAcc + Number(val || 0),
-        0
+        0,
       ) || 0;
 
     return acc + rowTotal;
@@ -30,7 +34,7 @@ export default function MonthBodyTable({
     const rowTotal =
       value?.[category as keyof ExpenseFormType["rowExpenseData"]]?.reduce(
         (rowAcc, val) => rowAcc + Number(val || 0),
-        0
+        0,
       ) || 0;
 
     return acc + rowTotal;
@@ -45,17 +49,25 @@ export default function MonthBodyTable({
         dataRow={expenseCategories}
         monthDays={monthDays}
         form={form}
+        currencyRates={currencyRates}
+        currency={currency}
       />
-      <RenderRow dataRow={addCash} monthDays={monthDays} form={form} />
+      <RenderRow
+        dataRow={addCash}
+        monthDays={monthDays}
+        form={form}
+        currencyRates={currencyRates}
+        currency={currency}
+      />
       <TableRow>
         <TableCell
           colSpan={monthDays.length + 3}
           className={cn(
             "font-bold text-end p-0 px-2",
-            Number(difference) > 0 ? "text-green-600" : "text-red-600"
+            Number(difference) > 0 ? "text-green-600" : "text-red-600",
           )}
         >
-          {difference.toFixed(0)}
+          {(difference / Number(currencyRates)).toFixed(0)} {currency}
         </TableCell>
       </TableRow>
     </TableBody>

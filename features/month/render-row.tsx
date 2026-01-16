@@ -6,17 +6,22 @@ import NumericInput from "@/components/input/numeric-input";
 import { UseFormReturn } from "react-hook-form";
 import { handleTableNavigation } from "@/utils/handleTableNavigation";
 import { cn } from "@/lib/utils";
+import { CURRENCY_ICON } from "./constants";
 
 export default function RenderRow({
   dataRow,
   monthDays,
   form,
   viewTotalByDay = false,
+  currencyRates,
+  currency,
 }: {
   dataRow: readonly string[];
   monthDays: ReturnType<typeof getMonthDays> | [];
   form: UseFormReturn<ExpenseFormTypeInput>;
   viewTotalByDay?: boolean;
+  currencyRates: string;
+  currency: string;
 }) {
   const { register, watch } = form;
   const value = watch("rowExpenseData");
@@ -69,7 +74,8 @@ export default function RenderRow({
               );
             })}
             <TableCell className="font-bold w-22 p-0 px-2 text-end">
-              {total}
+              {(Number(total) / Number(currencyRates)).toFixed(0)}{" "}
+              {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
             </TableCell>
           </TableRow>
         );
@@ -95,7 +101,7 @@ export default function RenderRow({
               key={dayIndex}
               className="p-0 text-center text-xs font-bold"
             >
-              {totalByDay}
+              {(Number(totalByDay) / Number(currencyRates)).toFixed(0)}
             </TableCell>
           );
         })}
@@ -107,7 +113,7 @@ export default function RenderRow({
                   category as keyof ExpenseFormType["rowExpenseData"]
                 ]?.reduce((rowAcc, val) => rowAcc + Number(val || 0), 0) || 0;
 
-              return acc + rowTotal;
+              return acc + Number(rowTotal) / Number(currencyRates);
             }, 0)
             .toFixed(0)}
         </TableCell>
