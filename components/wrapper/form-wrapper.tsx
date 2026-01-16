@@ -28,7 +28,7 @@ export function FormWrapper({
         {...props}
       >
         {children}
-        <div className="flex justify-end items-center  mt-auto">
+        <div className="flex justify-end items-center sticky bottom-0 bg-background">
           <Button
             disabled={disabled}
             id={formId}
