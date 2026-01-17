@@ -1,21 +1,7 @@
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { getMonthDays } from "@/utils/get-month-days";
-const MONTH_STRINGS = [
-  "january",
-  "february",
-  "march",
-  "april",
-  "may",
-  "june",
-  "july",
-  "august",
-  "september",
-  "october",
-  "november",
-  "december",
-  ``,
-];
+import { getMonthDays, MONTH_STRINGS } from "@/utils/get-month-days";
+
 
 export default function MonthHeaderTable({
   month,

@@ -44,7 +44,7 @@ export default function MonthBodyTable({
 
   return (
     <TableBody>
-      <RenderRow
+       <RenderRow
         viewTotalByDay={true}
         dataRow={expenseCategories}
         monthDays={monthDays}

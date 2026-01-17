@@ -27,7 +27,7 @@ export default function RenderRow({
   const value = watch("rowExpenseData");
   return (
     <>
-      {dataRow.map((row, index) => {
+       {dataRow.map((row, index) => {
         const total = (
           value?.[row as keyof ExpenseFormType["rowExpenseData"]] as string[]
         )

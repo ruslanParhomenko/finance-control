@@ -69,3 +69,30 @@ export const getExpenseByUniqueKey = unstable_cache(
     tags: ["expense"],
   },
 );
+
+
+// get by year
+export const _getExpenseByYear = async (year: string) => {
+  const snapshot = await dbAdmin
+    .collection("expense")
+    .where("year", "==", year)
+    .get();
+
+  if (snapshot.empty) return null;
+
+  const doc = snapshot.docs;
+
+  return doc.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as GetExpenseDataType[];
+};
+
+export const getExpenseByYear = unstable_cache(
+  _getExpenseByYear,
+  ["expense"],
+  {
+    revalidate: false,
+    tags: ["expense"],
+  },
+);

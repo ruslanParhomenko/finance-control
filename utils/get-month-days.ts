@@ -12,6 +12,20 @@ export const MONTHS = [
   "11",
   "12",
 ];
+export const MONTH_STRINGS = [
+  "january",
+  "february",
+  "march",
+  "april",
+  "may",
+  "june",
+  "july",
+  "august",
+  "september",
+  "october",
+  "november",
+  "december",
+];
 
 export const CURRENCY = ["MDL", "EUR", "USD"];
 
