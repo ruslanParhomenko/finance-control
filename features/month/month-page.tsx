@@ -39,7 +39,10 @@ export default function MonthPage({
     const formatData = { ...data, month, year, uniqueKey: `${year}-${month}` };
 
     if (expenseData?.id) {
-      await updateExpense(expenseData.id as string, formatData as ExpenseFormType);
+      await updateExpense(
+        expenseData.id as string,
+        formatData as ExpenseFormType,
+      );
       toast.success("Expense успешно обновлён!");
 
       return;
@@ -58,7 +61,7 @@ export default function MonthPage({
 
     const newRowCashData = {
       ...Object.fromEntries(
-        expenseCategories.map((category) => [category, makeArray()])
+        expenseCategories.map((category) => [category, makeArray()]),
       ),
       "add-cash": makeArray(),
     };

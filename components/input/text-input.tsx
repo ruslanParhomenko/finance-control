@@ -39,7 +39,7 @@ function TextInput({
               "grid gap-2 pb-2",
               orientation === "vertical"
                 ? "grid-cols-1 justify-items-start"
-                : "grid-cols-2 justify-items-start"
+                : "grid-cols-2 justify-items-start",
             )}
           >
             {fieldLabel && <Label className={className}>{fieldLabel}</Label>}

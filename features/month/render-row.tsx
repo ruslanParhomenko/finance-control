@@ -4,7 +4,7 @@ import { ExpenseFormType, ExpenseFormTypeInput } from "./schema";
 import React from "react";
 import NumericInput from "@/components/input/numeric-input";
 import { UseFormReturn } from "react-hook-form";
-import { handleTableNavigation } from "@/utils/handleTableNavigation";
+import { handleTableNavigation } from "@/utils/table-navigation";
 import { cn } from "@/lib/utils";
 import { CURRENCY_ICON } from "./constants";
 
@@ -35,13 +35,13 @@ export default function RenderRow({
           .toFixed(0);
         return (
           <TableRow key={index + row}>
-            <TableCell className="w-8 p-0 px-1 text-end text-blue-700 sticky left-0 z-20 bg-background">
+            <TableCell className="bg-background sticky left-0 z-20 w-8 p-0 px-1 text-end text-blue-700">
               {(Number(total) / Number(currencyRates)).toFixed(0)}{" "}
               {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
             </TableCell>
             <TableCell
               className={
-                "w-8 font-medium sticky left-11  text-start  p-0 px-1 bg-background"
+                "bg-background sticky left-11 w-8 p-0 px-1 text-start font-medium"
               }
             >
               {row}
@@ -53,12 +53,12 @@ export default function RenderRow({
                   <TableCell className="border-x p-0 md:hidden">
                     <NumericInput
                       fieldName={`rowExpenseData.${row}.${dayIndex}`}
-                      className="border-0 shadow-none rounded-none w-10 h-6.5 text-center text-md"
+                      className="text-md h-6.5 w-10 rounded-none border-0 text-center shadow-none"
                     />
                   </TableCell>
                   <TableCell
                     key={dayIndex}
-                    className="p-0 text-center border-x md:py-1 hidden md:table-cell"
+                    className="hidden border-x p-0 text-center md:table-cell md:py-1"
                   >
                     <input
                       type="text"
@@ -66,7 +66,7 @@ export default function RenderRow({
                       data-col={dayIndex}
                       {...register(`rowExpenseData.${row}.${dayIndex}`)}
                       className={
-                        "border-0 h-6.5  p-0  text-center  shadow-none   w-10"
+                        "h-6.5 w-10 border-0 p-0 text-center shadow-none"
                       }
                       onKeyDown={(e) =>
                         handleTableNavigation(e, +index, dayIndex)
@@ -82,7 +82,7 @@ export default function RenderRow({
       <TableRow className={cn(!viewTotalByDay && "hidden")}>
         <TableCell
           colSpan={2}
-          className="font-semibold text-start px-2 py-0.5 sticky left-0 bg-background"
+          className="bg-background sticky left-0 px-2 py-0.5 text-start font-semibold"
         >
           {dataRow
             .reduce((acc, category) => {

@@ -46,12 +46,12 @@ export default function NumericInput({
               disabled={disabled}
               onClick={() => setOpen(true)}
               onChange={(e) => field.onChange(e.target.value)}
-              className={cn("cursor-pointer text-center p-0", className)}
+              className={cn("cursor-pointer p-0 text-center", className)}
             />
           </FormControl>
         </PopoverTrigger>
 
-        <PopoverContent className="w-52 p-2 grid grid-cols-3 gap-3 border-none bg-background">
+        <PopoverContent className="bg-background grid w-52 grid-cols-3 gap-3 border-none p-2">
           {Array.from({ length: 9 }, (_, i) => i + 1).map((num) => (
             <Button
               key={num}
@@ -112,7 +112,7 @@ export default function NumericInput({
 
           <Button
             variant="outline"
-            className={cn(classNameButton, "text-blue-700 col-span-2")}
+            className={cn(classNameButton, "col-span-2 text-blue-700")}
             onClick={() => setOpen(false)}
           >
             ok

@@ -1,7 +1,7 @@
 export const handleTableNavigation = (
   e: React.KeyboardEvent<HTMLInputElement>,
   rowIndex: number,
-  colIndex: number
+  colIndex: number,
 ) => {
   const { key, currentTarget } = e;
 

@@ -1,5 +1,4 @@
 "use client";
-
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useSession } from "next-auth/react";
@@ -25,7 +24,7 @@ export default function AuthRedirect({
 
   if (status === "loading") {
     return (
-      <div className="flex items-center justify-center h-screen">
+      <div className="flex h-screen items-center justify-center">
         <span>Loading...</span>
       </div>
     );

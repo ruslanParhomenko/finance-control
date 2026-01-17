@@ -31,12 +31,12 @@ export function FormWrapper({
       >
         {children}
         {withSubmit && (
-          <div className="flex justify-end items-center sticky bottom-0 bg-background mt-4">
+          <div className="bg-background sticky bottom-0 mt-4 flex items-center justify-end">
             <Button
               disabled={disabled}
               id={formId}
               type="submit"
-              className="w-24 h-8"
+              className="h-8 w-24"
             >
               save
             </Button>

@@ -1,6 +1,6 @@
 export default function Page() {
   return (
-    <div className="w-full h-full flex justify-center items-center">
+    <div className="flex h-screen w-full items-center justify-center">
       year page{" "}
     </div>
   );

@@ -24,7 +24,7 @@ export default function MonthBodyTable({
     const rowTotal =
       value?.[category as keyof ExpenseFormType["rowExpenseData"]]?.reduce(
         (rowAcc, val) => rowAcc + Number(val || 0),
-        0
+        0,
       ) || 0;
 
     return acc + rowTotal;
@@ -34,7 +34,7 @@ export default function MonthBodyTable({
     const rowTotal =
       value?.[category as keyof ExpenseFormType["rowExpenseData"]]?.reduce(
         (rowAcc, val) => rowAcc + Number(val || 0),
-        0
+        0,
       ) || 0;
 
     return acc + rowTotal;
@@ -63,8 +63,8 @@ export default function MonthBodyTable({
         <TableCell
           colSpan={2}
           className={cn(
-            "font-bold text-start sticky left-0 z-10 bg-background",
-            Number(difference) > 0 ? "text-green-600" : "text-red-600"
+            "bg-background sticky left-0 z-10 text-start font-bold",
+            Number(difference) > 0 ? "text-green-600" : "text-red-600",
           )}
         >
           {(difference / Number(currencyRates)).toFixed(0)} {currency}

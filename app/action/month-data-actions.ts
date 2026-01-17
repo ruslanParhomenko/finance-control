@@ -67,5 +67,5 @@ export const getExpenseByUniqueKey = unstable_cache(
   {
     revalidate: false,
     tags: ["expense"],
-  }
+  },
 );

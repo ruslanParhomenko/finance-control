@@ -35,7 +35,7 @@ export default function NavMenuHeader() {
   }, [patch, month, year, currency, router]);
 
   return (
-    <div className="sticky bottom-0 bg-background z-10 flex justify-between md:justify-start md:gap-4 gap-1.5 mt-2 px-2">
+    <div className="bg-background sticky bottom-2 z-10 mt-2 flex justify-between gap-1.5 px-2 md:justify-start md:gap-4">
       <LogOutButton />
       {navItems.length > 0 && (
         <SelectTabsByPatch

@@ -1,10 +1,4 @@
-// app/actions/getMonthlyAverageBNM.ts
 "use server";
-
-type BnmRate = {
-  CharCode: string;
-  Value: string;
-};
 
 function parseBnmXml(xml: string, currency: string): number | null {
   const regex = new RegExp(
@@ -18,7 +12,7 @@ function parseBnmXml(xml: string, currency: string): number | null {
 }
 
 export async function getMonthlyAverageBNM(
-  yearMonth: string, // "2026-1"
+  yearMonth: string,
   currency: "EUR" | "USD" | string,
 ): Promise<number> {
   const [yearStr, monthStr] = yearMonth.split("-");
@@ -33,9 +27,8 @@ export async function getMonthlyAverageBNM(
   const startDate = new Date(year, month - 1, 1);
 
   if (startDate > now) {
-    throw new Error("BNM does not provide future exchange rates");
+    return 1;
   }
-
   const endDate =
     year === now.getFullYear() && month === now.getMonth() + 1
       ? now
@@ -51,7 +44,6 @@ export async function getMonthlyAverageBNM(
     const res = await fetch(
       `https://www.bnm.md/ru/official_exchange_rates?get_xml=1&date=${date}`,
       {
-        // кэш на сутки — MUST HAVE
         next: { revalidate: 86400 },
       },
     );

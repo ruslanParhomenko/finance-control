@@ -16,9 +16,9 @@ export default function SelectCurrency({
   setCurrency: (value: string) => void;
   isLoading?: boolean;
 }) {
-  const classNameSelect = `md:w-24  w-14 h-7! border-0 md:border p-1 rounded-md  md:text-md text-xs  [&>svg]:hidden justify-center`;
+  const classNameSelect = `md:w-24  w-14 h-8! border-0 md:border p-1 rounded-md  md:text-md text-xs  [&>svg]:hidden justify-center cursor-pointer`;
   return (
-    <div className="flex justify-center items-center md:gap-4 gap-3">
+    <div className="flex items-center justify-center gap-3 md:gap-4">
       <Select
         value={currency}
         onValueChange={(value) => setCurrency(value)}

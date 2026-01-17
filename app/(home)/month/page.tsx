@@ -1,4 +1,3 @@
-import { getMonthlyAverage } from "@/app/action/get-currency";
 import { getMonthlyAverageBNM } from "@/app/action/get-currency-mdl";
 import { getExpenseByUniqueKey } from "@/app/action/month-data-actions";
 import MonthPage from "@/features/month/month-page";

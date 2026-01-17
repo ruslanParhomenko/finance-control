@@ -1,6 +1,6 @@
-// tailwind.config.js
+
 module.exports = {
-  darkMode: "class", // поддержка dark mode через класс
+  darkMode: "class",
   content: [
     "./app/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",

@@ -28,11 +28,11 @@ export default function MonthHeaderTable({
 }) {
   const todayDay = new Date().getDate();
   return (
-    <TableHeader className="sticky top-0 z-10 bg-background">
-      <TableRow className="md:h-10 h-8">
+    <TableHeader className="bg-background sticky top-0 z-10">
+      <TableRow className="h-8 md:h-10">
         <TableCell
           colSpan={2}
-          className="p-0 px-1 front-bold text-center text-xs sticky left-0 bg-background"
+          className="front-bold bg-background sticky left-0 p-0 px-1 text-center text-xs"
         >
           {MONTH_STRINGS[parseInt(month) - 1].toUpperCase()} : {currencyRates}
         </TableCell>
@@ -42,13 +42,13 @@ export default function MonthHeaderTable({
             <TableCell key={day.day} className={"w-12 cursor-pointer p-0"}>
               <div
                 className={cn(
-                  "md:text-sm text-xs font-semibold text-center",
-                  day.day === todayDay && "text-blue-900"
+                  "text-center text-xs font-semibold md:text-sm",
+                  day.day === todayDay && "text-blue-900",
                 )}
               >
                 {day.day}
               </div>
-              <div className="text-xs text-muted-foreground text-center">
+              <div className="text-muted-foreground text-center text-xs">
                 {day.weekday}
               </div>
             </TableCell>

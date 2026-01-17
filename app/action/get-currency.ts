@@ -1,4 +1,3 @@
-// app/actions/getMonthlyAverage.ts
 "use server";
 
 type FrankfurterResponse = {
@@ -28,7 +27,6 @@ export async function getMonthlyAverage(
   const res = await fetch(
     `https://api.frankfurter.app/${start}..${end}?from=${base}&to=${target}`,
     {
-      // кэш на сутки — идеально для валют
       next: { revalidate: 86400 },
     },
   );

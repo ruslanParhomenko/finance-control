@@ -8,10 +8,10 @@ const rowExpenseShape = {
     expenseCategories.map((category) => [
       category,
       z.array(dayValueSchema).default([]),
-    ])
+    ]),
   ),
   ...Object.fromEntries(
-    addCash.map((category) => [category, z.array(dayValueSchema).default([])])
+    addCash.map((category) => [category, z.array(dayValueSchema).default([])]),
   ),
 };
 
