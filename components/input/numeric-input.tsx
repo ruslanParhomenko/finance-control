@@ -33,6 +33,8 @@ export default function NumericInput({
     }
   }, [currentValue, field, open]);
 
+  const classNameButton = "h-12 text-xl bg-background";
+
   return (
     <FormItem>
       <Popover open={open} onOpenChange={setOpen}>
@@ -49,12 +51,12 @@ export default function NumericInput({
           </FormControl>
         </PopoverTrigger>
 
-        <PopoverContent className="w-50 p-2 grid grid-cols-3 gap-2 border-none bg-background">
+        <PopoverContent className="w-52 p-2 grid grid-cols-3 gap-3 border-none bg-background">
           {Array.from({ length: 9 }, (_, i) => i + 1).map((num) => (
             <Button
               key={num}
               variant="outline"
-              className="h-10 text-xl bg-background"
+              className={classNameButton}
               onClick={() => {
                 const val = control._getWatch(fieldName) ?? "";
                 field.onChange(val + num);
@@ -66,7 +68,7 @@ export default function NumericInput({
 
           <Button
             variant="outline"
-            className="h-10 text-xl bg-background"
+            className={classNameButton}
             onClick={() => {
               const val = control._getWatch(fieldName) ?? "";
               field.onChange(val + "0");
@@ -77,7 +79,7 @@ export default function NumericInput({
 
           <Button
             variant="outline"
-            className="h-10 text-xl bg-background"
+            className={classNameButton}
             onClick={() => {
               const val = control._getWatch(fieldName) ?? "";
               if (!val.includes(".")) field.onChange(val + ".");
@@ -88,7 +90,7 @@ export default function NumericInput({
 
           <Button
             variant="outline"
-            className="h-10 text-xl bg-background"
+            className={classNameButton}
             onClick={() => {
               const val = control._getWatch(fieldName) ?? "";
               if (!val.startsWith("-")) field.onChange("-" + val);
@@ -99,7 +101,7 @@ export default function NumericInput({
 
           <Button
             variant="outline"
-            className="h-10 text-xl text-red-700 bg-background"
+            className={cn(classNameButton, "text-red-700")}
             onClick={() => {
               const val = control._getWatch(fieldName) ?? "";
               field.onChange(val.slice(0, -1));
@@ -110,7 +112,7 @@ export default function NumericInput({
 
           <Button
             variant="outline"
-            className="h-10 text-xl col-span-2 bg-background"
+            className={cn(classNameButton, "text-blue-700 col-span-2")}
             onClick={() => setOpen(false)}
           >
             ok

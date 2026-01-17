@@ -14,11 +14,7 @@ export default function SelectTabsByPatch({
   navItems: PageNavType[];
 }) {
   return (
-    <Tabs
-      value={patch}
-      onValueChange={(value) => setPatch(value)}
-      className="order-3 md:order-0"
-    >
+    <Tabs value={patch} onValueChange={(value) => setPatch(value)}>
       <TabsList className="flex md:gap-2 h-8">
         {navItems.map((page) => (
           <TabsTrigger

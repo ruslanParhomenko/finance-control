@@ -35,10 +35,13 @@ export default function RenderRow({
           .toFixed(0);
         return (
           <TableRow key={index + row}>
+            <TableCell className="w-8 p-0 px-1 text-end text-blue-700 sticky left-0 z-20 bg-background">
+              {(Number(total) / Number(currencyRates)).toFixed(0)}{" "}
+              {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
+            </TableCell>
             <TableCell
-              colSpan={2}
               className={
-                "font-medium sticky left-0  text-start truncate p-0 md:px-2 bg-background"
+                "w-8 font-medium sticky left-11  text-start  p-0 px-1 bg-background"
               }
             >
               {row}
@@ -73,18 +76,26 @@ export default function RenderRow({
                 </React.Fragment>
               );
             })}
-            <TableCell className="font-bold w-22 p-0 px-2 text-end">
-              {(Number(total) / Number(currencyRates)).toFixed(0)}{" "}
-              {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
-            </TableCell>
           </TableRow>
         );
       })}
       <TableRow className={cn(!viewTotalByDay && "hidden")}>
         <TableCell
           colSpan={2}
-          className="sticky left-0 bg-background"
-        ></TableCell>
+          className="font-semibold text-start px-2 py-0.5 sticky left-0 bg-background"
+        >
+          {dataRow
+            .reduce((acc, category) => {
+              const rowTotal =
+                value?.[
+                  category as keyof ExpenseFormType["rowExpenseData"]
+                ]?.reduce((rowAcc, val) => rowAcc + Number(val || 0), 0) || 0;
+
+              return acc + Number(rowTotal) / Number(currencyRates);
+            }, 0)
+            .toFixed(0)}{" "}
+          {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
+        </TableCell>
         {monthDays.map((_, dayIndex) => {
           const totalByDay = dataRow
             .reduce((acc, category) => {
@@ -105,18 +116,6 @@ export default function RenderRow({
             </TableCell>
           );
         })}
-        <TableCell className="font-bold text-end px-2 py-0.5">
-          {dataRow
-            .reduce((acc, category) => {
-              const rowTotal =
-                value?.[
-                  category as keyof ExpenseFormType["rowExpenseData"]
-                ]?.reduce((rowAcc, val) => rowAcc + Number(val || 0), 0) || 0;
-
-              return acc + Number(rowTotal) / Number(currencyRates);
-            }, 0)
-            .toFixed(0)}
-        </TableCell>
       </TableRow>
     </>
   );

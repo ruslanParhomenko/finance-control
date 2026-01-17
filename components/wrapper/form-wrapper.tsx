@@ -10,6 +10,7 @@ export function FormWrapper({
   onSubmit,
   className,
   disabled,
+  withSubmit = true,
   ...props
 }: {
   formId: string;
@@ -18,6 +19,7 @@ export function FormWrapper({
   onSubmit?: SubmitHandler<any>;
   className?: string;
   disabled?: boolean;
+  withSubmit?: boolean;
   [key: string]: any;
 }) {
   return (
@@ -28,16 +30,18 @@ export function FormWrapper({
         {...props}
       >
         {children}
-        <div className="flex justify-end items-center sticky bottom-0 bg-background mt-4">
-          <Button
-            disabled={disabled}
-            id={formId}
-            type="submit"
-            className="w-24 h-8"
-          >
-            save
-          </Button>
-        </div>
+        {withSubmit && (
+          <div className="flex justify-end items-center sticky bottom-0 bg-background mt-4">
+            <Button
+              disabled={disabled}
+              id={formId}
+              type="submit"
+              className="w-24 h-8"
+            >
+              save
+            </Button>
+          </div>
+        )}
       </form>
     </Form>
   );

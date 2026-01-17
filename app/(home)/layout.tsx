@@ -21,10 +21,9 @@ export default function HomeLayout({
     return <p className="text-center mt-10">Загрузка...</p>;
 
   return (
-    <div className="flex flex-col pt-2  px-2 md:px-6">
-      <NavMenuHeader />
-
+    <div className="flex flex-col pt-6 md:px-6">
       {children}
+      <NavMenuHeader />
     </div>
   );
 }

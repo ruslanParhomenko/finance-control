@@ -43,7 +43,7 @@ export default function MonthHeaderTable({
               <div
                 className={cn(
                   "md:text-sm text-xs font-semibold text-center",
-                  day.day === todayDay && "text-blue-900",
+                  day.day === todayDay && "text-blue-900"
                 )}
               >
                 {day.day}

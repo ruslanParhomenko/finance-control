@@ -22,23 +22,7 @@ export default function SelectByMonthYear({
 }) {
   const classNameSelect = `md:w-24  w-14 h-7! border-0 md:border p-1 rounded-md  md:text-md text-xs  [&>svg]:hidden justify-center`;
   return (
-    <div className="flex justify-center items-center md:gap-4 gap-3 order-2">
-      <Select
-        value={month}
-        onValueChange={(value) => setMonth(value)}
-        disabled={isLoading}
-      >
-        <SelectTrigger className={classNameSelect}>
-          <SelectValue placeholder="month" />
-        </SelectTrigger>
-        <SelectContent>
-          {MONTHS.map((month) => (
-            <SelectItem key={month} value={month}>
-              {MONTHS.indexOf(month) + 1}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+    <div className="flex justify-center items-center md:gap-4 gap-3">
       <Select
         defaultValue={year}
         onValueChange={(value) => setYear(value)}
@@ -51,6 +35,22 @@ export default function SelectByMonthYear({
           {YEAR.map((year) => (
             <SelectItem key={year} value={year}>
               {year}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      <Select
+        value={month}
+        onValueChange={(value) => setMonth(value)}
+        disabled={isLoading}
+      >
+        <SelectTrigger className={classNameSelect}>
+          <SelectValue placeholder="month" />
+        </SelectTrigger>
+        <SelectContent>
+          {MONTHS.map((month) => (
+            <SelectItem key={month} value={month}>
+              {MONTHS.indexOf(month) + 1}
             </SelectItem>
           ))}
         </SelectContent>
