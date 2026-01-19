@@ -26,7 +26,7 @@ export default function YearHeaderTable({ year }: { year: string }) {
                 {month}
               </div>
               <div className="text-muted-foreground text-center text-xs">
-                {MONTH_STRINGS[Number(month) - 1].toUpperCase().slice(0, 3)}
+                {MONTH_STRINGS[Number(month) - 1].toLowerCase().slice(0, 3)}
               </div>
             </TableCell>
           );

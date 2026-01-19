@@ -16,6 +16,7 @@ import { expenseCategories } from "@/constants/expense";
 import { createExpense, updateExpense } from "@/app/action/month-data-actions";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ViewTransition } from "react";
 
 export default function MonthPage({
   expenseData,
@@ -106,19 +107,21 @@ export default function MonthPage({
       disabled={isLoading}
       withSubmit={false}
     >
-      <Table>
-        <MonthHeaderTable
-          month={month}
-          monthDays={monthDays}
-          currencyRates={currencyRates}
-        />
-        <MonthBodyTable
-          form={form}
-          monthDays={monthDays}
-          currencyRates={currencyRates}
-          currency={currency}
-        />
-      </Table>
+      <ViewTransition>
+        <Table>
+          <MonthHeaderTable
+            month={month}
+            monthDays={monthDays}
+            currencyRates={currencyRates}
+          />
+          <MonthBodyTable
+            form={form}
+            monthDays={monthDays}
+            currencyRates={currencyRates}
+            currency={currency}
+          />
+        </Table>
+      </ViewTransition>
     </FormWrapper>
   );
 }
