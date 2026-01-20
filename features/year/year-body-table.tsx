@@ -55,7 +55,7 @@ export default function YearBodyTable({
       <TableRow>
         <TableCell
           className={cn(
-            "bg-background sticky left-0 z-10 px-1 text-end text-xs font-bold",
+            "bg-background sticky left-0 z-10 px-1 py-1 text-end text-xs font-bold",
             Number(difference) > 0 ? "text-green-600" : "text-red-600",
           )}
         >

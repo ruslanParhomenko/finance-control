@@ -18,7 +18,7 @@ export default function RowFooterRender({
 }) {
   return (
     <TableRow>
-      <TableCell className="bg-background sticky left-0 px-2 py-1 text-end text-xs font-bold">
+      <TableCell className="bg-background sticky left-0 px-2 py-0.5 text-end text-xs font-bold">
         {totals.toFixed(0)} {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
       </TableCell>
       <TableCell className="bg-background sticky left-11" />
