@@ -18,13 +18,13 @@ export default function MonthHeaderTable({
         <TableCell className="bg-background sticky left-0 w-12 text-end text-xs">
           {currencyRates}
         </TableCell>
-        <TableCell className="front-bold bg-background sticky left-11 w-20 p-0 px-2 text-start text-xs">
+        <TableCell className="front-bold bg-background sticky left-11 w-18 p-0 px-2 text-start text-xs">
           {MONTH_STRINGS[parseInt(month) - 1].toLowerCase()}
         </TableCell>
 
         {monthDays.map((day) => {
           return (
-            <TableCell key={day.day} className={"w-12 cursor-pointer p-0"}>
+            <TableCell key={day.day} className={"w-10 cursor-pointer p-0"}>
               <div
                 className={cn(
                   "text-center text-xs font-semibold md:text-sm",

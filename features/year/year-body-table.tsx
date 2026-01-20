@@ -67,7 +67,8 @@ export default function YearBodyTable({
             key={index}
             className="text-muted-foreground text-center text-xs"
           >
-            {Number(currencyRates[index]).toFixed(2) || ""}
+            {(currency !== "MDL" && Number(currencyRates[index]).toFixed(2)) ||
+              ""}
           </TableCell>
         ))}
       </TableRow>
