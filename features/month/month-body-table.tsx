@@ -66,7 +66,6 @@ export default function MonthBodyTable({
         >
           {(difference / Number(currencyRates)).toFixed(0)}{" "}
           {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
-          <TableCell className="bg-background text-xs" />
         </TableCell>
         <TableCell
           colSpan={monthDays.length + 1}
