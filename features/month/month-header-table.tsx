@@ -1,7 +1,6 @@
 import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { getMonthDays, MONTH_STRINGS } from "@/utils/get-month-days";
-import { Table } from "lucide-react";
 
 export default function MonthHeaderTable({
   month,
@@ -16,9 +15,11 @@ export default function MonthHeaderTable({
   return (
     <TableHeader className="bg-background sticky top-0 z-10">
       <TableRow className="md:h-10">
-        <TableCell className="bg-background sticky left-0 w-12" />
-        <TableCell className="front-bold bg-background sticky left-11 w-20 p-0 px-1 text-center text-xs">
-          {MONTH_STRINGS[parseInt(month) - 1].toUpperCase()} : {currencyRates}
+        <TableCell className="bg-background sticky left-0 w-12 text-end text-xs">
+          {currencyRates}
+        </TableCell>
+        <TableCell className="front-bold bg-background sticky left-11 w-20 p-0 px-2 text-start text-xs">
+          {MONTH_STRINGS[parseInt(month) - 1].toLowerCase()}
         </TableCell>
 
         {monthDays.map((day) => {

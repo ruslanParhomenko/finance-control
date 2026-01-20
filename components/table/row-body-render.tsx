@@ -28,8 +28,8 @@ export default function RowBodyRender({
     <>
       {rowArray.map((row, index) => {
         return (
-          <TableRow key={index + row} className="h-8.5!">
-            <TableCell className="bg-background sticky left-0 z-20 text-end text-xs font-bold text-blue-700">
+          <TableRow key={index + row} className="h-8!">
+            <TableCell className="bg-background sticky left-0 z-10 text-end text-xs font-bold text-blue-700">
               {(Number(totals?.[row]) / Number(currencyRates)).toFixed(0)}{" "}
               {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
             </TableCell>

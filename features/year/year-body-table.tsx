@@ -10,6 +10,7 @@ import {
   calculateTotals,
 } from "@/utils/category-totals";
 import { MONTHS } from "@/utils/get-month-days";
+import { CURRENCY_ICON } from "../month/constants";
 
 export default function YearBodyTable({
   data,
@@ -20,13 +21,9 @@ export default function YearBodyTable({
   currencyRates: number[];
   currency: string;
 }) {
-  console.log(currencyRates);
   const value = calculateCategoryTotalsByMonths(data, currencyRates);
-
-  console.log(value);
   const totals = value && calculateTotals(value as any);
   const { expenseTotal, addCashTotal } = calculateOverallTotals(totals);
-
   const difference = Number(addCashTotal) - Number(expenseTotal);
 
   return (
@@ -43,7 +40,7 @@ export default function YearBodyTable({
         rowArray={expenseCategories}
         cellArray={MONTHS}
         currencyRates={"1"}
-        currency={"MDL"}
+        currency={currency}
         totals={expenseTotal}
         value={value as any}
       />
@@ -51,21 +48,28 @@ export default function YearBodyTable({
         rowArray={addCash}
         cellArray={MONTHS}
         currencyRates={"1"}
-        currency={"MDL"}
+        currency={currency}
         totals={totals}
         value={value as any}
       />
       <TableRow>
         <TableCell
-          colSpan={2}
           className={cn(
-            "bg-background sticky left-0 z-10 px-1 text-start text-xs font-bold",
+            "bg-background sticky left-0 z-10 px-1 text-end text-xs font-bold",
             Number(difference) > 0 ? "text-green-600" : "text-red-600",
           )}
         >
-          {difference} {currency}
+          {difference} {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
         </TableCell>
-        <TableCell colSpan={MONTHS.length + 1} className="bg-background" />
+        <TableCell className="bg-background sticky left-11 z-10" />
+        {MONTHS.map((_, index) => (
+          <TableCell
+            key={index}
+            className="text-muted-foreground text-center text-xs"
+          >
+            {Number(currencyRates[index]).toFixed(2) || ""}
+          </TableCell>
+        ))}
       </TableRow>
     </TableBody>
   );

@@ -16,7 +16,7 @@ export default function YearPage({
 }) {
   return (
     <Table className="table-fixed">
-      <YearHeaderTable year={year} />
+      <YearHeaderTable year={year} currency={currency} />
       <YearBodyTable
         data={data}
         currencyRates={currencyRates}

@@ -10,6 +10,7 @@ import {
 } from "@/utils/category-totals";
 import RowBodyRender from "@/components/table/row-body-render";
 import RowFooterRender from "@/components/table/row-footer-render";
+import { CURRENCY_ICON } from "./constants";
 
 export default function MonthBodyTable({
   form,
@@ -58,13 +59,14 @@ export default function MonthBodyTable({
       />
       <TableRow>
         <TableCell
-          colSpan={2}
           className={cn(
-            "bg-background sticky left-0 z-10 px-1 text-start text-xs font-bold",
+            "bg-background sticky left-0 z-10 px-1 text-end text-xs font-bold",
             Number(difference) > 0 ? "text-green-600" : "text-red-600",
           )}
         >
-          {(difference / Number(currencyRates)).toFixed(0)} {currency}
+          {(difference / Number(currencyRates)).toFixed(0)}{" "}
+          {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
+          <TableCell />
         </TableCell>
         <TableCell colSpan={monthDays.length + 1} className="bg-background" />
       </TableRow>
