@@ -2,6 +2,7 @@ import { GetExpenseDataType } from "@/app/action/month-data-actions";
 import { Table } from "@/components/ui/table";
 import YearHeaderTable from "./year-header-table";
 import YearBodyTable from "./year-body-table";
+import { ViewTransition } from "react";
 
 export default function YearPage({
   data,
@@ -16,12 +17,14 @@ export default function YearPage({
 }) {
   return (
     <Table className="table-fixed">
-      <YearHeaderTable year={year} currency={currency} />
-      <YearBodyTable
-        data={data}
-        currencyRates={currencyRates}
-        currency={currency}
-      />
+      <ViewTransition>
+        <YearHeaderTable year={year} currency={currency} />
+        <YearBodyTable
+          data={data}
+          currencyRates={currencyRates}
+          currency={currency}
+        />
+      </ViewTransition>
     </Table>
   );
 }

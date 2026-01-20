@@ -28,14 +28,14 @@ export default function RowBodyRender({
     <>
       {rowArray.map((row, index) => {
         return (
-          <TableRow key={index + row} className="h-7!">
-            <TableCell className="bg-background sticky left-0 z-10 text-end text-xs font-bold text-blue-700">
+          <TableRow key={index + row}>
+            <TableCell className="bg-background sticky left-0 z-10 p-0 px-2 text-end text-xs font-bold text-blue-700">
               {(Number(totals?.[row]) / Number(currencyRates)).toFixed(0)}{" "}
               {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
             </TableCell>
             <TableCell
               className={
-                "bg-background sticky left-11 text-start text-xs font-medium"
+                "bg-background sticky left-11 p-0 px-1 py-1.5 text-start text-xs font-medium"
               }
             >
               {row}
@@ -57,7 +57,7 @@ export default function RowBodyRender({
                   </TableCell>
                   <TableCell
                     key={dayIndex}
-                    className="hidden border-x text-center md:table-cell md:py-1"
+                    className="hidden border-x text-center md:table-cell"
                   >
                     {register && !value && (
                       <input
@@ -66,16 +66,20 @@ export default function RowBodyRender({
                         data-col={dayIndex}
                         {...register(`rowExpenseData.${row}.${dayIndex}`)}
                         className={
-                          "h-6 w-10 border-0 p-0 text-center text-xs shadow-none"
+                          "h-4 w-full border-0 p-0 text-center text-xs shadow-none"
                         }
                         onKeyDown={(e) =>
                           handleTableNavigation(e, +index, dayIndex)
                         }
                       />
                     )}
-                    <span className="h-6.5 w-10 border-0 p-0 text-center text-xs shadow-none">
-                      {(!register && value && value[row]?.[dayIndex]) || ""}
-                    </span>
+                    {!register && value && (
+                      <div className="flex h-5 w-full items-center justify-center">
+                        <span className="text-xs">
+                          {value[row]?.[dayIndex] || ""}
+                        </span>
+                      </div>
+                    )}
                   </TableCell>
                 </React.Fragment>
               );

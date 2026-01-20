@@ -60,7 +60,7 @@ export default function MonthBodyTable({
       <TableRow>
         <TableCell
           className={cn(
-            "bg-background sticky left-0 z-10 px-2 py-0.5 text-end text-xs font-bold",
+            "bg-background sticky left-0 z-10 px-2 text-end text-xs font-bold",
             Number(difference) > 0 ? "text-green-600" : "text-red-600",
           )}
         >
