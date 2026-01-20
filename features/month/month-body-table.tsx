@@ -2,9 +2,14 @@ import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { addCash, expenseCategories } from "@/constants/expense";
 import { getMonthDays } from "@/utils/get-month-days";
 import { UseFormReturn } from "react-hook-form";
-import { ExpenseFormType, ExpenseFormTypeInput } from "./schema";
+import { ExpenseFormTypeInput } from "./schema";
 import { cn } from "@/lib/utils";
-import RenderRow from "./render-row";
+import {
+  calculateOverallTotals,
+  calculateTotals,
+} from "@/utils/category-totals";
+import RowBodyRender from "@/components/table/row-body-render";
+import RowFooterRender from "@/components/table/row-footer-render";
 
 export default function MonthBodyTable({
   form,
@@ -19,51 +24,43 @@ export default function MonthBodyTable({
 }) {
   const { watch } = form;
   const value = watch("rowExpenseData");
+  const totals = calculateTotals(value);
 
-  const totalExpenses = expenseCategories.reduce((acc, category) => {
-    const rowTotal =
-      value?.[category as keyof ExpenseFormType["rowExpenseData"]]?.reduce(
-        (rowAcc, val) => rowAcc + Number(val || 0),
-        0,
-      ) || 0;
+  const { expenseTotal, addCashTotal } = calculateOverallTotals(totals);
 
-    return acc + rowTotal;
-  }, 0);
-
-  const totalAddCash = addCash.reduce((acc, category) => {
-    const rowTotal =
-      value?.[category as keyof ExpenseFormType["rowExpenseData"]]?.reduce(
-        (rowAcc, val) => rowAcc + Number(val || 0),
-        0,
-      ) || 0;
-
-    return acc + rowTotal;
-  }, 0);
-
-  const difference = totalAddCash - totalExpenses;
+  const difference = Number(addCashTotal) - Number(expenseTotal);
 
   return (
     <TableBody>
-       <RenderRow
-        viewTotalByDay={true}
-        dataRow={expenseCategories}
-        monthDays={monthDays}
-        form={form}
+      <RowBodyRender
+        rowArray={expenseCategories}
+        cellArray={monthDays.map((day) => day.weekday)}
         currencyRates={currencyRates}
         currency={currency}
+        form={form}
+        totals={totals}
       />
-      <RenderRow
-        dataRow={addCash}
-        monthDays={monthDays}
+      <RowFooterRender
+        rowArray={expenseCategories}
+        cellArray={monthDays.map((day) => day.weekday)}
+        currencyRates={currencyRates}
+        currency={currency}
+        totals={expenseTotal}
+        value={value}
+      />
+      <RowBodyRender
+        rowArray={addCash}
+        cellArray={monthDays.map((day) => day.weekday)}
         form={form}
         currencyRates={currencyRates}
         currency={currency}
+        totals={totals}
       />
       <TableRow>
         <TableCell
           colSpan={2}
           className={cn(
-            "bg-background sticky left-0 z-10 text-start font-bold",
+            "bg-background sticky left-0 z-10 px-1 text-start text-xs font-bold",
             Number(difference) > 0 ? "text-green-600" : "text-red-600",
           )}
         >

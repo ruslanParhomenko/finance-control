@@ -1,15 +1,38 @@
-import { getExpenseByYear, GetExpenseDataType } from "@/app/action/month-data-actions";
+import { getMonthlyAverageBNM } from "@/app/action/get-currency-mdl";
+import { getYearMonthlyAverageBNM } from "@/app/action/get-currency-year";
+import {
+  getExpenseByYear,
+  GetExpenseDataType,
+} from "@/app/action/month-data-actions";
 import YearPage from "@/features/year/year-page";
 
 export default async function Page({
   searchParams,
 }: {
   searchParams: Promise<Record<string, string | undefined>>;
-}
-) {
-  const { year } = await searchParams;
-  if (!year) return;
+}) {
+  const { month, year, currency } = await searchParams;
+  if (!month || !year) return;
 
   const data = await getExpenseByYear(year);
-  return <YearPage data={data as GetExpenseDataType[]} year={year} />;
+
+  const avgMDLtoEUR = await getYearMonthlyAverageBNM(Number(year), "EUR");
+  const avgMDLtoUSD = await getYearMonthlyAverageBNM(Number(year), "USD");
+
+  const currencyRates = {
+    USD: avgMDLtoUSD,
+    EUR: avgMDLtoEUR,
+    MDL: [1],
+  } as const;
+  const currencyArray = currencyRates[
+    currency as "USD" | "EUR" | "MDL"
+  ] as number[];
+  return (
+    <YearPage
+      data={data as GetExpenseDataType[]}
+      year={year}
+      currencyRates={currencyArray}
+      currency={currency as "USD" | "EUR" | "MDL"}
+    />
+  );
 }

@@ -108,7 +108,7 @@ export default function MonthPage({
       withSubmit={false}
     >
       <ViewTransition>
-        <Table>
+        <Table className="table-fixed">
           <MonthHeaderTable
             month={month}
             monthDays={monthDays}

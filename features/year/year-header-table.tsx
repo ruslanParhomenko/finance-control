@@ -6,17 +6,15 @@ export default function YearHeaderTable({ year }: { year: string }) {
   const todayMonth = new Date().getMonth() + 1;
   return (
     <TableHeader className="bg-background sticky top-0 z-10">
-      <TableRow className="h-8 md:h-10">
-        <TableCell
-          colSpan={2}
-          className="front-bold bg-background sticky left-0 p-0 px-1 text-center"
-        >
+      <TableRow className="md:h-10">
+        <TableCell className="bg-background sticky left-0 w-12" />
+        <TableCell className="front-bold bg-background sticky left-11 w-20 p-0 px-1 text-center text-xs">
           {year}
         </TableCell>
 
         {MONTHS.map((month) => {
           return (
-            <TableCell key={month} className={"cursor-pointer p-0 px-0.5"}>
+            <TableCell key={month} className={"w-12 cursor-pointer p-0"}>
               <div
                 className={cn(
                   "text-center text-xs font-semibold md:text-sm",

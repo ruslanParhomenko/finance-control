@@ -6,14 +6,22 @@ import YearBodyTable from "./year-body-table";
 export default function YearPage({
   data,
   year,
+  currencyRates,
+  currency,
 }: {
   data: GetExpenseDataType[];
   year: string;
+  currencyRates: number[];
+  currency: string;
 }) {
   return (
-    <Table>
+    <Table className="table-fixed">
       <YearHeaderTable year={year} />
-      <YearBodyTable data={data} />
+      <YearBodyTable
+        data={data}
+        currencyRates={currencyRates}
+        currency={currency}
+      />
     </Table>
   );
 }
