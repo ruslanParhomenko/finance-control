@@ -29,16 +29,12 @@ export default function YearBodyTable({
   currentRatesEUR,
   currentRatesUSD,
 }: Props) {
-  /* ---------------- base calculations ---------------- */
-
   const value = calculateCategoryTotalsByMonths(data, currencyRates);
   const totals = value ? calculateTotals(value) : undefined;
 
   const { expenseTotal, addCashTotal } = calculateOverallTotals(totals ?? {});
 
   const difference = addCashTotal - expenseTotal;
-
-  /* ---------------- initial bank ---------------- */
 
   const getInitialBank = (): number => {
     const base = Number(INITIAL_BANK) || 0;
@@ -55,8 +51,6 @@ export default function YearBodyTable({
 
   const initialBank = getInitialBank();
 
-  /* --------- monthly diff (addCash - expense) --------- */
-
   const monthlyDiff: number[] = MONTHS.map((_, monthIndex) => {
     const addCashSum = addCash.reduce(
       (acc, category) => acc + Number(value?.[category]?.[monthIndex] || 0),
@@ -71,8 +65,6 @@ export default function YearBodyTable({
     return addCashSum - expenseSum;
   });
 
-  /* --------- remaining cash after each month --------- */
-
   const remainingByMonth: number[] = [];
 
   monthlyDiff.reduce((currentBank, diff, index) => {
@@ -83,11 +75,8 @@ export default function YearBodyTable({
 
   const diffClass = difference > 0 ? "text-green-600" : "text-red-600";
 
-  /* ---------------- render ---------------- */
-
   return (
     <TableBody>
-      {/* Expenses */}
       <RowBodyRender
         rowArray={expenseCategories}
         cellArray={MONTHS}
@@ -106,7 +95,6 @@ export default function YearBodyTable({
         value={value}
       />
 
-      {/* Add cash */}
       <RowBodyRender
         rowArray={addCash}
         cellArray={MONTHS}
@@ -116,11 +104,10 @@ export default function YearBodyTable({
         value={value}
       />
 
-      {/* Monthly difference */}
       <TableRow>
         <TableCell
           className={cn(
-            "bg-background sticky left-0 z-10 px-1 py-1 text-end text-xs font-bold",
+            "bg-background sticky left-0 z-10 px-1 py-0.5 text-end text-xs font-bold",
             diffClass,
           )}
         >
@@ -132,18 +119,17 @@ export default function YearBodyTable({
         {monthlyDiff.map((diff, index) => (
           <TableCell
             key={index}
-            className="text-muted-foreground text-center text-xs"
+            className="text-muted-foreground py-0.5 text-center text-xs"
           >
             {diff.toFixed(0)}
           </TableCell>
         ))}
       </TableRow>
 
-      {/* Remaining cash per month */}
       <TableRow>
         <TableCell
           className={cn(
-            "bg-background sticky left-0 z-10 px-1 py-1 text-end text-xs font-bold",
+            "bg-background sticky left-0 z-10 px-1 py-0 text-end text-xs font-bold",
             diffClass,
           )}
         >
@@ -155,7 +141,7 @@ export default function YearBodyTable({
         {remainingByMonth.map((value, index) => (
           <TableCell
             key={index}
-            className="text-muted-foreground text-center text-xs"
+            className="text-muted-foreground py-0 text-center text-xs"
           >
             {value.toFixed(0)}
           </TableCell>

@@ -20,10 +20,5 @@ export default function HomeLayout({
   if (status === "loading")
     return <p className="mt-10 text-center">Загрузка...</p>;
 
-  return (
-    <div className="flex flex-col pt-2 md:px-1">
-      {children}
-      <NavMenuHeader />
-    </div>
-  );
+  return <NavMenuHeader>{children}</NavMenuHeader>;
 }
