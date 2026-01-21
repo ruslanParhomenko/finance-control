@@ -31,7 +31,7 @@ export function FormWrapper({
       >
         {children}
         {withSubmit && (
-          <div className="bg-background sticky bottom-0 flex items-center justify-end">
+          <div className="bg-background sticky bottom-0 m-4 flex items-center justify-end">
             <Button
               disabled={disabled}
               id={formId}

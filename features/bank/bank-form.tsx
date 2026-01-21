@@ -8,7 +8,10 @@ export default function BankForm() {
       {bankCategories.map((bank, index) => (
         <div key={bank.name + index} className="flex flex-row justify-between">
           <Label className="w-20">{bank.label}</Label>
-          <NumericInput fieldName={bank.name} className="w-30" />
+          <NumericInput
+            fieldName={`bank[${bank.name}].value`}
+            className="w-30"
+          />
           <Label className="w-10 text-center">{bank.currency}</Label>
         </div>
       ))}

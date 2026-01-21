@@ -32,20 +32,24 @@ export default function BankPage({
     defaultValues: bankSchema.parse(bankData || defaultBankForm),
   });
 
+  const value = form.watch();
+
   const onSubmit: SubmitHandler<BankFormData> = async (data) => {
     const formatData = { ...data, month, year, uniqueKey: `${year}-${month}` };
 
-    if (bankData?.id) {
-      await updateBank(bankData.id as string, formatData as BankFormData);
-      toast.success("Bank успешно обновлён!");
+    console.log("formatData", formatData);
 
-      return;
-    } else {
-      await createBank(formatData as BankFormData);
-      toast.success("Expense успешно создан!");
+    // if (bankData?.id) {
+    //   await updateBank(bankData.id as string, formatData as BankFormData);
+    //   toast.success("Bank успешно обновлён!");
 
-      return;
-    }
+    //   return;
+    // } else {
+    //   await createBank(formatData as BankFormData);
+    //   toast.success("Expense успешно создан!");
+
+    //   return;
+    // }
   };
 
   useEffect(() => {
@@ -64,7 +68,6 @@ export default function BankPage({
       onSubmit={onSubmit}
       formId={formId}
       disabled={isLoading}
-      withSubmit={false}
     >
       <ViewTransition>
         <BankForm />
