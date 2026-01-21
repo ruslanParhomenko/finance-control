@@ -14,14 +14,16 @@ export default function RowFooterRender({
   currencyRates: string;
   currency: string;
   totals: number;
-  value?: Record<string, (string | undefined)[] | undefined> | undefined;
+  value?:
+    | Record<string, (string | number | undefined)[] | undefined>
+    | undefined;
 }) {
   return (
     <TableRow>
       <TableCell className="bg-background sticky left-0 px-2 py-0.5 text-end text-xs font-bold">
         {totals.toFixed(0)} {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
       </TableCell>
-      <TableCell className="bg-background sticky left-11" />
+      <TableCell className="bg-background sticky left-13.5" />
       {cellArray.map((_, dayIndex) => {
         const totalByDay = rowArray
           .reduce((acc, category) => {

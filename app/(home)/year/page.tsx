@@ -1,5 +1,5 @@
-import { getMonthlyAverageBNM } from "@/app/action/get-currency-mdl";
 import { getYearMonthlyAverageBNM } from "@/app/action/get-currency-year";
+import { getTodayEurRateBNM } from "@/app/action/get-current-currency";
 import {
   getExpenseByYear,
   GetExpenseDataType,
@@ -19,6 +19,9 @@ export default async function Page({
   const avgMDLtoEUR = await getYearMonthlyAverageBNM(Number(year), "EUR");
   const avgMDLtoUSD = await getYearMonthlyAverageBNM(Number(year), "USD");
 
+  const currentRatesEUR = await getTodayEurRateBNM("EUR");
+  const currentRatesUSD = await getTodayEurRateBNM("USD");
+
   const currencyRates = {
     USD: avgMDLtoUSD,
     EUR: avgMDLtoEUR,
@@ -33,6 +36,8 @@ export default async function Page({
       year={year}
       currencyRates={currencyArray}
       currency={currency as "USD" | "EUR" | "MDL"}
+      currentRatesEUR={currentRatesEUR}
+      currentRatesUSD={currentRatesUSD}
     />
   );
 }

@@ -21,7 +21,9 @@ export default function RowBodyRender({
   currency: string;
   form?: UseFormReturn<ExpenseFormTypeInput>;
   totals: Record<string, number> | undefined;
-  value?: Record<string, (string | undefined)[] | undefined> | undefined;
+  value?:
+    | Record<string, (string | number | undefined)[] | undefined>
+    | undefined;
 }) {
   const register = form?.register;
   return (
@@ -35,7 +37,7 @@ export default function RowBodyRender({
             </TableCell>
             <TableCell
               className={
-                "bg-background sticky left-11 p-0 px-1 py-1.5 text-start text-xs font-medium"
+                "bg-background sticky left-13.5 p-0 px-1 py-1.5 text-start text-xs font-medium"
               }
             >
               {row}

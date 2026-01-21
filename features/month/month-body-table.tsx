@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import {
   calculateOverallTotals,
   calculateTotals,
+  Input,
 } from "@/utils/category-totals";
 import RowBodyRender from "@/components/table/row-body-render";
 import RowFooterRender from "@/components/table/row-footer-render";
@@ -25,7 +26,7 @@ export default function MonthBodyTable({
 }) {
   const { watch } = form;
   const value = watch("rowExpenseData");
-  const totals = calculateTotals(value);
+  const totals = calculateTotals(value as Input);
 
   const { expenseTotal, addCashTotal } = calculateOverallTotals(totals);
 
