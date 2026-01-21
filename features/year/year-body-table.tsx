@@ -129,7 +129,7 @@ export default function YearBodyTable({
       <TableRow>
         <TableCell
           className={cn(
-            "bg-background sticky left-0 z-10 px-1 py-0 text-end text-xs font-bold",
+            "bg-background sticky left-0 z-10 px-1 py-0.5 text-end text-xs font-bold",
             diffClass,
           )}
         >

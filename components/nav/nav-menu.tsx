@@ -51,7 +51,7 @@ export default function NavMenuHeader({
           isLoading={isPending}
         />
       </div>
-      {children}
+      <div className="flex-1 overflow-auto">{children}</div>
       <div className="bg-background sticky bottom-0 z-20 my-1 flex justify-between gap-1.5 px-2 md:justify-start md:gap-4">
         {navItems.length > 0 && (
           <SelectTabsByPatch
