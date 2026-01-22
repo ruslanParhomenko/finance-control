@@ -1,5 +1,4 @@
 "use client";
-import { Table } from "@/components/ui/table";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
 
 import { useEffect, ViewTransition } from "react";
@@ -60,19 +59,17 @@ export default function BankPage({
       totals: totals.toFixed(0).toString(),
     };
 
-    console.log("formatData", formatData);
+    if (bankData?.id) {
+      await updateBank(bankData.id as string, formatData as BankFormData);
+      toast.success("Bank успешно обновлён!");
 
-    // if (bankData?.id) {
-    //   await updateBank(bankData.id as string, formatData as BankFormData);
-    //   toast.success("Bank успешно обновлён!");
+      return;
+    } else {
+      await createBank(formatData as BankFormData);
+      toast.success("Expense успешно создан!");
 
-    //   return;
-    // } else {
-    //   await createBank(formatData as BankFormData);
-    //   toast.success("Expense успешно создан!");
-
-    //   return;
-    // }
+      return;
+    }
   };
 
   useEffect(() => {

@@ -13,6 +13,8 @@ type NumericInputProps = {
   placeholder?: string;
   className?: string;
   disabled?: boolean;
+  onFocus?: () => void;
+  onBlur?: () => void;
 };
 
 export default function NumericInput({
@@ -20,6 +22,8 @@ export default function NumericInput({
   placeholder,
   className,
   disabled,
+  onFocus,
+  onBlur,
 }: NumericInputProps) {
   const { control } = useFormContext();
   const { field } = useController({ name: fieldName, control });
@@ -37,7 +41,17 @@ export default function NumericInput({
 
   return (
     <FormItem>
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover
+        open={open}
+        onOpenChange={(v) => {
+          setOpen(v);
+          if (v) {
+            onFocus?.();
+          } else {
+            onBlur?.();
+          }
+        }}
+      >
         <PopoverTrigger asChild>
           <FormControl>
             <Input

@@ -1,3 +1,4 @@
+import { getBankByYear, GetBankDataType } from "@/app/action/bank-data-actions";
 import { getYearMonthlyAverageBNM } from "@/app/action/get-currency-year";
 import { getTodayEurRateBNM } from "@/app/action/get-current-currency";
 import { getInitialState } from "@/app/action/initial-state-actions";
@@ -18,6 +19,7 @@ export default async function Page({
 
   const data = await getExpenseByYear(year);
   const initialState = await getInitialState();
+  const bankByYear = await getBankByYear(year);
 
   const avgMDLtoEUR = await getYearMonthlyAverageBNM(Number(year), "EUR");
   const avgMDLtoUSD = await getYearMonthlyAverageBNM(Number(year), "USD");
@@ -42,6 +44,7 @@ export default async function Page({
       currentRatesEUR={currentRatesEUR}
       currentRatesUSD={currentRatesUSD}
       initialState={initialState as InitialStateFormType}
+      bankData={bankByYear as GetBankDataType[]}
     />
   );
 }

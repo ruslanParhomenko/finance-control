@@ -12,6 +12,7 @@ import {
 import { MONTHS } from "@/utils/get-month-days";
 import { CURRENCY_ICON } from "../month/constants";
 import { InitialStateFormType } from "../initial-state/schema";
+import { GetBankDataType } from "@/app/action/bank-data-actions";
 
 export type Currency = "EUR" | "USD" | "MDL";
 
@@ -22,6 +23,7 @@ type Props = {
   currentRatesEUR: number;
   currentRatesUSD: number;
   initialState: InitialStateFormType;
+  bankData?: GetBankDataType[];
 };
 
 export default function YearBodyTable({
@@ -31,7 +33,10 @@ export default function YearBodyTable({
   currentRatesEUR,
   currentRatesUSD,
   initialState,
+  bankData,
 }: Props) {
+  console.log("bankData", bankData);
+
   const value = calculateCategoryTotalsByMonths(data, currencyRates);
   const totals = value ? calculateTotals(value) : undefined;
 
@@ -107,7 +112,7 @@ export default function YearBodyTable({
         value={value}
       />
 
-      <TableRow>
+      <TableRow className="border-0">
         <TableCell
           className={cn(
             "bg-background sticky left-0 z-10 px-1 py-0.5 text-end text-xs font-bold",
@@ -117,38 +122,82 @@ export default function YearBodyTable({
           {difference.toFixed(0)} {CURRENCY_ICON[currency]}
         </TableCell>
 
-        <TableCell className="bg-background sticky left-13.5 z-10" />
+        <TableCell className="bg-background sticky left-13.5 z-10 p-0 px-1 text-xs">
+          remain
+        </TableCell>
 
         {monthlyDiff.map((diff, index) => (
           <TableCell
             key={index}
-            className="text-muted-foreground py-0.5 text-center text-xs"
+            className={cn("py-0.5 text-center text-xs", diffClass)}
           >
             {diff.toFixed(0)}
           </TableCell>
         ))}
       </TableRow>
 
-      <TableRow>
+      <TableRow className="border-0">
         <TableCell
           className={cn(
-            "bg-background sticky left-0 z-10 px-1 py-0.5 text-end text-xs font-bold",
-            diffClass,
+            "bg-background sticky left-0 z-10 px-1 py-0.5 text-end text-xs",
           )}
         >
           {(initialBank + difference).toFixed(0)} {CURRENCY_ICON[currency]}
         </TableCell>
 
-        <TableCell className="bg-background sticky left-13.5 z-10" />
+        <TableCell className="bg-background sticky left-13.5 z-10 p-0 px-1 text-xs">
+          final
+        </TableCell>
 
         {remainingByMonth.map((value, index) => (
-          <TableCell
-            key={index}
-            className="text-muted-foreground py-0 text-center text-xs"
-          >
+          <TableCell key={index} className="py-0 text-center text-xs">
             {value.toFixed(0)}
           </TableCell>
         ))}
+      </TableRow>
+      <TableRow className="border-0">
+        <TableCell
+          className={cn(
+            "bg-background sticky left-0 z-10 px-1 py-0.5 text-end text-xs font-bold",
+            diffClass,
+          )}
+        ></TableCell>
+
+        <TableCell className="bg-background sticky left-13.5 z-10 p-0 px-1 text-xs">
+          bank
+        </TableCell>
+
+        {MONTHS?.map((value, index) => {
+          const bankByMonth = bankData?.find((item) => item.month === value);
+          const currencyRatesByMonth = currencyRates[index];
+          const bankValue = (() => {
+            const rate = Number(currencyRatesByMonth);
+            const total = Number(bankByMonth?.totals);
+
+            const safeRate = Number.isFinite(rate) && rate !== 0 ? rate : 1;
+
+            const result = total / safeRate;
+
+            return Number.isFinite(result) ? result.toFixed(0) : "0";
+          })();
+
+          const diff = Number(bankValue) - Number(remainingByMonth[index]);
+          return (
+            <TableCell
+              key={index}
+              className="py-0 text-center text-xs text-blue-700"
+            >
+              <div className="flex flex-col items-center">
+                <span>{bankValue}</span>
+                <span
+                  className={cn(diff > 0 ? "text-green-600" : "text-red-600")}
+                >
+                  {diff.toFixed(0)}
+                </span>
+              </div>
+            </TableCell>
+          );
+        })}
       </TableRow>
     </TableBody>
   );

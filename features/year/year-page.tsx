@@ -4,6 +4,7 @@ import YearHeaderTable from "./year-header-table";
 import YearBodyTable, { Currency } from "./year-body-table";
 import { ViewTransition } from "react";
 import { InitialStateFormType } from "../initial-state/schema";
+import { GetBankDataType } from "@/app/action/bank-data-actions";
 
 export default function YearPage({
   data,
@@ -13,6 +14,7 @@ export default function YearPage({
   currentRatesEUR,
   currentRatesUSD,
   initialState,
+  bankData,
 }: {
   data: GetExpenseDataType[];
   year: string;
@@ -21,6 +23,7 @@ export default function YearPage({
   currentRatesEUR: number;
   currentRatesUSD: number;
   initialState: InitialStateFormType;
+  bankData?: GetBankDataType[];
 }) {
   return (
     <Table className="table-fixed">
@@ -37,6 +40,7 @@ export default function YearPage({
           currentRatesEUR={currentRatesEUR}
           currentRatesUSD={currentRatesUSD}
           initialState={initialState}
+          bankData={bankData}
         />
       </ViewTransition>
     </Table>
