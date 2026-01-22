@@ -88,6 +88,7 @@ export default function BankPage({
       onSubmit={onSubmit}
       formId={formId}
       disabled={isLoading}
+      className="md:w-1/2"
     >
       <ViewTransition>
         <BankForm

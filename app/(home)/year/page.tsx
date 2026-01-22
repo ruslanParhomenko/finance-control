@@ -17,15 +17,22 @@ export default async function Page({
   const { month, year, currency } = await searchParams;
   if (!month || !year) return;
 
-  const data = await getExpenseByYear(year);
-  const initialState = await getInitialState();
-  const bankByYear = await getBankByYear(year);
-
-  const avgMDLtoEUR = await getYearMonthlyAverageBNM(Number(year), "EUR");
-  const avgMDLtoUSD = await getYearMonthlyAverageBNM(Number(year), "USD");
-
-  const currentRatesEUR = await getTodayEurRateBNM("EUR");
-  const currentRatesUSD = await getTodayEurRateBNM("USD");
+  const [
+    data,
+    initialState,
+    bankByYear,
+    [avgMDLtoEUR, avgMDLtoUSD],
+    [currentRatesEUR, currentRatesUSD],
+  ] = await Promise.all([
+    getExpenseByYear(year),
+    getInitialState(),
+    getBankByYear(year),
+    Promise.all([
+      getYearMonthlyAverageBNM(Number(year), "EUR"),
+      getYearMonthlyAverageBNM(Number(year), "USD"),
+    ]),
+    Promise.all([getTodayEurRateBNM("EUR"), getTodayEurRateBNM("USD")]),
+  ]);
 
   const currencyRates = {
     USD: avgMDLtoUSD,

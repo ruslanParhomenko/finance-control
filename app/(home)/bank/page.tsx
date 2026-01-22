@@ -16,11 +16,13 @@ export default async function Page({
   const { month, year, currency } = await searchParams;
   if (!month || !year) return;
   const uniqueKey = `${year}-${month}`;
-  const bankData = await getBankByUniqueKey(uniqueKey);
-  const initialState = await getInitialState();
 
-  const avgMDLtoEUR = await getMonthlyAverageBNM(uniqueKey, "EUR");
-  const avgMDLtoUSD = await getMonthlyAverageBNM(uniqueKey, "USD");
+  const [bankData, initialState, avgMDLtoEUR, avgMDLtoUSD] = await Promise.all([
+    getBankByUniqueKey(uniqueKey),
+    getInitialState(),
+    getMonthlyAverageBNM(uniqueKey, "EUR"),
+    getMonthlyAverageBNM(uniqueKey, "USD"),
+  ]);
 
   const currencyRates = {
     USD: avgMDLtoUSD.toFixed(2),

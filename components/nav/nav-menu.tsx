@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import SelectTabsByPatch from "./select-patch";
 import SelectByMonthYear from "./select-month-year";
@@ -31,17 +31,17 @@ export default function NavMenuHeader({
   const [year, setYear] = useState(new Date().getFullYear().toString());
   const [currency, setCurrency] = useState("MDL");
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const url = `/${patch}?month=${month}&year=${year}&currency=${currency}`;
 
     startTransition(() => {
-      router.push(url);
+      router.replace(url);
     });
   }, [patch, month, year, currency, router]);
 
   return (
     <div className="flex h-screen flex-col justify-between">
-      <div className="bg-background sticky top-0 z-20 my-1 flex justify-between gap-1.5 px-2 md:justify-start md:gap-4">
+      <div className="bg-background sticky top-0 z-20 flex justify-between gap-1.5 px-2 md:my-1 md:justify-start md:gap-4">
         <LogOutButton />
         <SelectByMonthYear
           month={month}
@@ -52,7 +52,7 @@ export default function NavMenuHeader({
         />
       </div>
       <div className="flex-1 overflow-auto">{children}</div>
-      <div className="bg-background sticky bottom-0 z-20 my-1 flex justify-between gap-1.5 px-2 md:justify-start md:gap-4">
+      <div className="bg-background sticky bottom-0 z-20 flex justify-between gap-1.5 px-2 md:my-1 md:justify-start md:gap-4">
         {navItems.length > 0 && (
           <SelectTabsByPatch
             patch={patch}
