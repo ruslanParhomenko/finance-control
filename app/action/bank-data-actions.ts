@@ -16,6 +16,7 @@ export async function createBank(data: BankFormData) {
     year: data.year,
     month: data.month,
     bank: data.bank,
+    totals: data.totals,
   });
   updateTag("bank");
   return docRef.id;

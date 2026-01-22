@@ -2,7 +2,7 @@ import { GetExpenseDataType } from "@/app/action/month-data-actions";
 import RowBodyRender from "@/components/table/row-body-render";
 import RowFooterRender from "@/components/table/row-footer-render";
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { addCash, expenseCategories, INITIAL_BANK } from "@/constants/expense";
+import { addCash, expenseCategories } from "@/constants/expense";
 import { cn } from "@/lib/utils";
 import {
   calculateCategoryTotalsByMonths,
@@ -11,6 +11,7 @@ import {
 } from "@/utils/category-totals";
 import { MONTHS } from "@/utils/get-month-days";
 import { CURRENCY_ICON } from "../month/constants";
+import { InitialStateFormType } from "../initial-state/schema";
 
 export type Currency = "EUR" | "USD" | "MDL";
 
@@ -20,6 +21,7 @@ type Props = {
   currency: Currency;
   currentRatesEUR: number;
   currentRatesUSD: number;
+  initialState: InitialStateFormType;
 };
 
 export default function YearBodyTable({
@@ -28,6 +30,7 @@ export default function YearBodyTable({
   currency,
   currentRatesEUR,
   currentRatesUSD,
+  initialState,
 }: Props) {
   const value = calculateCategoryTotalsByMonths(data, currencyRates);
   const totals = value ? calculateTotals(value) : undefined;
@@ -37,7 +40,7 @@ export default function YearBodyTable({
   const difference = addCashTotal - expenseTotal;
 
   const getInitialBank = (): number => {
-    const base = Number(INITIAL_BANK) || 0;
+    const base = Number(initialState.initialState) || 0;
 
     switch (currency) {
       case "MDL":

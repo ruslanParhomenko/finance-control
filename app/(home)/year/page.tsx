@@ -1,9 +1,11 @@
 import { getYearMonthlyAverageBNM } from "@/app/action/get-currency-year";
 import { getTodayEurRateBNM } from "@/app/action/get-current-currency";
+import { getInitialState } from "@/app/action/initial-state-actions";
 import {
   getExpenseByYear,
   GetExpenseDataType,
 } from "@/app/action/month-data-actions";
+import { InitialStateFormType } from "@/features/initial-state/schema";
 import YearPage from "@/features/year/year-page";
 
 export default async function Page({
@@ -15,6 +17,7 @@ export default async function Page({
   if (!month || !year) return;
 
   const data = await getExpenseByYear(year);
+  const initialState = await getInitialState();
 
   const avgMDLtoEUR = await getYearMonthlyAverageBNM(Number(year), "EUR");
   const avgMDLtoUSD = await getYearMonthlyAverageBNM(Number(year), "USD");
@@ -38,6 +41,7 @@ export default async function Page({
       currency={currency as "USD" | "EUR" | "MDL"}
       currentRatesEUR={currentRatesEUR}
       currentRatesUSD={currentRatesUSD}
+      initialState={initialState as InitialStateFormType}
     />
   );
 }

@@ -20,6 +20,4 @@ export const expenseCategories = [
   "hotel",
 ] as const;
 
-export const INITIAL_BANK = env.NEXT_PUBLIC_INITIAL_BANK_EUR;
-
 export const addCash = ["add-cash"] as const;

@@ -22,6 +22,7 @@ export const bankSchema = z.object({
       bankCategories.map((c) => [c.name, { currency: c.currency, value: "" }]),
     ),
   ),
+  totals: z.string().default(""),
 });
 
 export type BankFormData = z.infer<typeof bankSchema>;
