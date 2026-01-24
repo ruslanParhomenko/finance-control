@@ -66,8 +66,9 @@ export default function YearResultTable({
 
   const remainingByMonth: number[] = [];
   monthlyDiff.reduce((currentBank, diff, index) => {
+    console.log(currentBank, diff);
     const nextBank = currentBank + diff;
-    remainingByMonth[index] = nextBank;
+    remainingByMonth[index] = diff === 0 ? 0 : nextBank;
     return nextBank;
   }, initialBank);
   return (
@@ -92,6 +93,7 @@ export default function YearResultTable({
             className={cn("py-0.5 text-center text-xs", diffClass)}
           >
             {diff.toFixed(0)}
+            {CURRENCY_ICON[currency]}
           </TableCell>
         ))}
       </TableRow>
@@ -112,6 +114,7 @@ export default function YearResultTable({
         {remainingByMonth.map((value, index) => (
           <TableCell key={index} className="py-0 text-center text-xs">
             {value.toFixed(0)}
+            {CURRENCY_ICON[currency]}
           </TableCell>
         ))}
       </TableRow>
@@ -148,11 +151,15 @@ export default function YearResultTable({
               className="py-0 text-center text-xs text-blue-700"
             >
               <div className="flex flex-col items-center">
-                <span>{bankValue}</span>
+                <span>
+                  {bankValue}
+                  {CURRENCY_ICON[currency]}
+                </span>
                 <span
                   className={cn(diff > 0 ? "text-green-600" : "text-red-600")}
                 >
-                  {diff.toFixed(0)}
+                  {bankValue === "0" ? "0" : diff.toFixed(0)}
+                  {CURRENCY_ICON[currency]}
                 </span>
               </div>
             </TableCell>

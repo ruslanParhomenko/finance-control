@@ -21,7 +21,8 @@ export default function RowFooterRender({
   return (
     <TableRow>
       <TableCell className="bg-background sticky left-0 px-2 py-0.5 text-end text-xs font-bold">
-        {totals.toFixed(0)} {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
+        {(Number(totals) / Number(currencyRates)).toFixed(0)}{" "}
+        {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
       </TableCell>
       <TableCell className="bg-background sticky left-13.5" />
       {cellArray.map((_, dayIndex) => {
@@ -37,7 +38,8 @@ export default function RowFooterRender({
             key={dayIndex}
             className="p-0 text-center text-xs font-bold"
           >
-            {(Number(totalByDay) / Number(currencyRates)).toFixed(0)}
+            {(Number(totalByDay) / Number(currencyRates)).toFixed(0)}{" "}
+            {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
           </TableCell>
         );
       })}
