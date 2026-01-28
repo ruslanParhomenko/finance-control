@@ -4,56 +4,49 @@ import { ExpenseFormType } from "@/features/month/schema";
 import { dbAdmin } from "@/lib/firebase";
 import { unstable_cache, updateTag } from "next/cache";
 
+const EXPENSE_ACTION_TAG = "expense";
+
 export type GetExpenseDataType = ExpenseFormType & {
   id: string;
 };
 
 // create
 export async function createExpense(data: ExpenseFormType) {
-  const docRef = await dbAdmin.collection("expense").add({
+  const docId = `${data.year}-${data.month}`;
+  if (!docId) return;
+  const docRef = dbAdmin.collection(EXPENSE_ACTION_TAG).doc(docId);
+  const snapshot = await docRef.get();
+  if (snapshot.exists) throw new Error("KEY_EXISTS");
+  await docRef.set({
     uniqueKey: data.uniqueKey,
     year: data.year,
     month: data.month,
     rowExpenseData: data.rowExpenseData,
   });
-  updateTag("expense");
+  updateTag(EXPENSE_ACTION_TAG);
   return docRef.id;
 }
 
 // update
-export async function updateExpense(id: string, data: ExpenseFormType) {
-  await dbAdmin.collection("expense").doc(id).update(data);
-  updateTag("expense");
-  return id;
+export async function updateExpense(docId: string, data: ExpenseFormType) {
+  if (!docId) throw new Error("KEY_REQUIRED");
+  const docRef = dbAdmin.collection(EXPENSE_ACTION_TAG).doc(docId);
+
+  await docRef.update(data);
+  updateTag(EXPENSE_ACTION_TAG);
+  return docRef.id;
 }
-
-// get by id
-export const _getExpenseById = async (id: string) => {
-  const doc = await dbAdmin.collection("expense").doc(id).get();
-  if (!doc.exists) return null;
-
-  return {
-    id: doc.id,
-    ...doc.data(),
-  } as GetExpenseDataType;
-};
-
-export const getExpenseById = unstable_cache(_getExpenseById, ["expense"], {
-  revalidate: false,
-  tags: ["expense"],
-});
 
 // get by filters
 export const _getExpenseByUniqueKey = async (uniqueKey: string) => {
   const snapshot = await dbAdmin
-    .collection("expense")
-    .where("uniqueKey", "==", uniqueKey)
-    .limit(1)
+    .collection(EXPENSE_ACTION_TAG)
+    .doc(uniqueKey)
     .get();
 
-  if (snapshot.empty) return null;
+  if (!snapshot.exists) return null;
 
-  const doc = snapshot.docs[0];
+  const doc = snapshot;
 
   return {
     id: doc.id,
@@ -66,14 +59,14 @@ export const getExpenseByUniqueKey = unstable_cache(
   ["expense"],
   {
     revalidate: false,
-    tags: ["expense"],
+    tags: [EXPENSE_ACTION_TAG],
   },
 );
 
 // get by year
 export const _getExpenseByYear = async (year: string) => {
   const snapshot = await dbAdmin
-    .collection("expense")
+    .collection(EXPENSE_ACTION_TAG)
     .where("year", "==", year)
     .get();
 
@@ -87,7 +80,11 @@ export const _getExpenseByYear = async (year: string) => {
   })) as GetExpenseDataType[];
 };
 
-export const getExpenseByYear = unstable_cache(_getExpenseByYear, ["expense"], {
-  revalidate: false,
-  tags: ["expense"],
-});
+export const getExpenseByYear = unstable_cache(
+  _getExpenseByYear,
+  [EXPENSE_ACTION_TAG],
+  {
+    revalidate: false,
+    tags: [EXPENSE_ACTION_TAG],
+  },
+);
