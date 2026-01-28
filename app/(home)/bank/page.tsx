@@ -19,7 +19,7 @@ export default async function Page({
 
   const [bankData, initialState, avgMDLtoEUR, avgMDLtoUSD] = await Promise.all([
     getBankByUniqueKey(uniqueKey),
-    getInitialState(),
+    getInitialState(year),
     getMonthlyAverageBNM(uniqueKey, "EUR"),
     getMonthlyAverageBNM(uniqueKey, "USD"),
   ]);

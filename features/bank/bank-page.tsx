@@ -96,6 +96,7 @@ export default function BankPage({
           totals={totals}
           selectedCurrency={selectedCurrency}
           currency={currency}
+          year={year}
         />
       </ViewTransition>
     </FormWrapper>

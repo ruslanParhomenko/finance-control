@@ -12,10 +12,11 @@ import { useEffect } from "react";
 
 export default function InitialForm({
   initialState,
+  year,
 }: {
   initialState: InitialStateFormType;
+  year: string;
 }) {
-  console.log(initialState);
   const router = useRouter();
 
   const form = useForm<InitialStateFormType>({
@@ -24,7 +25,7 @@ export default function InitialForm({
   });
 
   const onSubmit: SubmitHandler<InitialStateFormType> = async (data) => {
-    await createInitialState(data);
+    await createInitialState(data, year);
     toast.success("initialState успешно обновлён!");
     router.back();
   };

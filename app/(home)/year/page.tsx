@@ -25,7 +25,7 @@ export default async function Page({
     [currentRatesEUR, currentRatesUSD],
   ] = await Promise.all([
     getExpenseByYear(year),
-    getInitialState(),
+    getInitialState(year),
     getBankByYear(year),
     Promise.all([
       getYearMonthlyAverageBNM(Number(year), "EUR"),

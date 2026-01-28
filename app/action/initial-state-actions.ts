@@ -5,10 +5,12 @@ import { dbAdmin } from "@/lib/firebase";
 
 import { unstable_cache, updateTag } from "next/cache";
 
-const INITIAL_STATE_DOC_ID = "singleton";
-
-export async function createInitialState(data: InitialStateFormType) {
-  await dbAdmin.collection("initialState").doc(INITIAL_STATE_DOC_ID).set(
+export async function createInitialState(
+  data: InitialStateFormType,
+  year: string,
+) {
+  if (!year) return;
+  await dbAdmin.collection("initialState").doc(year).set(
     {
       initialState: data.initialState,
       currency: data.currency,
@@ -18,8 +20,8 @@ export async function createInitialState(data: InitialStateFormType) {
 
   updateTag("initialState");
 }
-export const _getInitialState = async () => {
-  const doc = await dbAdmin.collection("initialState").doc("singleton").get();
+export const _getInitialState = async (year: string) => {
+  const doc = await dbAdmin.collection("initialState").doc(year).get();
 
   if (!doc.exists) {
     return {

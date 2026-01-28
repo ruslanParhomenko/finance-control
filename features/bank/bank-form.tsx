@@ -5,18 +5,20 @@ import { Label } from "@/components/ui/label";
 import { PenBox } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { InitialStateFormType } from "../initial-state/schema";
-import { Table, TableCell, TableRow } from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
 export default function BankForm({
   initialState,
   totals,
   selectedCurrency,
   currency,
+  year,
 }: {
   initialState: InitialStateFormType;
   totals: number;
   selectedCurrency: string;
   currency: string;
+  year: string;
 }) {
   const router = useRouter();
 
@@ -29,31 +31,35 @@ export default function BankForm({
         </Label>
         <PenBox
           className="h-4 w-4 text-blue-700"
-          onClick={() => router.push("/initial-state")}
+          onClick={() => router.push("/initial-state?year=" + year)}
         />
       </div>
       <Table>
-        {bankCategories.map((bank, index) => (
-          <TableRow key={bank.name + index}>
-            <TableCell className="w-28 font-semibold">
-              {bank.label.toLowerCase()}
+        <TableBody>
+          {bankCategories.map((bank, index) => (
+            <TableRow key={bank.name + index}>
+              <TableCell className="w-28 font-semibold">
+                {bank.label.toLowerCase()}
+              </TableCell>
+              <TableCell className="w-20 text-center text-xs">
+                <NumericInput
+                  fieldName={`bank[${bank.name}].value`}
+                  className="bg-background text-md h-6 w-full rounded-none border-0 px-2 font-bold text-green-700 shadow-none"
+                />
+              </TableCell>
+              <TableCell className="w-10 text-xs">{bank.currency}</TableCell>
+            </TableRow>
+          ))}
+          <TableRow>
+            <TableCell className="w-28" />
+            <TableCell className="text-center font-bold">
+              {(Number(totals.toFixed(0)) / Number(selectedCurrency)).toFixed(
+                0,
+              )}
             </TableCell>
-            <TableCell className="w-20 text-center text-xs">
-              <NumericInput
-                fieldName={`bank[${bank.name}].value`}
-                className="bg-background text-md h-6 w-full rounded-none border-0 px-2 font-bold text-green-700 shadow-none"
-              />
-            </TableCell>
-            <TableCell className="w-10 text-xs">{bank.currency}</TableCell>
+            <TableCell className="w-10">{currency}</TableCell>
           </TableRow>
-        ))}
-        <TableRow>
-          <TableCell className="w-28" />
-          <TableCell className="text-center font-bold">
-            {(Number(totals.toFixed(0)) / Number(selectedCurrency)).toFixed(0)}
-          </TableCell>
-          <TableCell className="w-10">{currency}</TableCell>
-        </TableRow>
+        </TableBody>
       </Table>
     </div>
   );
