@@ -3,7 +3,7 @@ import { Table } from "@/components/ui/table";
 import MonthHeaderTable from "./month-header-table";
 import { getMonthDays } from "@/utils/get-month-days";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
-import { SubmitHandler, useForm, useWatch } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import {
   defaultExpenseForm,
   ExpenseFormType,
@@ -11,7 +11,7 @@ import {
   expenseSchema,
 } from "./schema";
 import MonthBodyTable from "./month-body-table";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { expenseCategories } from "@/constants/expense";
 import { createExpense, updateExpense } from "@/app/action/month-data-actions";
 import { toast } from "sonner";
@@ -78,22 +78,22 @@ export default function MonthPage({
     });
   }, [expenseData, month, year, form]);
 
-  const watchedValues = useWatch({ control: form.control });
-  const submitTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  // const watchedValues = useWatch({ control: form.control });
+  // const submitTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  useEffect(() => {
-    if (!form.formState.isDirty || form.formState.isSubmitting) return;
+  // useEffect(() => {
+  //   if (!form.formState.isDirty || form.formState.isSubmitting) return;
 
-    if (submitTimeoutRef.current) {
-      clearTimeout(submitTimeoutRef.current);
-    }
+  //   if (submitTimeoutRef.current) {
+  //     clearTimeout(submitTimeoutRef.current);
+  //   }
 
-    submitTimeoutRef.current = setTimeout(() => {
-      return form.handleSubmit(onSubmit)();
-    }, 4000);
+  //   submitTimeoutRef.current = setTimeout(() => {
+  //     return form.handleSubmit(onSubmit)();
+  //   }, 4000);
 
-    return () => clearTimeout(submitTimeoutRef.current!);
-  }, [watchedValues]);
+  //   return () => clearTimeout(submitTimeoutRef.current!);
+  // }, [watchedValues]);
 
   const formId = "month-expense-form";
 
@@ -105,7 +105,6 @@ export default function MonthPage({
       onSubmit={onSubmit}
       formId={formId}
       disabled={isLoading}
-      withSubmit={false}
     >
       <ViewTransition>
         <Table className="table-fixed">
