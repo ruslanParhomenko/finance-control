@@ -40,8 +40,8 @@ export function FormWrapper({
             {withBackButton && (
               <Button
                 type="button"
-                variant={"destructive"}
-                className="h-8 w-22"
+                variant={"outline"}
+                className="h-7 w-18"
                 onClick={() => router.back()}
               >
                 back
@@ -51,7 +51,7 @@ export function FormWrapper({
               disabled={disabled}
               id={formId}
               type="submit"
-              className="h-8 w-24"
+              className="h-7 w-18"
             >
               save
             </Button>

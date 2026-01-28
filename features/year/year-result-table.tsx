@@ -66,7 +66,6 @@ export default function YearResultTable({
 
   const remainingByMonth: number[] = [];
   monthlyDiff.reduce((currentBank, diff, index) => {
-    console.log(currentBank, diff);
     const nextBank = currentBank + diff;
     remainingByMonth[index] = diff === 0 ? 0 : nextBank;
     return nextBank;
@@ -101,7 +100,7 @@ export default function YearResultTable({
       <TableRow className="border-0">
         <TableCell
           className={cn(
-            "bg-background sticky left-0 z-10 px-1 py-0.5 text-end text-xs",
+            "bg-background sticky left-0 z-10 px-1 py-0.5 text-end text-xs font-bold",
           )}
         >
           {(initialBank + difference).toFixed(0)} {CURRENCY_ICON[currency]}
@@ -120,48 +119,57 @@ export default function YearResultTable({
       </TableRow>
       <TableRow className="border-0">
         <TableCell
+          rowSpan={2}
           className={cn(
             "bg-background sticky left-0 z-10 px-1 py-0.5 text-end text-xs font-bold",
             diffClass,
           )}
-        ></TableCell>
+        />
 
-        <TableCell className="bg-background sticky left-13.5 z-10 p-0 px-1 text-xs">
+        <TableCell
+          rowSpan={2}
+          className="bg-background sticky left-13.5 z-10 p-0 px-1 text-xs"
+        >
           bank
         </TableCell>
 
         {MONTHS?.map((value, index) => {
           const bankByMonth = bankData?.find((item) => item.month === value);
-          const currencyRatesByMonth = currencyRates[index];
-          const bankValue = (() => {
-            const rate = Number(currencyRatesByMonth);
-            const total = Number(bankByMonth?.totals);
+          const rate = Number(currencyRates[index]) || 1;
+          const total = Number(bankByMonth?.totals) || 0;
+          const bankValue = (total / rate).toFixed(0);
 
-            const safeRate = Number.isFinite(rate) && rate !== 0 ? rate : 1;
-
-            const result = total / safeRate;
-
-            return Number.isFinite(result) ? result.toFixed(0) : "0";
-          })();
-
-          const diff = Number(bankValue) - Number(remainingByMonth[index]);
           return (
             <TableCell
               key={index}
               className="py-0 text-center text-xs text-blue-700"
             >
-              <div className="flex flex-col items-center">
-                <span>
-                  {bankValue}
-                  {CURRENCY_ICON[currency]}
-                </span>
-                <span
-                  className={cn(diff > 0 ? "text-green-600" : "text-red-600")}
-                >
-                  {bankValue === "0" ? "0" : diff.toFixed(0)}
-                  {CURRENCY_ICON[currency]}
-                </span>
-              </div>
+              {bankValue}
+              {CURRENCY_ICON[currency]}
+            </TableCell>
+          );
+        })}
+      </TableRow>
+
+      <TableRow>
+        {MONTHS?.map((value, index) => {
+          const rate = Number(currencyRates[index]) || 1;
+          const total =
+            Number(bankData?.find((i) => i.month === value)?.totals) || 0;
+
+          const bankValue = Number((total / rate).toFixed(0));
+          const diff = bankValue - Number(remainingByMonth[index]);
+
+          return (
+            <TableCell
+              key={index}
+              className={cn(
+                "py-0 text-center text-xs",
+                diff > 0 ? "text-green-600" : "text-red-600",
+              )}
+            >
+              {bankValue === 0 ? "0" : diff.toFixed(0)}
+              {CURRENCY_ICON[currency]}
             </TableCell>
           );
         })}

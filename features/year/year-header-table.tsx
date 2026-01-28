@@ -32,19 +32,17 @@ export default function YearHeaderTable({
                 Number(month) === todayMonth && "text-blue-900",
               )}
             >
-              {month}
+              {currency == "MDL" ? (
+                month
+              ) : (
+                <span className="text-xs">
+                  {Number(currencyRates[index]).toFixed(2).toLowerCase()}
+                </span>
+              )}
             </div>
 
             <div className="text-muted-foreground text-center text-xs">
-              {currency == "MDL" ? (
-                MONTH_STRINGS[Number(month) - 1].toLowerCase().slice(0, 3)
-              ) : (
-                <span className="text-muted-foreground text-center text-[10px]">
-                  {MONTH_STRINGS[Number(month) - 1].toLowerCase().slice(0, 1) +
-                    ":" +
-                    Number(currencyRates[index]).toFixed(2)}
-                </span>
-              )}
+              {MONTH_STRINGS[Number(month) - 1].toLowerCase().slice(0, 3)}
             </div>
           </TableCell>
         ))}

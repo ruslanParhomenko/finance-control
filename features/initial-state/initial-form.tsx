@@ -46,11 +46,14 @@ export default function InitialForm({
     >
       <div className="flex h-[30vh] items-center justify-center gap-6">
         <Label>initial balance :</Label>
-        <NumericInput fieldName="initialState" className="h-6 w-30" />
+        <NumericInput
+          fieldName="initialState"
+          className="h-7 w-30 text-xs font-semibold"
+        />
         <input
           {...form.register("currency")}
           readOnly
-          className="h-6 w-20 text-center"
+          className="h-7 w-20 text-center text-xs font-semibold"
         />
       </div>
     </FormWrapper>

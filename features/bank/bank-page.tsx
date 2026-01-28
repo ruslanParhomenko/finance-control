@@ -95,6 +95,7 @@ export default function BankPage({
           initialState={initialState}
           totals={totals}
           selectedCurrency={selectedCurrency}
+          currency={currency}
         />
       </ViewTransition>
     </FormWrapper>

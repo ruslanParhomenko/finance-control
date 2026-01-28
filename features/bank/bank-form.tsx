@@ -5,15 +5,18 @@ import { Label } from "@/components/ui/label";
 import { PenBox } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { InitialStateFormType } from "../initial-state/schema";
+import { Table, TableCell, TableRow } from "@/components/ui/table";
 
 export default function BankForm({
   initialState,
   totals,
   selectedCurrency,
+  currency,
 }: {
   initialState: InitialStateFormType;
   totals: number;
   selectedCurrency: string;
+  currency: string;
 }) {
   const router = useRouter();
 
@@ -29,25 +32,29 @@ export default function BankForm({
           onClick={() => router.push("/initial-state")}
         />
       </div>
-      {bankCategories.map((bank, index) => (
-        <div
-          key={bank.name + index}
-          className="flex flex-row justify-between px-2"
-        >
-          <Label className="w-30 px-2 text-xs">{bank.label}</Label>
-          <NumericInput
-            fieldName={`bank[${bank.name}].value`}
-            className="bg-background text-md h-6 w-30 rounded-none border-0 border-b px-2 font-bold text-green-700 shadow-none"
-          />
-          <Label className="w-10 px-2 text-xs">{bank.currency}</Label>
-        </div>
-      ))}
-      <div className="mt-4 flex justify-center gap-6 px-2 text-blue-700">
-        <Label>totals:</Label>
-        <Label>
-          {(Number(totals.toFixed(0)) / Number(selectedCurrency)).toFixed(0)}
-        </Label>
-      </div>
+      <Table>
+        {bankCategories.map((bank, index) => (
+          <TableRow key={bank.name + index}>
+            <TableCell className="w-28 font-semibold">
+              {bank.label.toLowerCase()}
+            </TableCell>
+            <TableCell className="w-20 text-center text-xs">
+              <NumericInput
+                fieldName={`bank[${bank.name}].value`}
+                className="bg-background text-md h-6 w-full rounded-none border-0 px-2 font-bold text-green-700 shadow-none"
+              />
+            </TableCell>
+            <TableCell className="w-10 text-xs">{bank.currency}</TableCell>
+          </TableRow>
+        ))}
+        <TableRow>
+          <TableCell className="w-28" />
+          <TableCell className="text-center font-bold">
+            {(Number(totals.toFixed(0)) / Number(selectedCurrency)).toFixed(0)}
+          </TableCell>
+          <TableCell className="w-10">{currency}</TableCell>
+        </TableRow>
+      </Table>
     </div>
   );
 }
