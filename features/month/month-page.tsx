@@ -90,7 +90,7 @@ export default function MonthPage({
 
     submitTimeoutRef.current = setTimeout(() => {
       return form.handleSubmit(onSubmit)();
-    }, 3000);
+    }, 4000);
 
     return () => clearTimeout(submitTimeoutRef.current!);
   }, [watchedValues]);
