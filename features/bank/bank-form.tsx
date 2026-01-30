@@ -23,7 +23,7 @@ export default function BankForm({
   const router = useRouter();
 
   return (
-    <div className="flex flex-col justify-start gap-4 px-2 pt-4 text-xs">
+    <div className="flex w-full flex-col justify-start gap-4 px-2 pt-4 text-xs">
       <div className="mb-4 flex justify-between px-4">
         <Label className="text-blue-700">initial balance :</Label>
         <Label className="text-blue-700">

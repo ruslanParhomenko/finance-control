@@ -1,7 +1,7 @@
 "use client";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
 
-import { useEffect, ViewTransition } from "react";
+import { useEffect } from "react";
 import { Resolver, SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { BankFormData, bankSchema, defaultBankForm } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,7 +36,7 @@ export default function BankPage({
   const selectedCurrency = currencyRates[currency as "USD" | "EUR" | "MDL"];
   const form = useForm<BankFormData>({
     resolver: zodResolver(bankSchema) as Resolver<BankFormData>,
-    defaultValues: bankSchema.parse(bankData || defaultBankForm),
+    defaultValues: defaultBankForm,
   });
 
   const bankValues = useWatch({
@@ -73,7 +73,7 @@ export default function BankPage({
   };
 
   useEffect(() => {
-    if (!bankData) return;
+    if (!bankData) return form.reset(defaultBankForm);
 
     form.reset({
       ...bankData,
@@ -88,17 +88,15 @@ export default function BankPage({
       onSubmit={onSubmit}
       formId={formId}
       disabled={isLoading}
-      className="md:w-1/2"
+      className="flex items-center justify-center"
     >
-      <ViewTransition>
-        <BankForm
-          initialState={initialState}
-          totals={totals}
-          selectedCurrency={selectedCurrency}
-          currency={currency}
-          year={year}
-        />
-      </ViewTransition>
+      <BankForm
+        initialState={initialState}
+        totals={totals}
+        selectedCurrency={selectedCurrency}
+        currency={currency}
+        year={year}
+      />
     </FormWrapper>
   );
 }

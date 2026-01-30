@@ -36,7 +36,7 @@ export function FormWrapper({
       >
         {children}
         {withSubmit && (
-          <div className="bg-background sticky bottom-0 m-4 flex items-center justify-end gap-4">
+          <div className="bg-background sticky right-0 bottom-0 flex w-full items-center justify-end gap-4 p-4">
             {withBackButton && (
               <Button
                 type="button"

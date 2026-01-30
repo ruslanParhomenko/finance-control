@@ -3,36 +3,46 @@
 import { MONTHS } from "@/utils/get-month-days";
 import { getMonthlyAverageBNM } from "./get-currency-mdl";
 
-type MonthlyAverageResult = (number | "")[];
+export type YearMonthlyRates = {
+  EUR: number[];
+  USD: number[];
+  MDL: number[];
+};
 
 export async function getYearMonthlyAverageBNM(
   year: number,
-  currency: "EUR" | "USD" | string,
-): Promise<MonthlyAverageResult> {
+): Promise<YearMonthlyRates> {
   const now = new Date();
 
-  const results: MonthlyAverageResult = [];
+  const result: YearMonthlyRates = {
+    EUR: [],
+    USD: [],
+    MDL: Array(12).fill(1),
+  };
 
-  for (const month of MONTHS) {
-    const monthNumber = Number(month);
-    const startDate = new Date(year, monthNumber - 1, 1);
+  for (let i = 0; i < MONTHS.length; i++) {
+    const month = Number(MONTHS[i]);
+    const startDate = new Date(year, month - 1, 1);
 
     if (startDate > now) {
-      results.push("");
+      result.EUR.push(1);
+      result.USD.push(1);
       continue;
     }
 
     try {
-      const average = await getMonthlyAverageBNM(
-        `${year}-${monthNumber}`,
-        currency,
-      );
+      const [eur, usd] = await Promise.all([
+        getMonthlyAverageBNM(`${year}-${month}`, "EUR"),
+        getMonthlyAverageBNM(`${year}-${month}`, "USD"),
+      ]);
 
-      results.push(average);
+      result.EUR.push(Number(eur) || 1);
+      result.USD.push(Number(usd) || 1);
     } catch {
-      results.push("");
+      result.EUR.push(1);
+      result.USD.push(1);
     }
   }
 
-  return results;
+  return result;
 }

@@ -2,6 +2,7 @@ import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { MONTH_STRINGS, MONTHS } from "@/utils/get-month-days";
 import { CURRENCY_ICON } from "../month/constants";
+import { YearMonthlyRates } from "@/app/action/get-currency-year";
 
 export default function YearHeaderTable({
   year,
@@ -10,9 +11,10 @@ export default function YearHeaderTable({
 }: {
   year: string;
   currency: string;
-  currencyRates: number[];
+  currencyRates: YearMonthlyRates;
 }) {
   const todayMonth = new Date().getMonth() + 1;
+  const currencyArray = currencyRates[currency as "USD" | "EUR" | "MDL"];
   return (
     <TableHeader className="bg-background sticky top-0 z-10">
       <TableRow className="md:h-10">
@@ -36,7 +38,7 @@ export default function YearHeaderTable({
                 month
               ) : (
                 <span className="text-xs">
-                  {Number(currencyRates[index]).toFixed(2).toLowerCase()}
+                  {Number(currencyArray[index]).toFixed(2).toLowerCase()}
                 </span>
               )}
             </div>
