@@ -13,12 +13,14 @@ export default function SelectByMonthYear({
   year,
   setYear,
   isLoading,
+  patch,
 }: {
   month: string;
   setMonth: (value: string) => void;
   year: string;
   setYear: (value: string) => void;
   isLoading?: boolean;
+  patch: string;
 }) {
   const classNameSelect = `md:w-24  w-14 h-8! border-0 md:border p-1 rounded-md  md:text-md text-xs  [&>svg]:hidden justify-center cursor-pointer`;
   return (
@@ -42,7 +44,7 @@ export default function SelectByMonthYear({
       <Select
         value={month}
         onValueChange={(value) => setMonth(value)}
-        disabled={isLoading}
+        disabled={isLoading || patch === "year"}
       >
         <SelectTrigger className={classNameSelect}>
           <SelectValue placeholder="month" />

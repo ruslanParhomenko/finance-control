@@ -44,6 +44,7 @@ export default function NavMenuHeader({
       <div className="bg-background sticky top-0 z-20 flex justify-between gap-1.5 px-2 md:my-1 md:justify-start md:gap-4">
         <LogOutButton />
         <SelectByMonthYear
+          patch={patch}
           month={month}
           year={year}
           setMonth={setMonth}
