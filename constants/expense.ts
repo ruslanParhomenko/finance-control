@@ -18,6 +18,7 @@ export const expenseCategories = [
   "travel",
   "flight",
   "hotel",
+  "+-",
 ] as const;
 
 export const addCash = ["add-cash"] as const;
