@@ -37,6 +37,8 @@ export default function YearBodyTable({
 
   const { expenseTotal, addCashTotal } = calculateOverallTotals(totals ?? {});
 
+  console.log("bankData", bankData?.[1]);
+
   return (
     <TableBody>
       <RowBodyRender

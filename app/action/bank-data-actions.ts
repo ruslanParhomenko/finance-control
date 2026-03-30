@@ -5,11 +5,14 @@ import { dbAdmin } from "@/lib/firebase";
 import { unstable_cache, updateTag } from "next/cache";
 
 export type GetBankDataType = BankFormData & {
+  uniqueKey: string;
+  year: string;
+  month: string;
   id: string;
 };
 
 // create
-export async function createBank(data: BankFormData) {
+export async function createBank(data: Omit<GetBankDataType, "id">) {
   const docId = `${data.year}-${data.month}`;
   if (!docId) return;
   const docRef = dbAdmin.collection("bank").doc(docId);

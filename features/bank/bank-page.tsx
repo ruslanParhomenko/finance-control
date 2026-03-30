@@ -62,12 +62,12 @@ export default function BankPage({
     };
 
     if (bankData?.id) {
-      await updateBank(bankData.id as string, formatData as BankFormData);
+      await updateBank(bankData.id as string, formatData);
       toast.success("Bank успешно обновлён!");
 
       return;
     } else {
-      await createBank(formatData as BankFormData);
+      await createBank(formatData);
       toast.success("Expense успешно создан!");
 
       return;

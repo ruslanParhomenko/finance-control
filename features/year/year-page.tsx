@@ -23,8 +23,8 @@ export default function YearPage({
   currencyRates: YearMonthlyRates;
 }) {
   return (
-    <Table className="table-fixed">
-      <ViewTransition>
+    <ViewTransition>
+      <Table className="table-fixed">
         <YearHeaderTable
           year={year}
           currency={currency}
@@ -37,7 +37,7 @@ export default function YearPage({
           bankData={bankData}
           currencyRates={currencyRates}
         />
-      </ViewTransition>
-    </Table>
+      </Table>
+    </ViewTransition>
   );
 }
