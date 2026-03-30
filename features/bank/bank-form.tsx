@@ -44,7 +44,7 @@ export default function BankForm({
               <TableCell className="w-20 text-center text-xs">
                 <NumericInput
                   fieldName={`bank[${bank.name}].value`}
-                  className="bg-background text-md h-6 w-full rounded-none border-0 px-2 font-bold text-green-700 shadow-none"
+                  className="bg-background text-md h-6 w-30 px-2 font-bold text-green-700 shadow-none"
                 />
               </TableCell>
               <TableCell className="w-10 text-xs">{bank.currency}</TableCell>

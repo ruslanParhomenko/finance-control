@@ -41,7 +41,7 @@ export default function RowBodyRender({
       {rowArray.map((row, index) => {
         return (
           <TableRow key={index + row}>
-            <TableCell className="bg-background sticky left-0 z-10 p-0 px-2 text-end text-xs font-bold text-blue-700">
+            <TableCell className="bg-background sticky left-0 z-10 px-2 py-2 text-end text-xs font-bold text-blue-700">
               {(Number(totals?.[row]) / Number(currencyRates)).toFixed(0)}{" "}
               {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
             </TableCell>

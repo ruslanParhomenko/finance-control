@@ -25,6 +25,7 @@ export default function InitialForm({
   });
 
   const onSubmit: SubmitHandler<InitialStateFormType> = async (data) => {
+    console.log("data initial", data);
     await createInitialState(data, year);
     toast.success("initialState успешно обновлён!");
     router.back();

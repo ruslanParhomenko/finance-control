@@ -1,4 +1,8 @@
 export const bankCategories = [
+  { name: "eximMDL", currency: "MDL", label: "EXIM MDL" },
+  { name: "eximEUR", currency: "EUR", label: "EXIM EUR" },
+  { name: "eximUSD", currency: "USD", label: "EXIM USD" },
+  { name: "energEUR", currency: "EUR", label: "ENERG MDL" },
   { name: "maibEUR", currency: "EUR", label: "MAIB EUR" },
   { name: "maibUSD", currency: "USD", label: "MAIB USD" },
   { name: "vbEUR", currency: "EUR", label: "VB EUR" },

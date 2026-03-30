@@ -30,6 +30,7 @@ export function FormWrapper({
   return (
     <Form {...form}>
       <form
+        id={formId}
         onSubmit={form.handleSubmit(onSubmit || (() => {}))}
         className={cn("flex flex-col", className)}
         {...props}

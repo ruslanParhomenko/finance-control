@@ -35,7 +35,7 @@ export default function BankPage({
 }) {
   const selectedCurrency = currencyRates[currency as "USD" | "EUR" | "MDL"];
   const form = useForm<BankFormData>({
-    resolver: zodResolver(bankSchema) as Resolver<BankFormData>,
+    resolver: zodResolver(bankSchema),
     defaultValues: defaultBankForm,
   });
 
@@ -51,10 +51,12 @@ export default function BankPage({
   );
 
   const onSubmit: SubmitHandler<BankFormData> = async (data) => {
+    console.log("data bank", data);
+
     const formatData = {
       ...data,
-      month,
-      year,
+      month: month,
+      year: year,
       uniqueKey: `${year}-${month}`,
       totals: totals.toFixed(0).toString(),
     };

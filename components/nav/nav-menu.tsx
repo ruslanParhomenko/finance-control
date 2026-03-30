@@ -6,6 +6,7 @@ import SelectTabsByPatch from "./select-patch";
 import SelectByMonthYear from "./select-month-year";
 import LogOutButton from "../button/logout-button";
 import SelectCurrency from "./select-currency";
+import { Button } from "../ui/button";
 
 const navItems = [
   { title: "month", href: "month" },
@@ -41,7 +42,7 @@ export default function NavMenuHeader({
 
   return (
     <div className="flex h-screen flex-col justify-between">
-      <div className="bg-background sticky top-0 z-20 flex justify-between gap-1.5 px-2 md:my-1 md:justify-start md:gap-4">
+      <div className="bg-background sticky top-1 z-20 my-1 flex justify-between gap-1.5 px-2 md:justify-start md:gap-4">
         <LogOutButton />
         <SelectByMonthYear
           patch={patch}
@@ -53,7 +54,7 @@ export default function NavMenuHeader({
         />
       </div>
       <div className="flex-1 overflow-auto">{children}</div>
-      <div className="bg-background sticky bottom-0 z-20 flex justify-between gap-1.5 px-2 md:my-1 md:justify-start md:gap-4">
+      <div className="bg-background sticky bottom-1 z-20 flex items-center justify-between gap-1.5 px-2 md:my-1 md:justify-start md:gap-4">
         {navItems.length > 0 && (
           <SelectTabsByPatch
             patch={patch}
@@ -62,6 +63,9 @@ export default function NavMenuHeader({
             navItems={navItems}
           />
         )}
+        <Button form="month-expense-form" type="submit" className="h-8 w-14">
+          save
+        </Button>
         <SelectCurrency
           currency={currency}
           setCurrency={setCurrency}

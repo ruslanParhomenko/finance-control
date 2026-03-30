@@ -78,33 +78,14 @@ export default function MonthPage({
     });
   }, [expenseData, month, year, form]);
 
-  // const watchedValues = useWatch({ control: form.control });
-  // const submitTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  // useEffect(() => {
-  //   if (!form.formState.isDirty || form.formState.isSubmitting) return;
-
-  //   if (submitTimeoutRef.current) {
-  //     clearTimeout(submitTimeoutRef.current);
-  //   }
-
-  //   submitTimeoutRef.current = setTimeout(() => {
-  //     return form.handleSubmit(onSubmit)();
-  //   }, 4000);
-
-  //   return () => clearTimeout(submitTimeoutRef.current!);
-  // }, [watchedValues]);
-
   const formId = "month-expense-form";
-
-  const isLoading = form.formState.isSubmitting;
 
   return (
     <FormWrapper
       form={form}
       onSubmit={onSubmit}
       formId={formId}
-      disabled={isLoading}
+      withSubmit={false}
     >
       <ViewTransition>
         <Table className="table-fixed">
