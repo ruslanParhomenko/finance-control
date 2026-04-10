@@ -14,7 +14,7 @@ export default function MonthHeaderTable({
   const todayDay = new Date().getDate();
   return (
     <TableHeader className="bg-background sticky top-0 z-10">
-      <TableRow className="md:h-10">
+      <TableRow>
         <TableCell className="bg-background sticky left-0 w-14 text-end text-xs">
           {currencyRates}
         </TableCell>

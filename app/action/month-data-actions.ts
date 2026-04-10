@@ -6,12 +6,15 @@ import { unstable_cache, updateTag } from "next/cache";
 
 const EXPENSE_ACTION_TAG = "expense";
 
-export type GetExpenseDataType = ExpenseFormType & {
+export type ExpenseDataType = ExpenseFormType & {
+  uniqueKey: string;
+  year: string;
+  month: string;
   id: string;
 };
 
 // create
-export async function createExpense(data: ExpenseFormType) {
+export async function createExpense(data: Omit<ExpenseDataType, "id">) {
   const docId = `${data.year}-${data.month}`;
   if (!docId) return;
   const docRef = dbAdmin.collection(EXPENSE_ACTION_TAG).doc(docId);
@@ -28,7 +31,10 @@ export async function createExpense(data: ExpenseFormType) {
 }
 
 // update
-export async function updateExpense(docId: string, data: ExpenseFormType) {
+export async function updateExpense(
+  docId: string,
+  data: Omit<ExpenseDataType, "id">,
+) {
   if (!docId) throw new Error("KEY_REQUIRED");
   const docRef = dbAdmin.collection(EXPENSE_ACTION_TAG).doc(docId);
 
@@ -51,7 +57,7 @@ export const _getExpenseByUniqueKey = async (uniqueKey: string) => {
   return {
     id: doc.id,
     ...doc.data(),
-  } as GetExpenseDataType;
+  } as ExpenseDataType;
 };
 
 export const getExpenseByUniqueKey = unstable_cache(
@@ -77,7 +83,7 @@ export const _getExpenseByYear = async (year: string) => {
   return doc.map((doc) => ({
     id: doc.id,
     ...doc.data(),
-  })) as GetExpenseDataType[];
+  })) as ExpenseDataType[];
 };
 
 export const getExpenseByYear = unstable_cache(

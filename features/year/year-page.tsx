@@ -1,4 +1,4 @@
-import { GetExpenseDataType } from "@/app/action/month-data-actions";
+import { ExpenseDataType } from "@/app/action/month-data-actions";
 import { Table } from "@/components/ui/table";
 import YearHeaderTable from "./year-header-table";
 import YearBodyTable, { Currency } from "./year-body-table";
@@ -15,7 +15,7 @@ export default function YearPage({
   bankData,
   currencyRates,
 }: {
-  data: GetExpenseDataType[];
+  data: ExpenseDataType[];
   year: string;
   currency: Currency;
   initialState: InitialStateFormType;

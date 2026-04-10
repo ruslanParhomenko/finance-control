@@ -2,7 +2,7 @@
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
 
 import { useEffect } from "react";
-import { Resolver, SubmitHandler, useForm, useWatch } from "react-hook-form";
+import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { BankFormData, bankSchema, defaultBankForm } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -13,6 +13,7 @@ import {
 } from "@/app/action/bank-data-actions";
 import BankForm from "./bank-form";
 import { InitialStateFormType } from "../initial-state/schema";
+import { usePathname } from "next/navigation";
 
 export default function BankPage({
   bankData,
@@ -33,6 +34,8 @@ export default function BankPage({
   currency: string;
   initialState: InitialStateFormType;
 }) {
+  const patchName = usePathname()?.split("/").pop();
+
   const selectedCurrency = currencyRates[currency as "USD" | "EUR" | "MDL"];
   const form = useForm<BankFormData>({
     resolver: zodResolver(bankSchema),
@@ -51,8 +54,6 @@ export default function BankPage({
   );
 
   const onSubmit: SubmitHandler<BankFormData> = async (data) => {
-    console.log("data bank", data);
-
     const formatData = {
       ...data,
       month: month,
@@ -82,15 +83,15 @@ export default function BankPage({
     });
   }, [bankData, month, year, form]);
 
-  const formId = "bank-form";
   const isLoading = form.formState.isSubmitting;
   return (
     <FormWrapper
       form={form}
       onSubmit={onSubmit}
-      formId={formId}
+      formId={patchName as string}
       disabled={isLoading}
       className="flex items-center justify-center"
+      withSubmit={false}
     >
       <BankForm
         initialState={initialState}

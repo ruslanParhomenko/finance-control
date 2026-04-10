@@ -1,4 +1,4 @@
-import { GetExpenseDataType } from "@/app/action/month-data-actions";
+import { ExpenseDataType } from "@/app/action/month-data-actions";
 import RowBodyRender from "@/components/table/row-body-render";
 import RowFooterRender from "@/components/table/row-footer-render";
 import { TableBody } from "@/components/ui/table";
@@ -17,7 +17,7 @@ import { YearMonthlyRates } from "@/app/action/get-currency-year";
 export type Currency = "EUR" | "USD" | "MDL";
 
 type Props = {
-  data: GetExpenseDataType[];
+  data: ExpenseDataType[];
   currency: Currency;
   initialState: InitialStateFormType;
   bankData?: GetBankDataType[];
@@ -36,8 +36,6 @@ export default function YearBodyTable({
   const totals = value ? calculateTotals(value) : undefined;
 
   const { expenseTotal, addCashTotal } = calculateOverallTotals(totals ?? {});
-
-  console.log("bankData", bankData?.[1]);
 
   return (
     <TableBody>

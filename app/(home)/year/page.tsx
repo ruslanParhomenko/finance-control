@@ -4,7 +4,7 @@ import { getYearMonthlyAverageBNM } from "@/app/action/get-currency-year";
 import { getInitialState } from "@/app/action/initial-state-actions";
 import {
   getExpenseByYear,
-  GetExpenseDataType,
+  ExpenseDataType,
 } from "@/app/action/month-data-actions";
 import { InitialStateFormType } from "@/features/initial-state/schema";
 import YearPage from "@/features/year/year-page";
@@ -26,7 +26,7 @@ export default async function Page({
 
   return (
     <YearPage
-      data={data as GetExpenseDataType[]}
+      data={data as ExpenseDataType[]}
       year={year}
       currency={currency as "USD" | "EUR" | "MDL"}
       initialState={initialState as InitialStateFormType}

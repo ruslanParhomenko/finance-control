@@ -4,12 +4,7 @@ import MonthHeaderTable from "./month-header-table";
 import { getMonthDays } from "@/utils/get-month-days";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { SubmitHandler, useForm } from "react-hook-form";
-import {
-  defaultExpenseForm,
-  ExpenseFormType,
-  ExpenseFormTypeInput,
-  expenseSchema,
-} from "./schema";
+import { defaultExpenseForm, ExpenseFormType, expenseSchema } from "./schema";
 import MonthBodyTable from "./month-body-table";
 import { useEffect } from "react";
 import { expenseCategories } from "@/constants/expense";
@@ -17,6 +12,7 @@ import { createExpense, updateExpense } from "@/app/action/month-data-actions";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ViewTransition } from "react";
+import { usePathname } from "next/navigation";
 
 export default function MonthPage({
   expenseData,
@@ -31,24 +27,23 @@ export default function MonthPage({
   currencyRates: string;
   currency: string;
 }) {
-  const form = useForm<ExpenseFormTypeInput>({
+  const patchName = usePathname()?.split("/").pop();
+
+  const form = useForm<ExpenseFormType>({
     resolver: zodResolver(expenseSchema),
-    defaultValues: expenseSchema.parse(expenseData || defaultExpenseForm),
+    defaultValues: defaultExpenseForm,
   });
   const monthDays = getMonthDays({ month, year });
-  const onSubmit: SubmitHandler<ExpenseFormTypeInput> = async (data) => {
+  const onSubmit: SubmitHandler<ExpenseFormType> = async (data) => {
     const formatData = { ...data, month, year, uniqueKey: `${year}-${month}` };
 
     if (expenseData?.id) {
-      await updateExpense(
-        expenseData.id as string,
-        formatData as ExpenseFormType,
-      );
+      await updateExpense(expenseData.id as string, formatData);
       toast.success("Expense успешно обновлён!");
 
       return;
     } else {
-      await createExpense(formatData as ExpenseFormType);
+      await createExpense(formatData);
       toast.success("Expense успешно создан!");
 
       return;
@@ -78,13 +73,11 @@ export default function MonthPage({
     });
   }, [expenseData, month, year, form]);
 
-  const formId = "month-expense-form";
-
   return (
     <FormWrapper
       form={form}
       onSubmit={onSubmit}
-      formId={formId}
+      formId={patchName as string}
       withSubmit={false}
     >
       <ViewTransition>

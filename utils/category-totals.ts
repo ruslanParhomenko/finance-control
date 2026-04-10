@@ -1,4 +1,4 @@
-import { GetExpenseDataType } from "@/app/action/month-data-actions";
+import { ExpenseDataType } from "@/app/action/month-data-actions";
 import { addCash, expenseCategories } from "@/constants/expense";
 import { MONTHS } from "./get-month-days";
 
@@ -58,13 +58,13 @@ export function calculateOverallTotals(data: Totals) {
 /* ---------------- category totals by months ---------------- */
 
 export function calculateCategoryTotalsByMonths(
-  data: GetExpenseDataType[],
+  data: ExpenseDataType[],
   currencyRates: number[],
 ): Record<string, number[]> {
   const result: Record<string, number[]> = {};
 
   /* индексируем данные по месяцу (O(n)) */
-  const dataByMonth = new Map<string, GetExpenseDataType>();
+  const dataByMonth = new Map<string, ExpenseDataType>();
   data.forEach((item) => {
     dataByMonth.set(item.month, item);
   });

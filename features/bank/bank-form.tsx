@@ -23,7 +23,7 @@ export default function BankForm({
   const router = useRouter();
 
   return (
-    <div className="flex w-full flex-col justify-start gap-4 px-2 pt-4 text-xs">
+    <div className="flex w-full flex-col justify-start gap-4 px-2 text-xs">
       <div className="mb-4 flex justify-between px-4">
         <Label className="text-blue-700">initial balance :</Label>
         <Label className="text-blue-700">
@@ -38,16 +38,18 @@ export default function BankForm({
         <TableBody>
           {bankCategories.map((bank, index) => (
             <TableRow key={bank.name + index}>
-              <TableCell className="w-28 font-semibold">
+              <TableCell className="w-28 p-1 font-semibold">
                 {bank.label.toLowerCase()}
               </TableCell>
-              <TableCell className="w-20 text-center text-xs">
+              <TableCell className="w-20 p-1 text-center text-xs">
                 <NumericInput
                   fieldName={`bank[${bank.name}].value`}
                   className="bg-background text-md h-6 w-30 px-2 font-bold text-green-700 shadow-none"
                 />
               </TableCell>
-              <TableCell className="w-10 text-xs">{bank.currency}</TableCell>
+              <TableCell className="w-10 p-1 text-xs">
+                {bank.currency}
+              </TableCell>
             </TableRow>
           ))}
           <TableRow>

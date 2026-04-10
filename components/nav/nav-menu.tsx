@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import SelectTabsByPatch from "./select-patch";
 import SelectByMonthYear from "./select-month-year";
 import LogOutButton from "../button/logout-button";
@@ -25,6 +25,11 @@ export default function NavMenuHeader({
   children: React.ReactNode;
 }) {
   const router = useRouter();
+
+  const patchName = usePathname()?.split("/").pop();
+
+  console.log("patchName nav", patchName);
+
   const [isPending, startTransition] = useTransition();
 
   const [patch, setPatch] = useState("month");
@@ -63,7 +68,7 @@ export default function NavMenuHeader({
             navItems={navItems}
           />
         )}
-        <Button form="month-expense-form" type="submit" className="h-8 w-14">
+        <Button form={patchName} type="submit" className="h-8 w-14">
           save
         </Button>
         <SelectCurrency

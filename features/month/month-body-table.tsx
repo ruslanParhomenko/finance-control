@@ -2,7 +2,6 @@ import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { addCash, expenseCategories } from "@/constants/expense";
 import { getMonthDays } from "@/utils/get-month-days";
 import { UseFormReturn } from "react-hook-form";
-import { ExpenseFormTypeInput } from "./schema";
 import { cn } from "@/lib/utils";
 import {
   calculateOverallTotals,
@@ -12,6 +11,7 @@ import {
 import RowBodyRender from "@/components/table/row-body-render";
 import RowFooterRender from "@/components/table/row-footer-render";
 import { CURRENCY_ICON } from "./constants";
+import { ExpenseFormType } from "./schema";
 
 export default function MonthBodyTable({
   form,
@@ -19,7 +19,7 @@ export default function MonthBodyTable({
   currencyRates,
   currency,
 }: {
-  form: UseFormReturn<ExpenseFormTypeInput>;
+  form: UseFormReturn<ExpenseFormType>;
   monthDays: ReturnType<typeof getMonthDays> | [];
   currencyRates: string;
   currency: string;
