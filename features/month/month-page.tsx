@@ -8,26 +8,31 @@ import { defaultExpenseForm, ExpenseFormType, expenseSchema } from "./schema";
 import MonthBodyTable from "./month-body-table";
 import { useEffect } from "react";
 import { expenseCategories } from "@/constants/expense";
-import { createExpense, updateExpense } from "@/app/action/month-data-actions";
+import {
+  createExpense,
+  ExpenseDataType,
+  updateExpense,
+} from "@/app/action/month-data-actions";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ViewTransition } from "react";
-import { usePathname } from "next/navigation";
+import { CurrencyData } from "@/type/currency-data";
+import { ParamsValue } from "@/type/params-value";
 
 export default function MonthPage({
+  paramsValue,
   expenseData,
-  month,
-  year,
   currencyRates,
-  currency,
+  formId,
 }: {
-  expenseData?: ExpenseFormType & { id: string };
-  month: string;
-  year: string;
-  currencyRates: string;
-  currency: string;
+  paramsValue: ParamsValue;
+  expenseData: ExpenseDataType[] | null;
+  currencyRates: CurrencyData;
+  formId: string;
 }) {
-  const patchName = usePathname()?.split("/").pop();
+  const { month, year, currency } = paramsValue;
+
+  const expenseDataByMonth = expenseData?.find((item) => item.month === month);
 
   const form = useForm<ExpenseFormType>({
     resolver: zodResolver(expenseSchema),
@@ -37,8 +42,8 @@ export default function MonthPage({
   const onSubmit: SubmitHandler<ExpenseFormType> = async (data) => {
     const formatData = { ...data, month, year, uniqueKey: `${year}-${month}` };
 
-    if (expenseData?.id) {
-      await updateExpense(expenseData.id as string, formatData);
+    if (expenseDataByMonth?.id) {
+      await updateExpense(expenseDataByMonth.id as string, formatData);
       toast.success("Expense успешно обновлён!");
 
       return;
@@ -51,7 +56,7 @@ export default function MonthPage({
   };
 
   useEffect(() => {
-    if (expenseData) return;
+    if (expenseDataByMonth) return;
 
     const makeArray = () => Array(monthDays.length).fill("");
 
@@ -63,21 +68,21 @@ export default function MonthPage({
     };
 
     form.setValue("rowExpenseData", newRowCashData);
-  }, [expenseData, month, year]);
+  }, [expenseDataByMonth, month, year]);
 
   useEffect(() => {
-    if (!expenseData) return;
+    if (!expenseDataByMonth) return;
 
     form.reset({
-      ...expenseData,
+      ...expenseDataByMonth,
     });
-  }, [expenseData, month, year, form]);
+  }, [expenseDataByMonth, month, year, form]);
 
   return (
     <FormWrapper
       form={form}
       onSubmit={onSubmit}
-      formId={patchName as string}
+      formId={formId}
       withSubmit={false}
     >
       <ViewTransition>
@@ -85,12 +90,12 @@ export default function MonthPage({
           <MonthHeaderTable
             month={month}
             monthDays={monthDays}
-            currencyRates={currencyRates}
+            currencyRates={currencyRates[currency]}
           />
           <MonthBodyTable
             form={form}
             monthDays={monthDays}
-            currencyRates={currencyRates}
+            currencyRates={currencyRates[currency]}
             currency={currency}
           />
         </Table>

@@ -21,7 +21,7 @@ export default function MonthBodyTable({
 }: {
   form: UseFormReturn<ExpenseFormType>;
   monthDays: ReturnType<typeof getMonthDays> | [];
-  currencyRates: string;
+  currencyRates: number;
   currency: string;
 }) {
   const { watch } = form;

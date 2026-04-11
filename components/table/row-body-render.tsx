@@ -19,7 +19,7 @@ export default function RowBodyRender({
 }: {
   rowArray: readonly string[];
   cellArray: string[];
-  currencyRates: string;
+  currencyRates: number;
   currency: string;
   form?: UseFormReturn<ExpenseFormType>;
   totals: Record<string, number> | undefined;

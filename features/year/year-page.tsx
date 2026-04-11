@@ -6,36 +6,36 @@ import { ViewTransition } from "react";
 import { InitialStateFormType } from "../initial-state/schema";
 import { GetBankDataType } from "@/app/action/bank-data-actions";
 import { YearMonthlyRates } from "@/app/action/get-currency-year";
+import { ParamsValue } from "@/type/params-value";
 
 export default function YearPage({
-  data,
-  year,
-  currency,
+  expenseData,
+  paramsValue,
   initialState,
   bankData,
-  currencyRates,
+  currencyYear,
 }: {
-  data: ExpenseDataType[];
-  year: string;
-  currency: Currency;
+  expenseData: ExpenseDataType[] | null;
+  paramsValue: ParamsValue;
   initialState: InitialStateFormType;
   bankData?: GetBankDataType[];
-  currencyRates: YearMonthlyRates;
+  currencyYear: YearMonthlyRates;
 }) {
+  const { year, currency } = paramsValue;
   return (
     <ViewTransition>
       <Table className="table-fixed">
         <YearHeaderTable
           year={year}
           currency={currency}
-          currencyRates={currencyRates}
+          currencyRates={currencyYear}
         />
         <YearBodyTable
-          data={data}
+          data={expenseData ?? []}
           currency={currency}
           initialState={initialState}
           bankData={bankData}
-          currencyRates={currencyRates}
+          currencyRates={currencyYear}
         />
       </Table>
     </ViewTransition>

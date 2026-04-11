@@ -1,25 +1,25 @@
 import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
-import { PageNavType } from "./nav-menu";
+import { Options } from "@/type/options";
 
-export default function SelectTabsByPatch({
-  patch,
-  setPatch,
+export default function TabsNav({
+  value,
+  setValue,
   isPending,
-  navItems,
+  options,
 }: {
-  patch: string;
-  setPatch: (value: string) => void;
+  value: string;
+  setValue: (value: string) => void;
   isPending: boolean;
-  navItems: PageNavType[];
+  options: Options;
 }) {
   return (
-    <Tabs value={patch} onValueChange={(value) => setPatch(value)}>
-      <TabsList className="flex h-9 md:gap-2">
-        {navItems.map((page) => (
+    <Tabs value={value} onValueChange={setValue}>
+      <TabsList className="flex h-8 md:gap-2">
+        {options.map((item, idx) => (
           <TabsTrigger
-            key={page.title}
-            value={page.href}
+            key={`${item.value}-${idx}`}
+            value={item.value}
             disabled={isPending}
             className={cn(
               "hover:text-bl w-18 cursor-pointer md:w-24",
@@ -27,7 +27,7 @@ export default function SelectTabsByPatch({
             )}
           >
             <span className="md:text-md text-bl block w-full truncate text-xs">
-              {page.title}
+              {item.label}
             </span>
           </TabsTrigger>
         ))}

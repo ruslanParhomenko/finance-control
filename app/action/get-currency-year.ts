@@ -31,10 +31,9 @@ export async function getYearMonthlyAverageBNM(
     }
 
     try {
-      const [eur, usd] = await Promise.all([
-        getMonthlyAverageBNM(`${year}-${month}`, "EUR"),
-        getMonthlyAverageBNM(`${year}-${month}`, "USD"),
-      ]);
+      const { EUR, USD } = await getMonthlyAverageBNM(`${year}-${month}`);
+      const eur = EUR.toFixed(2);
+      const usd = USD.toFixed(2);
 
       result.EUR.push(Number(eur) || 1);
       result.USD.push(Number(usd) || 1);

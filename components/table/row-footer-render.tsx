@@ -11,7 +11,7 @@ export default function RowFooterRender({
 }: {
   rowArray: readonly string[];
   cellArray: string[];
-  currencyRates: string;
+  currencyRates: number;
   currency: string;
   totals: number;
   value?:

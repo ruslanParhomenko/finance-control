@@ -9,7 +9,7 @@ export default function MonthHeaderTable({
 }: {
   month: string;
   monthDays: ReturnType<typeof getMonthDays> | [];
-  currencyRates: string;
+  currencyRates: number;
 }) {
   const todayDay = new Date().getDate();
   return (

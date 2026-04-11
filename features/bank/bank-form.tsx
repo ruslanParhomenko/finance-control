@@ -16,7 +16,7 @@ export default function BankForm({
 }: {
   initialState: InitialStateFormType;
   totals: number;
-  selectedCurrency: string;
+  selectedCurrency: number;
   currency: string;
   year: string;
 }) {

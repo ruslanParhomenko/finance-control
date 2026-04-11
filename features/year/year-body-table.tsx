@@ -42,7 +42,7 @@ export default function YearBodyTable({
       <RowBodyRender
         rowArray={expenseCategories}
         cellArray={MONTHS}
-        currencyRates="1"
+        currencyRates={1}
         currency={currency}
         totals={totals}
         value={value}
@@ -51,7 +51,7 @@ export default function YearBodyTable({
       <RowFooterRender
         rowArray={expenseCategories}
         cellArray={MONTHS}
-        currencyRates="1"
+        currencyRates={1}
         currency={currency}
         totals={expenseTotal}
         value={value}
@@ -60,7 +60,7 @@ export default function YearBodyTable({
       <RowBodyRender
         rowArray={addCash}
         cellArray={MONTHS}
-        currencyRates="1"
+        currencyRates={1}
         currency={currency}
         totals={totals}
         value={value}

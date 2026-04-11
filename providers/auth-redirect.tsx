@@ -19,7 +19,7 @@ export default function AuthRedirect({
       return;
     }
 
-    if (status === "authenticated" && isAdmin) router.replace("/month");
+    if (status === "authenticated" && isAdmin) router.replace("/home");
   }, [status, isAdmin, router]);
 
   if (status === "loading") {

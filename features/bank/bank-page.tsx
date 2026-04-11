@@ -13,28 +13,23 @@ import {
 } from "@/app/action/bank-data-actions";
 import BankForm from "./bank-form";
 import { InitialStateFormType } from "../initial-state/schema";
-import { usePathname } from "next/navigation";
+import { CurrencyData } from "@/type/currency-data";
+import { ParamsValue } from "@/type/params-value";
 
 export default function BankPage({
   bankData,
-  month,
-  year,
+  paramsValue,
   currencyRates,
-  currency,
   initialState,
+  formId,
 }: {
-  bankData?: GetBankDataType;
-  month: string;
-  year: string;
-  currencyRates: {
-    USD: string;
-    EUR: string;
-    MDL: string;
-  };
-  currency: string;
+  bankData: GetBankDataType | null;
+  paramsValue: ParamsValue;
+  currencyRates: CurrencyData;
   initialState: InitialStateFormType;
+  formId: string;
 }) {
-  const patchName = usePathname()?.split("/").pop();
+  const { month, year, currency } = paramsValue;
 
   const selectedCurrency = currencyRates[currency as "USD" | "EUR" | "MDL"];
   const form = useForm<BankFormData>({
@@ -88,7 +83,7 @@ export default function BankPage({
     <FormWrapper
       form={form}
       onSubmit={onSubmit}
-      formId={patchName as string}
+      formId={formId}
       disabled={isLoading}
       className="flex items-center justify-center"
       withSubmit={false}
