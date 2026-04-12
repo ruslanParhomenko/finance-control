@@ -5,37 +5,45 @@ import YearBodyTable, { Currency } from "./year-body-table";
 import { ViewTransition } from "react";
 import { InitialStateFormType } from "../initial-state/schema";
 import { GetBankDataType } from "@/app/action/bank-data-actions";
-import { YearMonthlyRates } from "@/app/action/get-currency-year";
 import { ParamsValue } from "@/type/params-value";
+import { CurrencyData } from "@/type/currency-data";
 
 export default function YearPage({
   expenseData,
   paramsValue,
   initialState,
   bankData,
-  currencyYear,
+  currencyData,
 }: {
   expenseData: ExpenseDataType[] | null;
   paramsValue: ParamsValue;
   initialState: InitialStateFormType;
   bankData?: GetBankDataType[];
-  currencyYear: YearMonthlyRates;
+  currencyData: CurrencyData;
 }) {
   const { year, currency } = paramsValue;
+  const currencyArray = currencyData[currency as Currency];
+  const initialStateByCurrency = {
+    USD:
+      (Number(initialState.initialState) * Number(currencyData.EUR[0])) /
+      Number(currencyData.USD[0]),
+    EUR: Number(initialState.initialState),
+    MDL: Number(initialState.initialState) * Number(currencyData.EUR[0]),
+  }[currency as Currency] as number;
   return (
     <ViewTransition>
       <Table className="table-fixed">
         <YearHeaderTable
           year={year}
           currency={currency}
-          currencyRates={currencyYear}
+          currencyArray={currencyArray}
         />
         <YearBodyTable
           data={expenseData ?? []}
           currency={currency}
-          initialState={initialState}
+          initialState={Number(initialStateByCurrency.toFixed(0))}
           bankData={bankData}
-          currencyRates={currencyYear}
+          currencyArray={currencyArray}
         />
       </Table>
     </ViewTransition>

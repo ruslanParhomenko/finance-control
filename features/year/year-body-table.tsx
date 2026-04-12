@@ -9,19 +9,17 @@ import {
   calculateTotals,
 } from "@/utils/category-totals";
 import { MONTHS } from "@/utils/get-month-days";
-import { InitialStateFormType } from "../initial-state/schema";
 import { GetBankDataType } from "@/app/action/bank-data-actions";
 import YearResultTable from "./year-result-table";
-import { YearMonthlyRates } from "@/app/action/get-currency-year";
 
 export type Currency = "EUR" | "USD" | "MDL";
 
 type Props = {
   data: ExpenseDataType[];
   currency: Currency;
-  initialState: InitialStateFormType;
+  initialState: number;
   bankData?: GetBankDataType[];
-  currencyRates: YearMonthlyRates;
+  currencyArray: number[];
 };
 
 export default function YearBodyTable({
@@ -29,13 +27,19 @@ export default function YearBodyTable({
   currency,
   initialState,
   bankData,
-  currencyRates,
+  currencyArray,
 }: Props) {
-  const currencyArray = currencyRates[currency as "USD" | "EUR" | "MDL"];
   const value = calculateCategoryTotalsByMonths(data, currencyArray);
   const totals = value ? calculateTotals(value) : undefined;
 
-  const { expenseTotal, addCashTotal } = calculateOverallTotals(totals ?? {});
+  const remainingByMonth = MONTHS.map((_, monthIndex) => {
+    const monthData = data[monthIndex];
+    const remaining =
+      Number(monthData?.difference || 0) / Number(currencyArray[monthIndex]);
+    return Number(remaining.toFixed(0));
+  });
+
+  const { expenseTotal } = calculateOverallTotals(totals ?? {});
 
   return (
     <TableBody>
@@ -66,14 +70,11 @@ export default function YearBodyTable({
         value={value}
       />
       <YearResultTable
-        addCashTotal={addCashTotal}
-        expenseTotal={expenseTotal}
         initialState={initialState}
-        value={value}
         currencyArray={currencyArray}
         currency={currency}
         bankData={bankData}
-        currencyRates={currencyRates}
+        remainingByMonth={remainingByMonth}
       />
     </TableBody>
   );

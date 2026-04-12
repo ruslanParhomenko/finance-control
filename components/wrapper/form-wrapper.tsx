@@ -1,9 +1,7 @@
 "use client";
 import { SubmitHandler, UseFormReturn } from "react-hook-form";
 import { Form } from "../ui/form";
-import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
 
 export function FormWrapper({
   formId,
@@ -12,8 +10,6 @@ export function FormWrapper({
   onSubmit,
   className,
   disabled,
-  withSubmit = true,
-  withBackButton = false,
   ...props
 }: {
   formId: string;
@@ -22,11 +18,8 @@ export function FormWrapper({
   onSubmit?: SubmitHandler<any>;
   className?: string;
   disabled?: boolean;
-  withSubmit?: boolean;
-  withBackButton?: boolean;
   [key: string]: any;
 }) {
-  const router = useRouter();
   return (
     <Form {...form}>
       <form
@@ -36,28 +29,6 @@ export function FormWrapper({
         {...props}
       >
         {children}
-        {withSubmit && (
-          <div className="bg-background sticky right-0 bottom-0 flex w-full items-center justify-end gap-4 px-4 md:p-4">
-            {withBackButton && (
-              <Button
-                type="button"
-                variant={"outline"}
-                className="h-7 w-18"
-                onClick={() => router.back()}
-              >
-                back
-              </Button>
-            )}
-            <Button
-              disabled={disabled}
-              id={formId}
-              type="submit"
-              className="h-7 w-18"
-            >
-              save
-            </Button>
-          </div>
-        )}
       </form>
     </Form>
   );

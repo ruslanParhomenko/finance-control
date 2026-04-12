@@ -2,19 +2,18 @@ import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { MONTH_STRINGS, MONTHS } from "@/utils/get-month-days";
 import { CURRENCY_ICON } from "../month/constants";
-import { YearMonthlyRates } from "@/app/action/get-currency-year";
 
 export default function YearHeaderTable({
   year,
   currency,
-  currencyRates,
+  currencyArray,
 }: {
   year: string;
   currency: string;
-  currencyRates: YearMonthlyRates;
+  currencyArray: number[];
 }) {
   const todayMonth = new Date().getMonth() + 1;
-  const currencyArray = currencyRates[currency as "USD" | "EUR" | "MDL"];
+
   return (
     <TableHeader className="bg-background sticky top-0 z-10">
       <TableRow className="md:h-10">

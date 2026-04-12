@@ -80,7 +80,7 @@ export default function RowBodyRender({
                   <TableCell
                     key={dayIndex}
                     className={cn(
-                      "hidden border-x text-center md:table-cell",
+                      "hidden border-x p-0 py-1.5 text-center md:table-cell",
                       selectedDay === dayIndex &&
                         selectedRow === index &&
                         "bg-border",

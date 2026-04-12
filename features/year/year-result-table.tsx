@@ -2,87 +2,38 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { MONTHS } from "@/utils/get-month-days";
 import { CURRENCY_ICON } from "../month/constants";
-import { InitialStateFormType } from "../initial-state/schema";
-import { addCash, expenseCategories } from "@/constants/expense";
 import { Currency } from "./year-body-table";
 import { GetBankDataType } from "@/app/action/bank-data-actions";
-import { YearMonthlyRates } from "@/app/action/get-currency-year";
 
 type Props = {
-  addCashTotal: number;
-  expenseTotal: number;
-  initialState: InitialStateFormType;
-  value?:
-    | Record<string, (string | number | undefined)[] | undefined>
-    | undefined;
+  initialState: number;
   currencyArray: number[];
   currency: Currency;
   bankData?: GetBankDataType[];
-  currencyRates: YearMonthlyRates;
+  remainingByMonth: number[];
 };
 
 export default function YearResultTable({
-  addCashTotal,
-  expenseTotal,
   initialState,
-  value,
   currencyArray,
   currency,
   bankData,
-  currencyRates,
+  remainingByMonth,
 }: Props) {
-  const difference = addCashTotal - expenseTotal;
-  const diffClass = difference > 0 ? "text-green-600" : "text-red-600";
+  const calculateMonthlyBalance = (initial: number, diffs: number[]) => {
+    let sum = initial;
 
-  const monthlyDiff: number[] = MONTHS.map((_, monthIndex) => {
-    const addCashSum = addCash.reduce(
-      (acc, category) => acc + Number(value?.[category]?.[monthIndex] || 0),
-      0,
-    );
-
-    const expenseSum = expenseCategories.reduce(
-      (acc, category) => acc + Number(value?.[category]?.[monthIndex] || 0),
-      0,
-    );
-
-    return addCashSum - expenseSum;
-  });
-
-  const getInitialBankByMonth = (monthIndex: number): number => {
-    const base = Number(initialState.initialState) || 0;
-
-    switch (currency) {
-      case "MDL":
-        return base * Number(currencyRates.EUR[monthIndex]);
-      case "USD":
-        return (
-          (base * Number(currencyRates.EUR[monthIndex])) /
-          Number(currencyRates.USD[monthIndex])
-        );
-      default:
-        return base;
-    }
+    return diffs.map((val) => (sum += Number(val || 0)));
   };
 
-  const initialBank = getInitialBankByMonth(0);
+  const totalByMonth = calculateMonthlyBalance(initialState, remainingByMonth);
+  const difference = remainingByMonth.reduce(
+    (sum, val) => sum + Number(val),
+    0,
+  );
 
-  const remainingByMonth: number[] = [];
-
-  monthlyDiff.reduce((currentBank, diff, index) => {
-    const rate = Number(currencyArray[index]) || 1;
-
-    const convertedDiff =
-      currency === "MDL"
-        ? diff * rate
-        : currency === "USD"
-          ? diff / rate
-          : diff;
-
-    const nextBank = currentBank + convertedDiff;
-
-    remainingByMonth[index] = nextBank;
-    return nextBank;
-  }, initialBank);
+  const finalBank = difference + initialState;
+  const diffClass = difference > 0 ? "text-green-600" : "text-red-600";
 
   return (
     <>
@@ -98,7 +49,7 @@ export default function YearResultTable({
 
         <TableCell className="bg-background sticky left-13.5" />
 
-        {monthlyDiff.map((diff, index) => (
+        {remainingByMonth.map((diff, index) => (
           <TableCell
             key={index}
             className={cn("py-0.5 text-center text-xs", diffClass)}
@@ -115,12 +66,12 @@ export default function YearResultTable({
             "bg-background text-md sticky left-0 z-10 px-1 py-0.5 text-end font-bold",
           )}
         >
-          {(initialBank + difference).toFixed(0)} {CURRENCY_ICON[currency]}
+          {finalBank} {CURRENCY_ICON[currency]}
         </TableCell>
 
         <TableCell className="bg-background sticky left-13.5" />
 
-        {remainingByMonth.map((value, index) => (
+        {totalByMonth.map((value, index) => (
           <TableCell key={index} className="py-0 text-center text-xs">
             {value.toFixed(0)}
             {CURRENCY_ICON[currency]}
@@ -143,7 +94,7 @@ export default function YearResultTable({
             Number(bankData?.find((i) => i.month === value)?.totals) || 0;
 
           const bankValue = Number((total / rate).toFixed(0));
-          const diff = bankValue - Number(remainingByMonth[index]);
+          const diff = bankValue - Number(totalByMonth[index]);
 
           return (
             <TableCell

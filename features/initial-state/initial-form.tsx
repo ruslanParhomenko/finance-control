@@ -2,33 +2,33 @@
 import NumericInput from "@/components/input/numeric-input";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { InitialStateFormType, initialStateSchema } from "./schema";
-import { Resolver, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Label } from "@/components/ui/label";
 import { createInitialState } from "@/app/action/initial-state-actions";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { PenBox, PenOff } from "lucide-react";
 
 export default function InitialForm({
   initialState,
   year,
+  formId,
 }: {
   initialState: InitialStateFormType;
   year: string;
+  formId: string;
 }) {
-  const router = useRouter();
+  const [isEdit, setIsEdit] = useState(false);
 
   const form = useForm<InitialStateFormType>({
-    resolver: zodResolver(initialStateSchema) as Resolver<InitialStateFormType>,
-    defaultValues: initialStateSchema.parse({}),
+    resolver: zodResolver(initialStateSchema),
+    defaultValues: { initialState: "0", currency: "EUR" },
   });
 
   const onSubmit: SubmitHandler<InitialStateFormType> = async (data) => {
-    console.log("data initial", data);
     await createInitialState(data, year);
     toast.success("initialState успешно обновлён!");
-    router.back();
   };
 
   useEffect(() => {
@@ -36,7 +36,6 @@ export default function InitialForm({
     form.reset(initialState);
   }, [initialState]);
 
-  const formId = "initial-form";
   const isLoading = form.formState.isSubmitting;
   return (
     <FormWrapper
@@ -44,13 +43,24 @@ export default function InitialForm({
       onSubmit={onSubmit}
       formId={formId}
       disabled={isLoading}
-      withBackButton={true}
     >
       <div className="flex h-[30vh] items-center justify-center gap-6">
+        {isEdit ? (
+          <PenOff
+            className="h-4 w-4 cursor-pointer text-gray-400"
+            onClick={() => setIsEdit(false)}
+          />
+        ) : (
+          <PenBox
+            className="h-4 w-4 cursor-pointer text-blue-700"
+            onClick={() => setIsEdit(true)}
+          />
+        )}
         <Label>initial balance :</Label>
         <NumericInput
           fieldName="initialState"
           className="h-7 w-30 text-xs font-semibold"
+          disabled={!isEdit}
         />
         <input
           {...form.register("currency")}

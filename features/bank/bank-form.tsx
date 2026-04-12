@@ -1,11 +1,9 @@
-"use client";
 import NumericInput from "@/components/input/numeric-input";
 import { bankCategories } from "./constants";
-import { Label } from "@/components/ui/label";
-import { PenBox } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { InitialStateFormType } from "../initial-state/schema";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+import { useState } from "react";
+import { PenBox, PenOff } from "lucide-react";
 
 export default function BankForm({
   initialState,
@@ -20,46 +18,53 @@ export default function BankForm({
   currency: string;
   year: string;
 }) {
-  const router = useRouter();
+  const [isEdit, setIsEdit] = useState(false);
 
   return (
-    <div className="flex w-full flex-col justify-start gap-4 px-2 text-xs">
-      <div className="mb-4 flex justify-between px-4">
-        <Label className="text-blue-700">initial balance :</Label>
-        <Label className="text-blue-700">
-          {initialState.initialState} {initialState.currency}
-        </Label>
-        <PenBox
-          className="h-4 w-4 text-blue-700"
-          onClick={() => router.push("/initial-state?year=" + year)}
-        />
-      </div>
-      <Table>
+    <div className="md:w-1/3">
+      <Table className="w-full">
         <TableBody>
+          <TableRow>
+            <TableCell>
+              {isEdit ? (
+                <PenOff
+                  className="h-4 w-4 cursor-pointer text-gray-400"
+                  onClick={() => setIsEdit(false)}
+                />
+              ) : (
+                <PenBox
+                  className="h-4 w-4 cursor-pointer text-blue-700"
+                  onClick={() => setIsEdit(true)}
+                />
+              )}
+            </TableCell>
+            <TableCell className="px-4">initial balance</TableCell>
+            <TableCell className="w-26">{initialState.initialState}</TableCell>
+            <TableCell className="px-4">{initialState.currency}</TableCell>
+          </TableRow>
           {bankCategories.map((bank, index) => (
             <TableRow key={bank.name + index}>
-              <TableCell className="w-28 p-1 font-semibold">
-                {bank.label.toLowerCase()}
-              </TableCell>
-              <TableCell className="w-20 p-1 text-center text-xs">
+              <TableCell className="w-10 border-r">{index + 1}</TableCell>
+              <TableCell className="px-4">{bank.label.toLowerCase()}</TableCell>
+              <TableCell>
                 <NumericInput
                   fieldName={`bank[${bank.name}].value`}
-                  className="bg-background text-md h-6 w-30 px-2 font-bold text-green-700 shadow-none"
+                  className="text-md h-6 w-26 bg-blue-600 font-bold text-green-700 shadow-none"
+                  disabled={!isEdit}
                 />
               </TableCell>
-              <TableCell className="w-10 p-1 text-xs">
-                {bank.currency}
-              </TableCell>
+              <TableCell className="px-4">{bank.currency}</TableCell>
             </TableRow>
           ))}
           <TableRow>
-            <TableCell className="w-28" />
+            <TableCell colSpan={2} />
+
             <TableCell className="text-center font-bold">
               {(Number(totals.toFixed(0)) / Number(selectedCurrency)).toFixed(
                 0,
               )}
             </TableCell>
-            <TableCell className="w-10">{currency}</TableCell>
+            <TableCell className="px-4">{currency}</TableCell>
           </TableRow>
         </TableBody>
       </Table>

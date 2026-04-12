@@ -18,19 +18,29 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ViewTransition } from "react";
 import { CurrencyData } from "@/type/currency-data";
 import { ParamsValue } from "@/type/params-value";
+import {
+  calculateOverallTotals,
+  calculateTotals,
+} from "@/utils/category-totals";
 
 export default function MonthPage({
   paramsValue,
   expenseData,
-  currencyRates,
+  currencyData,
   formId,
 }: {
   paramsValue: ParamsValue;
   expenseData: ExpenseDataType[] | null;
-  currencyRates: CurrencyData;
+  currencyData: CurrencyData;
   formId: string;
 }) {
   const { month, year, currency } = paramsValue;
+
+  const currencyRates = {
+    USD: currencyData.USD.find((_item, index) => index === Number(month) - 1)!,
+    EUR: currencyData.EUR.find((_item, index) => index === Number(month) - 1)!,
+    MDL: currencyData.MDL.find((_item, index) => index === Number(month) - 1)!,
+  };
 
   const expenseDataByMonth = expenseData?.find((item) => item.month === month);
 
@@ -40,7 +50,18 @@ export default function MonthPage({
   });
   const monthDays = getMonthDays({ month, year });
   const onSubmit: SubmitHandler<ExpenseFormType> = async (data) => {
-    const formatData = { ...data, month, year, uniqueKey: `${year}-${month}` };
+    const totals = calculateTotals(data.rowExpenseData);
+    const { expenseTotal, addCashTotal } = calculateOverallTotals(totals);
+
+    const difference = Number(addCashTotal) - Number(expenseTotal);
+    const formatData = {
+      ...data,
+      difference: String(difference),
+      currencyRates,
+      month,
+      year,
+      uniqueKey: `${year}-${month}`,
+    };
 
     if (expenseDataByMonth?.id) {
       await updateExpense(expenseDataByMonth.id as string, formatData);
@@ -79,23 +100,18 @@ export default function MonthPage({
   }, [expenseDataByMonth, month, year, form]);
 
   return (
-    <FormWrapper
-      form={form}
-      onSubmit={onSubmit}
-      formId={formId}
-      withSubmit={false}
-    >
+    <FormWrapper form={form} onSubmit={onSubmit} formId={formId}>
       <ViewTransition>
         <Table className="table-fixed">
           <MonthHeaderTable
             month={month}
             monthDays={monthDays}
-            currencyRates={currencyRates[currency]}
+            currencyRates={currencyRates[currency] as number}
           />
           <MonthBodyTable
             form={form}
             monthDays={monthDays}
-            currencyRates={currencyRates[currency]}
+            currencyRates={currencyRates[currency] as number}
             currency={currency}
           />
         </Table>

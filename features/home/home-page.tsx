@@ -7,27 +7,25 @@ import { ParamsValue } from "@/type/params-value";
 import { CurrencyData } from "@/type/currency-data";
 import { ExpenseDataType } from "@/app/action/month-data-actions";
 import YearPage from "../year/year-page";
-import { YearMonthlyRates } from "@/app/action/get-currency-year";
 import { InitialStateFormType } from "../initial-state/schema";
 import { GetBankDataType } from "@/app/action/bank-data-actions";
 import BankPage from "../bank/bank-page";
+import InitialForm from "../initial-state/initial-form";
 
 export default function HomePage({
   paramsValue,
   expenseData,
   bankData,
-  currencyRates,
   initialState,
   bankByYear,
-  currencyYear,
+  currencyData,
 }: {
   paramsValue: ParamsValue;
   expenseData: ExpenseDataType[] | null;
   bankData: GetBankDataType | null;
-  currencyRates: CurrencyData;
   initialState: InitialStateFormType;
   bankByYear: GetBankDataType[] | null;
-  currencyYear: YearMonthlyRates;
+  currencyData: CurrencyData;
 }) {
   const [tab] = useHashParam("tab");
 
@@ -38,7 +36,7 @@ export default function HomePage({
       <Activity mode={tab === "month" ? "visible" : "hidden"}>
         <MonthPage
           paramsValue={paramsValue}
-          currencyRates={currencyRates}
+          currencyData={currencyData}
           expenseData={expenseData}
           formId={tab}
         />
@@ -49,15 +47,22 @@ export default function HomePage({
           paramsValue={paramsValue}
           initialState={initialState as InitialStateFormType}
           bankData={bankByYear as GetBankDataType[]}
-          currencyYear={currencyYear}
+          currencyData={currencyData}
         />
       </Activity>
       <Activity mode={tab === "bank" ? "visible" : "hidden"}>
         <BankPage
           bankData={bankData}
           paramsValue={paramsValue}
-          currencyRates={currencyRates}
+          currencyData={currencyData}
           initialState={initialState as InitialStateFormType}
+          formId={tab}
+        />
+      </Activity>
+      <Activity mode={tab === "initial-state" ? "visible" : "hidden"}>
+        <InitialForm
+          initialState={initialState}
+          year={paramsValue.year}
           formId={tab}
         />
       </Activity>

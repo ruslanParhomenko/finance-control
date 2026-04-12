@@ -19,19 +19,23 @@ import { ParamsValue } from "@/type/params-value";
 export default function BankPage({
   bankData,
   paramsValue,
-  currencyRates,
+  currencyData,
   initialState,
   formId,
 }: {
   bankData: GetBankDataType | null;
   paramsValue: ParamsValue;
-  currencyRates: CurrencyData;
+  currencyData: CurrencyData;
   initialState: InitialStateFormType;
   formId: string;
 }) {
   const { month, year, currency } = paramsValue;
 
-  const selectedCurrency = currencyRates[currency as "USD" | "EUR" | "MDL"];
+  const currencyRates = {
+    USD: currencyData.USD.find((_item, index) => index === Number(month) - 1),
+    EUR: currencyData.EUR.find((_item, index) => index === Number(month) - 1),
+    MDL: currencyData.MDL.find((_item, index) => index === Number(month) - 1),
+  };
   const form = useForm<BankFormData>({
     resolver: zodResolver(bankSchema),
     defaultValues: defaultBankForm,
@@ -85,13 +89,12 @@ export default function BankPage({
       onSubmit={onSubmit}
       formId={formId}
       disabled={isLoading}
-      className="flex items-center justify-center"
-      withSubmit={false}
+      className="flex flex-col items-center justify-center"
     >
       <BankForm
         initialState={initialState}
         totals={totals}
-        selectedCurrency={selectedCurrency}
+        selectedCurrency={Number(currencyRates[currency])}
         currency={currency}
         year={year}
       />

@@ -10,6 +10,8 @@ export type ExpenseDataType = ExpenseFormType & {
   uniqueKey: string;
   year: string;
   month: string;
+  difference: string;
+  currencyRates: Record<string, number>;
   id: string;
 };
 
@@ -24,6 +26,8 @@ export async function createExpense(data: Omit<ExpenseDataType, "id">) {
     uniqueKey: data.uniqueKey,
     year: data.year,
     month: data.month,
+    difference: data.difference,
+    currencyRates: data.currencyRates,
     rowExpenseData: data.rowExpenseData,
   });
   updateTag(EXPENSE_ACTION_TAG);
@@ -54,7 +58,7 @@ export const _getExpenseByUniqueKey = async (
 
   if (!snapshot.exists) return null;
 
-  const data = snapshot.data() as Omit<ExpenseDataType, "id"> | undefined;
+  const data = snapshot.data() as Omit<ExpenseDataType, "id"> | null;
 
   if (!data) return null;
 
