@@ -95,7 +95,7 @@ export default function NavMenuHeader({
 
       <div className="flex-1">{children}</div>
 
-      <div className="bg-background sticky bottom-1 z-20 flex items-center justify-between gap-2 px-4 md:my-1 md:justify-start md:gap-4">
+      <div className="bg-background sticky bottom-2 z-20 flex items-center justify-between gap-2 px-4 pb-1 md:my-1 md:justify-start md:gap-4">
         <SelectOptions
           options={CURRENCY.map((currency) => ({
             value: currency,

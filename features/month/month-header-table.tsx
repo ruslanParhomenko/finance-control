@@ -18,7 +18,7 @@ export default function MonthHeaderTable({
         <TableCell className="bg-background sticky left-0 w-14 text-end text-xs">
           {currencyRates}
         </TableCell>
-        <TableCell className="front-bold bg-background sticky left-11 w-18 p-0 px-2 text-start text-xs">
+        <TableCell className="front-bold bg-background sticky left-13.5 w-18 p-0 px-2 text-start text-xs">
           {MONTH_STRINGS[parseInt(month) - 1].toLowerCase()}
         </TableCell>
 

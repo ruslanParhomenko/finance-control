@@ -40,14 +40,14 @@ export default function RowBodyRender({
     <>
       {rowArray.map((row, index) => {
         return (
-          <TableRow key={index + row}>
-            <TableCell className="bg-background sticky left-0 z-10 px-2 py-1.25 text-end text-xs font-bold text-blue-700">
+          <TableRow key={index + row} className="[&>td]:py-0">
+            <TableCell className="bg-background sticky left-0 z-10 text-end text-xs font-bold text-blue-700">
               {(Number(totals?.[row]) / Number(currencyRates)).toFixed(0)}{" "}
               {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
             </TableCell>
             <TableCell
               className={cn(
-                "bg-background sticky left-13.5 p-0 px-1 py-1.25 text-start text-xs font-medium",
+                "bg-background sticky left-13.5 z-10 text-start text-xs font-medium",
                 selectedRow === index && "text-red-700",
               )}
             >
@@ -59,7 +59,7 @@ export default function RowBodyRender({
                 <React.Fragment key={dayIndex}>
                   <TableCell
                     className={cn(
-                      "border-x p-0 text-center md:hidden",
+                      "h-8 border-x px-0 text-center md:hidden",
                       selectedDay === dayIndex &&
                         selectedRow === index &&
                         "bg-border",
@@ -68,7 +68,7 @@ export default function RowBodyRender({
                     {register && !value && (
                       <NumericInput
                         fieldName={`rowExpenseData.${row}.${dayIndex}`}
-                        className="text-md h-6 w-10 rounded-none border-0 text-center text-xs shadow-none"
+                        className="h-8 w-10 rounded-none border-0 text-center text-xs shadow-none"
                         onFocus={() => handleSelect(index, dayIndex)}
                         onBlur={() => handleSelect(null, null)}
                       />
@@ -80,7 +80,7 @@ export default function RowBodyRender({
                   <TableCell
                     key={dayIndex}
                     className={cn(
-                      "hidden border-x p-0 py-1.5 text-center md:table-cell",
+                      "hidden border-x p-0 text-center md:table-cell",
                       selectedDay === dayIndex &&
                         selectedRow === index &&
                         "bg-border",
@@ -93,7 +93,7 @@ export default function RowBodyRender({
                         data-col={dayIndex}
                         {...register(`rowExpenseData.${row}.${dayIndex}`)}
                         className={
-                          "border-0 p-0 text-center text-xs shadow-none md:h-5 md:w-10"
+                          "h-9 w-10 border-0 text-center text-xs shadow-none"
                         }
                         onKeyDown={(e) =>
                           handleTableNavigation(e, +index, dayIndex)
@@ -103,8 +103,8 @@ export default function RowBodyRender({
                       />
                     )}
                     {!register && value && (
-                      <div className="flex h-5 w-full items-center justify-center">
-                        <span className="text-xs">
+                      <div className="flex h-7 items-center justify-center">
+                        <span className="text-center text-xs">
                           {value[row]?.[dayIndex] || ""}
                         </span>
                       </div>
