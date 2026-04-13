@@ -43,7 +43,10 @@ export default function BankForm({
             <TableCell className="px-4">{initialState.currency}</TableCell>
           </TableRow>
           {bankCategories.map((bank, index) => (
-            <TableRow key={bank.name + index}>
+            <TableRow
+              key={bank.name + index}
+              className="[&>td]:py-1 [&>td]:md:py-2"
+            >
               <TableCell className="w-10 border-r">{index + 1}</TableCell>
               <TableCell className="px-4">{bank.label.toLowerCase()}</TableCell>
               <TableCell>

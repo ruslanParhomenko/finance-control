@@ -4,19 +4,13 @@ import { useEffect, useState, useTransition } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import LogOutButton from "../button/logout-button";
 import { useHashParam } from "@/hooks/use-hash";
-import TabsNav from "./tabs-nav";
+
 import SelectOptions from "../select/select-options";
 import { CURRENCY, MONTHS, YEAR } from "@/utils/get-month-days";
 import { cn } from "@/lib/utils";
-
-const navItems = [
-  { label: "month", value: "month" },
-  { label: "year", value: "year" },
-  { label: "bank", value: "bank" },
-  { label: "init", value: "initial-state" },
-];
-
-const WITH_MONTH = ["month", "bank"];
+import TabsOptions from "../tabs/tabs-options";
+import { NAV_ITEMS, WITH_MONTH } from "./constants";
+import ThemesButton from "../button/themes-button";
 
 export default function NavMenuHeader({
   children,
@@ -28,6 +22,7 @@ export default function NavMenuHeader({
   const patchName = pathname?.split("/").pop();
 
   const STORAGE_KEY = `nav-tab-${patchName}`;
+  const navItems = NAV_ITEMS;
 
   const [_value, setHash] = useHashParam("tab");
 
@@ -67,14 +62,12 @@ export default function NavMenuHeader({
     setHash(value);
   };
 
-  const selectClassName = "w-12 h-7! px-1 rounded-md text-xs";
+  const selectClassName = "w-12 h-6! px-1 md:w-18 rounded-md text-xs bg-border";
 
   return (
     <div className="flex h-screen flex-col justify-between">
-      <div className="bg-background sticky top-1 z-20 my-1 flex justify-between px-2 md:justify-start md:gap-4">
-        <LogOutButton />
-
-        <div className="flex gap-4">
+      <div className="bg-background sticky top-1 z-20 my-1 flex justify-between px-4 md:gap-4">
+        <div className="order-1 flex gap-4 md:order-0">
           {WITH_MONTH.includes(tab) && (
             <SelectOptions
               options={MONTHS.map((month, index) => ({
@@ -94,11 +87,15 @@ export default function NavMenuHeader({
             className={selectClassName}
           />
         </div>
+        <div className="flex gap-6">
+          <ThemesButton />
+          <LogOutButton />
+        </div>
       </div>
 
       <div className="flex-1">{children}</div>
 
-      <div className="bg-background sticky bottom-1 z-20 flex items-center justify-between gap-2 px-2 md:my-1 md:justify-start md:gap-4">
+      <div className="bg-background sticky bottom-1 z-20 flex items-center justify-between gap-2 px-4 md:my-1 md:justify-start md:gap-4">
         <SelectOptions
           options={CURRENCY.map((currency) => ({
             value: currency,
@@ -119,7 +116,7 @@ export default function NavMenuHeader({
         </button>
 
         {navItems.length > 0 && (
-          <TabsNav
+          <TabsOptions
             value={tab}
             setValue={handleTabChange}
             isPending={isPending}

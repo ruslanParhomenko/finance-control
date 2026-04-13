@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 import { Options } from "@/type/options";
 
-export default function TabsNav({
+export default function TabsOptions({
   value,
   setValue,
   isPending,
