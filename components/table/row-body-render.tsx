@@ -59,7 +59,7 @@ export default function RowBodyRender({
                 <React.Fragment key={dayIndex}>
                   <TableCell
                     className={cn(
-                      "h-8 border-x px-0 text-center md:hidden",
+                      "h-7.5 border-x px-0 text-center md:hidden",
                       selectedDay === dayIndex &&
                         selectedRow === index &&
                         "bg-border",
@@ -68,7 +68,7 @@ export default function RowBodyRender({
                     {register && !value && (
                       <NumericInput
                         fieldName={`rowExpenseData.${row}.${dayIndex}`}
-                        className="h-8 w-10 rounded-none border-0 text-center text-xs shadow-none"
+                        className="h-7.5 w-10 rounded-none border-0 text-center text-xs shadow-none"
                         onFocus={() => handleSelect(index, dayIndex)}
                         onBlur={() => handleSelect(null, null)}
                       />

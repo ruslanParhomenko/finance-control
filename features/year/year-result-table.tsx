@@ -34,7 +34,6 @@ export default function YearResultTable({
 
   const finalBank = difference + initialState;
   const diffClass = difference > 0 ? "text-green-600" : "text-red-600";
-
   return (
     <>
       <TableRow className="border-0">
@@ -90,10 +89,12 @@ export default function YearResultTable({
 
         {MONTHS?.map((value, index) => {
           const rate = Number(currencyArray[index]) || 1;
+
           const total =
             Number(bankData?.find((i) => i.month === value)?.totals) || 0;
 
           const bankValue = Number((total / rate).toFixed(0));
+
           const diff = bankValue - Number(totalByMonth[index]);
 
           return (

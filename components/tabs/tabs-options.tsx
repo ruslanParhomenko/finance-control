@@ -15,7 +15,7 @@ export default function TabsOptions({
 }) {
   return (
     <Tabs value={value} onValueChange={setValue}>
-      <TabsList className="flex h-8 md:gap-2">
+      <TabsList className="flex h-9 md:gap-2">
         {options.map((item, idx) => (
           <TabsTrigger
             key={`${item.value}-${idx}`}
