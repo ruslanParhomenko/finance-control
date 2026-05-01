@@ -12,6 +12,13 @@ import TabsOptions from "../tabs/tabs-options";
 import { NAV_ITEMS, WITH_MONTH } from "./constants";
 import ThemesButton from "../button/themes-button";
 
+const FORM_IDS = {
+  month: "month-form",
+  bank: "bank-form",
+  year: "year-form",
+  "initial-state": "initial-form",
+};
+
 export default function NavMenuHeader({
   children,
 }: {
@@ -24,11 +31,13 @@ export default function NavMenuHeader({
   const STORAGE_KEY = `nav-tab-${patchName}`;
   const navItems = NAV_ITEMS;
 
-  const [_value, setHash] = useHashParam("tab");
+  const [tab, setHash] = useHashParam("tab");
+
+  const formId = FORM_IDS[tab as keyof typeof FORM_IDS];
 
   const [isPending, startTransition] = useTransition();
 
-  const [tab, setTab] = useState(navItems[0].value);
+  const [tabState, setTabState] = useState(navItems[0].value);
 
   const [month, setMonth] = useState((new Date().getMonth() + 1).toString());
   const [year, setYear] = useState(new Date().getFullYear().toString());
@@ -39,7 +48,7 @@ export default function NavMenuHeader({
 
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
-      setTab(stored);
+      setTabState(stored);
       setHash(stored);
     } else {
       setHash(navItems[0].value);
@@ -57,7 +66,7 @@ export default function NavMenuHeader({
   }, [month, year, currency, router, patchName, startTransition]);
 
   const handleTabChange = (value: string) => {
-    setTab(value);
+    setTabState(value);
     localStorage.setItem(STORAGE_KEY, value);
     setHash(value);
   };
@@ -68,7 +77,7 @@ export default function NavMenuHeader({
     <div className="flex h-screen flex-col justify-between">
       <div className="bg-background sticky top-1 z-20 my-1 flex justify-between px-4 md:gap-4">
         <div className="order-1 flex gap-4 md:order-0">
-          {WITH_MONTH.includes(tab) && (
+          {WITH_MONTH.includes(tabState) && (
             <SelectOptions
               options={MONTHS.map((month, index) => ({
                 value: month,
@@ -86,6 +95,16 @@ export default function NavMenuHeader({
             onChange={setYear}
             className={selectClassName}
           />
+          <SelectOptions
+            options={CURRENCY.map((currency) => ({
+              value: currency,
+              label: currency,
+            }))}
+            value={currency}
+            onChange={setCurrency}
+            isLoading={isPending}
+            className={cn(selectClassName, "font-bold text-green-900")}
+          />
         </div>
         <div className="flex gap-6">
           <ThemesButton />
@@ -95,34 +114,22 @@ export default function NavMenuHeader({
 
       <div className="flex-1">{children}</div>
 
-      <div className="bg-background sticky bottom-3 z-20 flex items-center justify-between gap-2 px-4 pb-1 md:my-1 md:justify-start md:gap-4">
-        <SelectOptions
-          options={CURRENCY.map((currency) => ({
-            value: currency,
-            label: currency,
-          }))}
-          value={currency}
-          onChange={setCurrency}
-          isLoading={isPending}
-          className={cn(selectClassName, "font-bold text-green-900")}
-        />
-
-        <button
-          form={tab}
-          type="submit"
-          className="flex h-8 w-14 items-center justify-center rounded-md bg-gray-800"
-        >
-          <span className="text-xs text-white">save</span>
-        </button>
-
+      <div className="bg-background sticky bottom-4 z-20 flex items-center justify-between gap-2 px-4 pb-1 md:my-1 md:justify-start md:gap-4">
         {navItems.length > 0 && (
           <TabsOptions
-            value={tab}
+            value={tabState}
             setValue={handleTabChange}
             isPending={isPending}
             options={navItems}
           />
         )}
+        <button
+          form={formId}
+          type="submit"
+          className="flex h-8 w-14 items-center justify-center rounded-md bg-gray-800"
+        >
+          <span className="text-xs text-white">save</span>
+        </button>
       </div>
     </div>
   );

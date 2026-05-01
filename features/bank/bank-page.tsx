@@ -21,13 +21,11 @@ export default function BankPage({
   paramsValue,
   currencyData,
   initialState,
-  formId,
 }: {
   bankData: GetBankDataType | null;
   paramsValue: ParamsValue;
   currencyData: CurrencyData;
   initialState: InitialStateFormType;
-  formId: string;
 }) {
   const { month, year, currency } = paramsValue;
 
@@ -68,7 +66,7 @@ export default function BankPage({
       return;
     } else {
       await createBank(formatData);
-      toast.success("Expense успешно создан!");
+      toast.success("Bank успешно создан!");
 
       return;
     }
@@ -82,13 +80,11 @@ export default function BankPage({
     });
   }, [bankData, month, year, form]);
 
-  const isLoading = form.formState.isSubmitting;
   return (
     <FormWrapper
       form={form}
       onSubmit={onSubmit}
-      formId={formId}
-      disabled={isLoading}
+      formId="bank-form"
       className="flex flex-col items-center justify-center"
     >
       <BankForm

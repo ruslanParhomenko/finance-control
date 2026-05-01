@@ -13,11 +13,9 @@ import { PenBox, PenOff } from "lucide-react";
 export default function InitialForm({
   initialState,
   year,
-  formId,
 }: {
   initialState: InitialStateFormType;
   year: string;
-  formId: string;
 }) {
   const [isEdit, setIsEdit] = useState(false);
 
@@ -36,14 +34,8 @@ export default function InitialForm({
     form.reset(initialState);
   }, [initialState]);
 
-  const isLoading = form.formState.isSubmitting;
   return (
-    <FormWrapper
-      form={form}
-      onSubmit={onSubmit}
-      formId={formId}
-      disabled={isLoading}
-    >
+    <FormWrapper form={form} onSubmit={onSubmit} formId="initial-state-form">
       <div className="flex h-[30vh] items-center justify-center gap-6">
         {isEdit ? (
           <PenOff

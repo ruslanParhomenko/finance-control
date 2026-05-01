@@ -1,8 +1,8 @@
 export const NAV_ITEMS = [
-  { label: "month", value: "month" },
-  { label: "year", value: "year" },
-  { label: "bank", value: "bank" },
   { label: "init", value: "initial-state" },
+  { label: "bank", value: "bank" },
+  { label: "year", value: "year" },
+  { label: "month", value: "month" },
 ];
 
 export const WITH_MONTH = ["month", "bank"];

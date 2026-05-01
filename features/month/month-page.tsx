@@ -27,12 +27,10 @@ export default function MonthPage({
   paramsValue,
   expenseData,
   currencyData,
-  formId,
 }: {
   paramsValue: ParamsValue;
   expenseData: ExpenseDataType[] | null;
   currencyData: CurrencyData;
-  formId: string;
 }) {
   const { month, year, currency } = paramsValue;
 
@@ -54,6 +52,7 @@ export default function MonthPage({
     const { expenseTotal, addCashTotal } = calculateOverallTotals(totals);
 
     const difference = Number(addCashTotal) - Number(expenseTotal);
+
     const formatData = {
       ...data,
       difference: String(difference),
@@ -100,7 +99,7 @@ export default function MonthPage({
   }, [expenseDataByMonth, month, year, form]);
 
   return (
-    <FormWrapper form={form} onSubmit={onSubmit} formId={formId}>
+    <FormWrapper form={form} onSubmit={onSubmit} formId="month-form">
       <ViewTransition>
         <Table className="table-fixed">
           <MonthHeaderTable

@@ -27,7 +27,7 @@ export const MONTH_STRINGS = [
   "december",
 ];
 
-export const CURRENCY = ["MDL", "EUR", "USD"];
+export const CURRENCY = ["EUR", "MDL", "USD"];
 
 export const YEAR = ["2025", "2026", "2027", "2028", "2029", "2030"];
 

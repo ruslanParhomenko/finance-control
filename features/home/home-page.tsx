@@ -1,7 +1,7 @@
 "use client";
 
 import { useHashParam } from "@/hooks/use-hash";
-import { Activity } from "react";
+import { Activity, ViewTransition } from "react";
 import MonthPage from "../month/month-page";
 import { ParamsValue } from "@/type/params-value";
 import { CurrencyData } from "@/type/currency-data";
@@ -29,19 +29,20 @@ export default function HomePage({
 }) {
   const [tab] = useHashParam("tab");
 
+  console.log("home page tab", tab);
+
   if (!tab) return null;
 
   return (
-    <>
-      <Activity mode={tab === "month" ? "visible" : "hidden"}>
+    <ViewTransition>
+      {tab === "month" && (
         <MonthPage
           paramsValue={paramsValue}
           currencyData={currencyData}
           expenseData={expenseData}
-          formId={tab}
         />
-      </Activity>
-      <Activity mode={tab === "year" ? "visible" : "hidden"}>
+      )}
+      {tab === "year" && (
         <YearPage
           expenseData={expenseData}
           paramsValue={paramsValue}
@@ -49,23 +50,18 @@ export default function HomePage({
           bankData={bankByYear as GetBankDataType[]}
           currencyData={currencyData}
         />
-      </Activity>
-      <Activity mode={tab === "bank" ? "visible" : "hidden"}>
+      )}
+      {tab === "bank" && (
         <BankPage
           bankData={bankData}
           paramsValue={paramsValue}
           currencyData={currencyData}
           initialState={initialState as InitialStateFormType}
-          formId={tab}
         />
-      </Activity>
-      <Activity mode={tab === "initial-state" ? "visible" : "hidden"}>
-        <InitialForm
-          initialState={initialState}
-          year={paramsValue.year}
-          formId={tab}
-        />
-      </Activity>
-    </>
+      )}
+      {tab === "initial-state" && (
+        <InitialForm initialState={initialState} year={paramsValue.year} />
+      )}
+    </ViewTransition>
   );
 }
