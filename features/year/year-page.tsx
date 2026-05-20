@@ -41,7 +41,7 @@ export default function YearPage({
         <YearBodyTable
           data={expenseData ?? []}
           currency={currency}
-          initialState={Number(initialStateByCurrency.toFixed(0))}
+          initialState={Number(initialStateByCurrency?.toFixed(0))}
           bankData={bankData}
           currencyArray={currencyArray}
         />

@@ -4,6 +4,8 @@ import { BankFormData } from "@/features/bank/schema";
 import { dbAdmin } from "@/lib/firebase";
 import { unstable_cache, updateTag } from "next/cache";
 
+const actionTag = "bank-data";
+
 export type GetBankDataType = BankFormData & {
   uniqueKey: string;
   year: string;
@@ -11,22 +13,23 @@ export type GetBankDataType = BankFormData & {
   id: string;
 };
 
-// create
-export async function createBank(data: Omit<GetBankDataType, "id">) {
-  const docId = `${data.year}-${data.month}`;
-  if (!docId) return;
-  const docRef = dbAdmin.collection("bank").doc(docId);
-  const snapshot = await docRef.get();
-  if (snapshot.exists) throw new Error("KEY_EXISTS");
+type BankForm = {
+  year: string;
+  month: string;
+  dataBank: BankFormData;
+};
 
-  await docRef.set({
-    uniqueKey: data.uniqueKey,
-    year: data.year,
-    month: data.month,
-    bank: data.bank,
-    totals: data.totals,
-  });
-  updateTag("bank");
+// create
+export async function createBank(data: BankForm) {
+  const { year, month, dataBank } = data;
+  const docRef = dbAdmin
+    .collection(actionTag)
+    .doc(year)
+    .collection("months")
+    .doc(month);
+  await docRef.set({ dataBank });
+
+  updateTag(actionTag);
   return docRef.id;
 }
 

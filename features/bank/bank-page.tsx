@@ -15,6 +15,8 @@ import BankForm from "./bank-form";
 import { InitialStateFormType } from "../initial-state/schema";
 import { CurrencyData } from "@/type/currency-data";
 import { ParamsValue } from "@/type/params-value";
+import { de } from "zod/v4/locales";
+import { bankCategories } from "./constants";
 
 export default function BankPage({
   bankData,
@@ -39,6 +41,12 @@ export default function BankPage({
     defaultValues: defaultBankForm,
   });
 
+  const error = form.formState.errors;
+
+  console.log("error", error);
+
+  console.log("value ", form.getValues());
+
   const bankValues = useWatch({
     control: form.control,
     name: "bank",
@@ -52,20 +60,23 @@ export default function BankPage({
 
   const onSubmit: SubmitHandler<BankFormData> = async (data) => {
     const formatData = {
-      ...data,
       month: month,
       year: year,
-      uniqueKey: `${year}-${month}`,
-      totals: totals.toFixed(0).toString(),
+      dataBank: {
+        bank: data.bank,
+        totals: totals.toFixed(0).toString(),
+      },
     };
 
+    console.log("formatData", formatData);
+
+    await createBank(formatData);
     if (bankData?.id) {
-      await updateBank(bankData.id as string, formatData);
+      // await updateBank(bankData.id as string, formatData);
       toast.success("Bank успешно обновлён!");
 
       return;
     } else {
-      await createBank(formatData);
       toast.success("Bank успешно создан!");
 
       return;
@@ -73,12 +84,31 @@ export default function BankPage({
   };
 
   useEffect(() => {
-    if (!bankData) return form.reset(defaultBankForm);
+    if (!bankData) {
+      form.reset(defaultBankForm);
+      return;
+    }
+
+    const normalizedBank = Object.fromEntries(
+      bankCategories.map((c) => {
+        const dbItem = bankData.bank?.[c.name];
+
+        return [
+          c.name,
+          {
+            value: dbItem?.value ?? "",
+            currency: c.currency, // 👈 ВСЕГДА берём из categories
+          },
+        ];
+      }),
+    );
 
     form.reset({
+      ...defaultBankForm,
       ...bankData,
+      bank: normalizedBank,
     });
-  }, [bankData, month, year, form]);
+  }, [bankData, form]);
 
   return (
     <FormWrapper

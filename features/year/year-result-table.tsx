@@ -88,7 +88,7 @@ export default function YearResultTable({
         <TableCell className="bg-background sticky left-13.5" />
 
         {MONTHS?.map((value, index) => {
-          const rate = Number(currencyArray[index]) || 1;
+          const rate = Number(currencyArray?.[index]) || 1;
 
           const total =
             Number(bankData?.find((i) => i.month === value)?.totals) || 0;

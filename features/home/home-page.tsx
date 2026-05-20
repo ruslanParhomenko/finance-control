@@ -1,7 +1,6 @@
 "use client";
 
-import { useHashParam } from "@/hooks/use-hash";
-import {  ViewTransition } from "react";
+import { ViewTransition } from "react";
 import MonthPage from "../month/month-page";
 import { ParamsValue } from "@/type/params-value";
 import { CurrencyData } from "@/type/currency-data";
@@ -11,6 +10,7 @@ import { InitialStateFormType } from "../initial-state/schema";
 import { GetBankDataType } from "@/app/action/bank-data-actions";
 import BankPage from "../bank/bank-page";
 import InitialForm from "../initial-state/initial-form";
+import { useSearchParams } from "next/navigation";
 
 export default function HomePage({
   paramsValue,
@@ -27,8 +27,7 @@ export default function HomePage({
   bankByYear: GetBankDataType[] | null;
   currencyData: CurrencyData;
 }) {
-  const [tab] = useHashParam("tab");
-
+  const tab = useSearchParams().get("tab");
 
   if (!tab) return null;
 

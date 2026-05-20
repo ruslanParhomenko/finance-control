@@ -37,7 +37,7 @@ export default function YearHeaderTable({
                 month
               ) : (
                 <span className="text-xs">
-                  {Number(currencyArray[index]).toFixed(2).toLowerCase()}
+                  {Number(currencyArray?.[index]).toFixed(2).toLowerCase()}
                 </span>
               )}
             </div>

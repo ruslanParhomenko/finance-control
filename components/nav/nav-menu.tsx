@@ -1,9 +1,8 @@
 "use client";
 
 import { useEffect, useState, useTransition } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import LogOutButton from "../button/logout-button";
-import { useHashParam } from "@/hooks/use-hash";
 
 import SelectOptions from "../select/select-options";
 import { CURRENCY, MONTHS, YEAR } from "@/utils/get-month-days";
@@ -31,13 +30,14 @@ export default function NavMenuHeader({
   const STORAGE_KEY = `nav-tab-${patchName}`;
   const navItems = NAV_ITEMS;
 
-  const [tab, setHash] = useHashParam("tab");
+  const searchParams = useSearchParams();
+  const activeTab = searchParams.get("tab") || navItems[0].value || "";
 
-  const formId = FORM_IDS[tab as keyof typeof FORM_IDS];
+  const formId = FORM_IDS[activeTab as keyof typeof FORM_IDS];
+
+  console.log("nav-formid", formId);
 
   const [isPending, startTransition] = useTransition();
-
-  const [tabState, setTabState] = useState(navItems[0].value);
 
   const [month, setMonth] = useState((new Date().getMonth() + 1).toString());
   const [year, setYear] = useState(new Date().getFullYear().toString());
@@ -47,28 +47,33 @@ export default function NavMenuHeader({
     if (!patchName) return;
 
     const stored = localStorage.getItem(STORAGE_KEY);
+    const params = new URLSearchParams(searchParams.toString());
     if (stored) {
-      setTabState(stored);
-      setHash(stored);
+      params.set("tab", stored);
     } else {
-      setHash(navItems[0].value);
+      localStorage.setItem(STORAGE_KEY, activeTab);
+      params.set("tab", activeTab);
     }
-  }, [STORAGE_KEY, patchName, setHash]);
+    window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
+  }, [STORAGE_KEY, patchName]);
 
   useEffect(() => {
     if (!patchName) return;
 
-    const url = `/${patchName}?month=${month}&year=${year}&currency=${currency}`;
+    const url = `/${patchName}?month=${month}&year=${year}&currency=${currency}&tab=${activeTab}`;
 
     startTransition(() => {
       router.replace(url);
     });
-  }, [month, year, currency, router, patchName, startTransition]);
+  }, [month, year, currency, router, patchName, startTransition, activeTab]);
 
   const handleTabChange = (value: string) => {
-    setTabState(value);
     localStorage.setItem(STORAGE_KEY, value);
-    setHash(value);
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tab", value);
+
+    window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
   };
 
   const selectClassName = "w-12 h-7! px-1 md:w-18 rounded-md text-xs bg-border";
@@ -77,7 +82,7 @@ export default function NavMenuHeader({
     <div className="flex h-screen flex-col justify-between">
       <div className="bg-background sticky top-1 z-20 my-1 flex justify-between px-4 md:gap-4">
         <div className="order-1 flex gap-4 md:order-0">
-          {WITH_MONTH.includes(tabState) && (
+          {WITH_MONTH.includes(activeTab) && (
             <SelectOptions
               options={MONTHS.map((month, index) => ({
                 value: month,
@@ -117,7 +122,7 @@ export default function NavMenuHeader({
       <div className="bg-background sticky bottom-4 z-20 flex items-center justify-between gap-2 px-4 pb-1 md:my-1 md:justify-start md:gap-4">
         {navItems.length > 0 && (
           <TabsOptions
-            value={tabState}
+            value={activeTab}
             setValue={handleTabChange}
             isPending={isPending}
             options={navItems}

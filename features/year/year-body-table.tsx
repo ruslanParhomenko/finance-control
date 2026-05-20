@@ -35,7 +35,7 @@ export default function YearBodyTable({
   const remainingByMonth = MONTHS.map((_, monthIndex) => {
     const monthData = data[monthIndex];
     const remaining =
-      Number(monthData?.difference || 0) / Number(currencyArray[monthIndex]);
+      Number(monthData?.difference || 0) / Number(currencyArray?.[monthIndex]);
     return Number(remaining.toFixed(0));
   });
 

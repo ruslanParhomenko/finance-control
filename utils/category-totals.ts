@@ -86,7 +86,7 @@ export function calculateCategoryTotalsByMonths(
       const values = monthData.rowExpenseData[category];
       if (!Array.isArray(values)) return 0;
 
-      const rate = currencyRates[monthIndex] || 1;
+      const rate = currencyRates?.[monthIndex] || 1;
 
       const sum = values.reduce((acc, value) => acc + toNumber(value), 0);
 
