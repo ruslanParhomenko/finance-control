@@ -1,7 +1,7 @@
 "use client";
 
 import { useHashParam } from "@/hooks/use-hash";
-import { Activity, ViewTransition } from "react";
+import {  ViewTransition } from "react";
 import MonthPage from "../month/month-page";
 import { ParamsValue } from "@/type/params-value";
 import { CurrencyData } from "@/type/currency-data";
@@ -29,7 +29,6 @@ export default function HomePage({
 }) {
   const [tab] = useHashParam("tab");
 
-  console.log("home page tab", tab);
 
   if (!tab) return null;
 

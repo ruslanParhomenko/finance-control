@@ -103,7 +103,7 @@ export default function RowBodyRender({
                       />
                     )}
                     {!register && value && (
-                      <div className="flex h-7 items-center justify-center">
+                      <div className="flex h-8 items-center justify-center">
                         <span className="text-center text-xs">
                           {value[row]?.[dayIndex] || ""}
                         </span>

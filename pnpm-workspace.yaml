@@ -1,5 +1,13 @@
 packages:
   - .
+allowBuilds:
+  '@firebase/util': false
+  protobufjs: false
+  sharp: false
+  unrs-resolver: false
 ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
+minimumReleaseAgeExclude:
+  - '@types/node@25.9.1'
+  - '@types/react@19.2.15'
