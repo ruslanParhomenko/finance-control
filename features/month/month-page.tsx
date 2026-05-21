@@ -5,7 +5,6 @@ import { getMonthDays } from "@/utils/get-month-days";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { defaultExpenseForm, ExpenseFormType, expenseSchema } from "./schema";
-import MonthBodyTable from "./month-body-table";
 import { useEffect } from "react";
 import { expenseCategories } from "@/constants/expense";
 import {
@@ -15,13 +14,16 @@ import {
 } from "@/app/action/month-data-actions";
 import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ViewTransition } from "react";
+
 import { CurrencyData } from "@/type/currency-data";
 import { ParamsValue } from "@/type/params-value";
 import {
   calculateOverallTotals,
   calculateTotals,
 } from "@/utils/category-totals";
+import { useEdit } from "@/providers/edit-provider";
+import MonthBodyCreate from "./month-body-create";
+import MonthBodyData from "./month-body-data";
 
 export default function MonthPage({
   paramsValue,
@@ -34,13 +36,16 @@ export default function MonthPage({
 }) {
   const { month, year, currency } = paramsValue;
 
+  const { isEdit, setIsEdit } = useEdit();
+
   const currencyRates = {
     USD: currencyData.USD.find((_item, index) => index === Number(month) - 1)!,
     EUR: currencyData.EUR.find((_item, index) => index === Number(month) - 1)!,
     MDL: currencyData.MDL.find((_item, index) => index === Number(month) - 1)!,
   };
 
-  const expenseDataByMonth = expenseData?.find((item) => item.month === month);
+  const expenseDataByMonth =
+    expenseData?.find((item) => item.month === month) || null;
 
   const form = useForm<ExpenseFormType>({
     resolver: zodResolver(expenseSchema),
@@ -65,14 +70,12 @@ export default function MonthPage({
     if (expenseDataByMonth?.id) {
       await updateExpense(expenseDataByMonth.id as string, formatData);
       toast.success("Expense успешно обновлён!");
-
-      return;
     } else {
       await createExpense(formatData);
       toast.success("Expense успешно создан!");
-
-      return;
     }
+
+    setIsEdit(false);
   };
 
   useEffect(() => {
@@ -91,30 +94,38 @@ export default function MonthPage({
   }, [expenseDataByMonth, month, year]);
 
   useEffect(() => {
-    if (!expenseDataByMonth) return;
+    if (!expenseDataByMonth || !isEdit) return;
 
     form.reset({
       ...expenseDataByMonth,
     });
-  }, [expenseDataByMonth, month, year, form]);
+  }, [expenseDataByMonth, month, year, form, isEdit]);
 
   return (
-    <FormWrapper form={form} onSubmit={onSubmit} formId="month-form">
-      <ViewTransition>
-        <Table className="table-fixed">
-          <MonthHeaderTable
-            month={month}
-            monthDays={monthDays}
-            currencyRates={currencyRates[currency] as number}
-          />
-          <MonthBodyTable
+    <FormWrapper form={form} onSubmit={onSubmit}>
+      <Table className="table-fixed">
+        <MonthHeaderTable
+          month={month}
+          monthDays={monthDays}
+          currencyRates={currencyRates[currency] as number}
+        />
+        {isEdit && (
+          <MonthBodyCreate
             form={form}
             monthDays={monthDays}
             currencyRates={currencyRates[currency] as number}
             currency={currency}
           />
-        </Table>
-      </ViewTransition>
+        )}
+        {!isEdit && (
+          <MonthBodyData
+            data={expenseDataByMonth}
+            monthDays={monthDays}
+            currencyRates={currencyRates[currency] as number}
+            currency={currency}
+          />
+        )}
+      </Table>
     </FormWrapper>
   );
 }

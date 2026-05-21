@@ -6,30 +6,31 @@ import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { BankFormData, bankSchema, defaultBankForm } from "./schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import {
-  createBank,
-  GetBankDataType,
-  updateBank,
-} from "@/app/action/bank-data-actions";
+import { createBank, GetBankDataType } from "@/app/action/bank-data-actions";
 import BankForm from "./bank-form";
 import { InitialStateFormType } from "../initial-state/schema";
 import { CurrencyData } from "@/type/currency-data";
 import { ParamsValue } from "@/type/params-value";
-import { de } from "zod/v4/locales";
+
 import { bankCategories } from "./constants";
+import { useEdit } from "@/providers/edit-provider";
 
 export default function BankPage({
-  bankData,
+  bankByYear,
   paramsValue,
   currencyData,
   initialState,
 }: {
-  bankData: GetBankDataType | null;
+  bankByYear: GetBankDataType[] | null;
   paramsValue: ParamsValue;
   currencyData: CurrencyData;
   initialState: InitialStateFormType;
 }) {
   const { month, year, currency } = paramsValue;
+
+  const { isEdit, setIsEdit } = useEdit();
+
+  const bankData = bankByYear?.find((item) => item.id === month);
 
   const currencyRates = {
     USD: currencyData.USD.find((_item, index) => index === Number(month) - 1),
@@ -40,12 +41,6 @@ export default function BankPage({
     resolver: zodResolver(bankSchema),
     defaultValues: defaultBankForm,
   });
-
-  const error = form.formState.errors;
-
-  console.log("error", error);
-
-  console.log("value ", form.getValues());
 
   const bankValues = useWatch({
     control: form.control,
@@ -68,19 +63,17 @@ export default function BankPage({
       },
     };
 
-    console.log("formatData", formatData);
-
-    await createBank(formatData);
+    const docId = await createBank(formatData);
+    if (!docId) {
+      toast.success("Ошибка сохранения!");
+    }
     if (bankData?.id) {
-      // await updateBank(bankData.id as string, formatData);
       toast.success("Bank успешно обновлён!");
-
-      return;
     } else {
       toast.success("Bank успешно создан!");
-
-      return;
     }
+
+    setIsEdit(false);
   };
 
   useEffect(() => {
@@ -91,13 +84,13 @@ export default function BankPage({
 
     const normalizedBank = Object.fromEntries(
       bankCategories.map((c) => {
-        const dbItem = bankData.bank?.[c.name];
+        const dbItem = bankData?.dataBank?.bank?.[c.name];
 
         return [
           c.name,
           {
             value: dbItem?.value ?? "",
-            currency: c.currency, // 👈 ВСЕГДА берём из categories
+            currency: c.currency,
           },
         ];
       }),
@@ -114,15 +107,15 @@ export default function BankPage({
     <FormWrapper
       form={form}
       onSubmit={onSubmit}
-      formId="bank-form"
       className="flex flex-col items-center justify-center"
     >
       <BankForm
+        bankData={bankData}
         initialState={initialState}
         totals={totals}
         selectedCurrency={Number(currencyRates[currency])}
         currency={currency}
-        year={year}
+        isEdit={isEdit}
       />
     </FormWrapper>
   );

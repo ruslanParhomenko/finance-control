@@ -6,16 +6,15 @@ import { unstable_cache, updateTag } from "next/cache";
 
 const actionTag = "bank-data";
 
-export type GetBankDataType = BankFormData & {
-  uniqueKey: string;
-  year: string;
-  month: string;
-  id: string;
-};
-
 type BankForm = {
   year: string;
   month: string;
+  dataBank: BankFormData;
+};
+
+export type GetBankDataType = {
+  id: string;
+
   dataBank: BankFormData;
 };
 
@@ -33,61 +32,14 @@ export async function createBank(data: BankForm) {
   return docRef.id;
 }
 
-// update
-export async function updateBank(docId: string, data: BankFormData) {
-  if (!docId) throw new Error("KEY_REQUIRED");
-  const docRef = dbAdmin.collection("bank").doc(docId);
-
-  await docRef.update(data);
-  updateTag("bank");
-  return docRef.id;
-}
-
-// get by id
-export const _getBankById = async (id: string) => {
-  const doc = await dbAdmin.collection("bank").doc(id).get();
-  if (!doc.exists) return null;
-
-  return {
-    id: doc.id,
-    ...doc.data(),
-  } as GetBankDataType;
-};
-
-export const getBankById = unstable_cache(_getBankById, ["bank"], {
-  revalidate: false,
-  tags: ["bank"],
-});
-
-// get by filters
-export const _getBankByUniqueKey = async (uniqueKey: string) => {
-  const snapshot = await dbAdmin.collection("bank").doc(uniqueKey).get();
-
-  if (!snapshot.exists) return null;
-
-  const doc = snapshot;
-
-  return {
-    id: doc.id,
-    ...doc.data(),
-  } as GetBankDataType;
-};
-
-export const getBankByUniqueKey = unstable_cache(
-  _getBankByUniqueKey,
-  ["bank"],
-  {
-    revalidate: false,
-    tags: ["bank"],
-  },
-);
-
 // get by year
 export const _getBankByYear = async (year: string) => {
-  const snapshot = await dbAdmin
-    .collection("bank")
-    .where("year", "==", year)
-    .get();
+  const colRef = await dbAdmin
+    .collection(actionTag)
+    .doc(year)
+    .collection("months");
+
+  const snapshot = await colRef.get();
 
   if (snapshot.empty) return [];
 

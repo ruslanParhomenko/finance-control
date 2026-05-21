@@ -1,7 +1,4 @@
-import {
-  getBankByUniqueKey,
-  getBankByYear,
-} from "@/app/action/bank-data-actions";
+import { getBankByYear } from "@/app/action/bank-data-actions";
 import { getCurrencyData } from "@/app/action/get-currency";
 
 import { getInitialState } from "@/app/action/initial-state-actions";
@@ -17,10 +14,8 @@ export default async function Page({
   const paramsValue = (await searchParams) as ParamsValue;
   const { month, year, currency } = paramsValue;
   if (!month || !year || !currency) return;
-  const uniqueKey = `${year}-${month}`;
-  const [bankData, expenseData, initialState, bankByYear, currencyData] =
+  const [expenseData, initialState, bankByYear, currencyData] =
     await Promise.all([
-      getBankByUniqueKey(uniqueKey),
       getExpenseByYear(year),
       getInitialState(year),
       getBankByYear(year),
@@ -31,7 +26,6 @@ export default async function Page({
     <HomePage
       paramsValue={paramsValue}
       expenseData={expenseData}
-      bankData={bankData}
       initialState={initialState}
       bankByYear={bankByYear}
       currencyData={currencyData}

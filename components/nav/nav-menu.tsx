@@ -10,13 +10,10 @@ import { cn } from "@/lib/utils";
 import TabsOptions from "../tabs/tabs-options";
 import { NAV_ITEMS, WITH_MONTH } from "./constants";
 import ThemesButton from "../button/themes-button";
-
-const FORM_IDS = {
-  month: "month-form",
-  bank: "bank-form",
-  year: "year-form",
-  "initial-state": "initial-form",
-};
+import { useEdit } from "@/providers/edit-provider";
+import EditButton from "../button/edit-button";
+import SaveButton from "../button/save-button";
+import { useSwipeable } from "react-swipeable";
 
 export default function NavMenuHeader({
   children,
@@ -27,21 +24,21 @@ export default function NavMenuHeader({
   const pathname = usePathname();
   const patchName = pathname?.split("/").pop();
 
+  const { isEdit, setIsEdit } = useEdit();
+
   const STORAGE_KEY = `nav-tab-${patchName}`;
   const navItems = NAV_ITEMS;
 
   const searchParams = useSearchParams();
-  const activeTab = searchParams.get("tab") || navItems[0].value || "";
+  const activeTab = searchParams.get("tab") || navItems[0] || "";
 
-  const formId = FORM_IDS[activeTab as keyof typeof FORM_IDS];
-
-  console.log("nav-formid", formId);
+  const formId = activeTab;
 
   const [isPending, startTransition] = useTransition();
 
   const [month, setMonth] = useState((new Date().getMonth() + 1).toString());
   const [year, setYear] = useState(new Date().getFullYear().toString());
-  const [currency, setCurrency] = useState("MDL");
+  const [currency, setCurrency] = useState("EUR");
 
   useEffect(() => {
     if (!patchName) return;
@@ -76,10 +73,31 @@ export default function NavMenuHeader({
     window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
   };
 
-  const selectClassName = "w-12 h-7! px-1 md:w-18 rounded-md text-xs bg-border";
+  const handlers = useSwipeable({
+    delta: 2000,
+    swipeDuration: 900,
+    preventScrollOnSwipe: true,
+    onSwipedUp: () => {
+      if (!activeTab) return;
+      const currentIndex = NAV_ITEMS.indexOf(activeTab ?? "");
+      const nextIndex = (currentIndex + 1) % NAV_ITEMS.length;
+      const nextTab = NAV_ITEMS[nextIndex];
+      handleTabChange(nextTab);
+    },
+    onSwipedDown: () => {
+      if (!activeTab) return;
+      const currentIndex = NAV_ITEMS.indexOf(activeTab ?? "");
+      const prevIndex =
+        (currentIndex - 1 + NAV_ITEMS.length) % NAV_ITEMS.length;
+      const prevTab = NAV_ITEMS[prevIndex];
+      handleTabChange(prevTab);
+    },
+  });
 
+  const selectClassName = "w-12 h-7! px-1 md:w-18 rounded-md text-xs bg-border";
+  const iconCn = "bg-border rounded-md border px-3 py-1 cursor-pointer";
   return (
-    <div className="flex h-screen flex-col justify-between">
+    <div {...handlers} className="flex h-screen flex-col justify-between">
       <div className="bg-background sticky top-1 z-20 my-1 flex justify-between px-4 md:gap-4">
         <div className="order-1 flex gap-4 md:order-0">
           {WITH_MONTH.includes(activeTab) && (
@@ -128,13 +146,15 @@ export default function NavMenuHeader({
             options={navItems}
           />
         )}
-        <button
-          form={formId}
-          type="submit"
-          className="flex h-8 w-14 items-center justify-center rounded-md bg-gray-800"
-        >
-          <span className="text-xs text-white">save</span>
-        </button>
+        {isEdit && (
+          <SaveButton
+            formId={formId}
+            isEdit={isEdit}
+            disabled={isPending || !isEdit}
+            className={iconCn}
+          />
+        )}
+        <EditButton isEdit={isEdit} setIsEdit={setIsEdit} className={iconCn} />
       </div>
     </div>
   );

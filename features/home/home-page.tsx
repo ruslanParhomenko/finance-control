@@ -15,19 +15,19 @@ import { useSearchParams } from "next/navigation";
 export default function HomePage({
   paramsValue,
   expenseData,
-  bankData,
   initialState,
   bankByYear,
   currencyData,
 }: {
   paramsValue: ParamsValue;
   expenseData: ExpenseDataType[] | null;
-  bankData: GetBankDataType | null;
   initialState: InitialStateFormType;
   bankByYear: GetBankDataType[] | null;
   currencyData: CurrencyData;
 }) {
   const tab = useSearchParams().get("tab");
+
+  console.log("bankByYear", bankByYear);
 
   if (!tab) return null;
 
@@ -51,7 +51,7 @@ export default function HomePage({
       )}
       {tab === "bank" && (
         <BankPage
-          bankData={bankData}
+          bankByYear={bankByYear}
           paramsValue={paramsValue}
           currencyData={currencyData}
           initialState={initialState as InitialStateFormType}

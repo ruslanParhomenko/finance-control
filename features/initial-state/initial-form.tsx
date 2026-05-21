@@ -35,7 +35,7 @@ export default function InitialForm({
   }, [initialState]);
 
   return (
-    <FormWrapper form={form} onSubmit={onSubmit} formId="initial-state-form">
+    <FormWrapper form={form} onSubmit={onSubmit}>
       <div className="flex h-[30vh] items-center justify-center gap-6">
         {isEdit ? (
           <PenOff

@@ -1,5 +1,3 @@
-import { env } from "process";
-
 export const expenseCategories = [
   "sport",
   "food",

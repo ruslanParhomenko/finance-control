@@ -91,7 +91,7 @@ export default function YearResultTable({
           const rate = Number(currencyArray?.[index]) || 1;
 
           const total =
-            Number(bankData?.find((i) => i.month === value)?.totals) || 0;
+            Number(bankData?.find((i) => i.id === value)?.dataBank.totals) || 0;
 
           const bankValue = Number((total / rate).toFixed(0));
 

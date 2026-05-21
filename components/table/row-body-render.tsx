@@ -68,7 +68,7 @@ export default function RowBodyRender({
                     {register && !value && (
                       <NumericInput
                         fieldName={`rowExpenseData.${row}.${dayIndex}`}
-                        className="h-7.5 w-10 rounded-none border-0 text-center text-xs shadow-none"
+                        className="h-7.5 w-10 rounded-none border-0 text-center text-xs text-red-700 shadow-none"
                         onFocus={() => handleSelect(index, dayIndex)}
                         onBlur={() => handleSelect(null, null)}
                       />

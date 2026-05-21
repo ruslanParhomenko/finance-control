@@ -11,15 +11,15 @@ export default function TabsOptions({
   value: string;
   setValue: (value: string) => void;
   isPending: boolean;
-  options: Options;
+  options: string[];
 }) {
   return (
     <Tabs value={value} onValueChange={setValue}>
       <TabsList className="flex h-9 md:gap-2">
         {options.map((item, idx) => (
           <TabsTrigger
-            key={`${item.value}-${idx}`}
-            value={item.value}
+            key={`${item}-${idx}`}
+            value={item}
             disabled={isPending}
             className={cn(
               "hover:text-bl w-14 cursor-pointer md:w-24",
@@ -27,7 +27,7 @@ export default function TabsOptions({
             )}
           >
             <span className="md:text-md text-bl block w-full truncate text-xs">
-              {item.label}
+              {item.split("-")}
             </span>
           </TabsTrigger>
         ))}

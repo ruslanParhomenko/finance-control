@@ -13,7 +13,7 @@ import RowFooterRender from "@/components/table/row-footer-render";
 import { CURRENCY_ICON } from "./constants";
 import { ExpenseFormType } from "./schema";
 
-export default function MonthBodyTable({
+export default function MonthBodyCreate({
   form,
   monthDays,
   currencyRates,

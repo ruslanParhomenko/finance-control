@@ -47,36 +47,6 @@ export async function updateExpense(
   return docRef.id;
 }
 
-// get by filters
-export const _getExpenseByUniqueKey = async (
-  uniqueKey: string,
-): Promise<ExpenseDataType | null> => {
-  const snapshot = await dbAdmin
-    .collection(EXPENSE_ACTION_TAG)
-    .doc(uniqueKey)
-    .get();
-
-  if (!snapshot.exists) return null;
-
-  const data = snapshot.data() as Omit<ExpenseDataType, "id"> | null;
-
-  if (!data) return null;
-
-  return {
-    id: snapshot.id,
-    ...data,
-  };
-};
-
-export const getExpenseByUniqueKey = unstable_cache(
-  _getExpenseByUniqueKey,
-  ["expense"],
-  {
-    revalidate: false,
-    tags: [EXPENSE_ACTION_TAG],
-  },
-);
-
 // get by year
 export const _getExpenseByYear = async (
   year: string,
