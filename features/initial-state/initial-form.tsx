@@ -22,7 +22,7 @@ export default function InitialForm({
 
   const form = useForm<InitialStateFormType>({
     resolver: zodResolver(initialStateSchema),
-    defaultValues: { initialState: "0" },
+    defaultValues: { initialState: "0", currency: "EUR" },
   });
 
   const onSubmit: SubmitHandler<InitialStateFormType> = async (data) => {
