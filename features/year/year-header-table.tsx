@@ -15,7 +15,7 @@ export default function YearHeaderTable({
   const todayMonth = new Date().getMonth() + 1;
 
   return (
-    <TableHeader className="bg-background sticky top-0 z-10">
+    <TableHeader>
       <TableRow className="md:h-10">
         <TableCell className="bg-background sticky left-0 w-14 text-end text-xs">
           {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}

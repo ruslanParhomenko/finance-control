@@ -104,11 +104,7 @@ export default function BankPage({
   }, [bankData, form]);
 
   return (
-    <FormWrapper
-      form={form}
-      onSubmit={onSubmit}
-      className="flex flex-col items-center justify-center"
-    >
+    <FormWrapper form={form} onSubmit={onSubmit}>
       <BankForm
         bankData={bankData}
         initialState={initialState}

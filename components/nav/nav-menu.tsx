@@ -75,8 +75,8 @@ export default function NavMenuHeader({
   };
 
   const handlers = useSwipeable({
-    delta: 200,
-    swipeDuration: 900,
+    delta: 100,
+    swipeDuration: 500,
     preventScrollOnSwipe: true,
     onSwipedUp: () => {
       if (!activeTab) return;
@@ -99,7 +99,7 @@ export default function NavMenuHeader({
   const iconCn = "bg-border rounded-md border px-3 py-1 cursor-pointer";
   return (
     <div className="flex h-dvh flex-col justify-between">
-      <div className="bg-background sticky top-1 z-20 my-1 flex justify-between px-4 md:gap-4">
+      <div className="bg-background sticky top-0 z-20 my-1 flex justify-between px-4 md:gap-4">
         <div className="order-1 flex gap-4 md:order-0">
           {WITH_MONTH.includes(activeTab) && (
             <SelectOptions
@@ -136,11 +136,11 @@ export default function NavMenuHeader({
         </div>
       </div>
 
-      <div {...handlers} className="flex-1">
+      <div {...handlers} className="flex-1 overflow-y-scroll">
         {children}
       </div>
 
-      <div className="bg-background sticky bottom-4 z-20 flex items-center justify-between gap-2 px-4 pb-1 md:my-1 md:justify-start md:gap-4">
+      <div className="bg-background sticky bottom-3 z-20 flex items-center justify-between gap-2 px-4 pb-1 md:my-1 md:justify-start md:gap-4">
         {navItems.length > 0 && (
           <TabsOptions
             value={activeTab}

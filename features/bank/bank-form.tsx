@@ -39,7 +39,7 @@ export default function BankForm({
             return (
               <TableRow
                 key={bank.name + index}
-                className="[&>td]:py-1.25 [&>td]:md:py-2"
+                className="[&>td]:py-1 [&>td]:md:py-2"
               >
                 <TableCell className="w-4 border-r">{index + 1}</TableCell>
                 <TableCell className="w-22 px-4">

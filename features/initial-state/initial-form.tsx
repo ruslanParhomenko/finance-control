@@ -42,7 +42,7 @@ export default function InitialForm({
 
   return (
     <FormWrapper form={form} onSubmit={onSubmit}>
-      <div className="flex h-dvh items-center justify-center gap-6">
+      <div className="flex h-[80vh] items-center justify-center gap-6">
         <Label>initial balance :</Label>
         {!isEdit && (
           <Label className="flex w-30 items-center justify-center">
