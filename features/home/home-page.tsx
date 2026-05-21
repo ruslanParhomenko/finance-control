@@ -1,16 +1,11 @@
 "use client";
-
-import { ViewTransition } from "react";
-import MonthPage from "../month/month-page";
+import { Suspense } from "react";
 import { ParamsValue } from "@/type/params-value";
 import { CurrencyData } from "@/type/currency-data";
 import { ExpenseDataType } from "@/app/action/month-data-actions";
-import YearPage from "../year/year-page";
 import { InitialStateFormType } from "../initial-state/schema";
 import { GetBankDataType } from "@/app/action/bank-data-actions";
-import BankPage from "../bank/bank-page";
-import InitialForm from "../initial-state/initial-form";
-import { useSearchParams } from "next/navigation";
+import HomePageClient from "./home-page-client";
 
 export default function HomePage({
   paramsValue,
@@ -25,41 +20,15 @@ export default function HomePage({
   bankByYear: GetBankDataType[] | null;
   currencyData: CurrencyData;
 }) {
-  const tab = useSearchParams().get("tab");
-
-  console.log("bankByYear", bankByYear);
-
-  if (!tab) return null;
-
   return (
-    <ViewTransition>
-      {tab === "month" && (
-        <MonthPage
-          paramsValue={paramsValue}
-          currencyData={currencyData}
-          expenseData={expenseData}
-        />
-      )}
-      {tab === "year" && (
-        <YearPage
-          expenseData={expenseData}
-          paramsValue={paramsValue}
-          initialState={initialState as InitialStateFormType}
-          bankData={bankByYear as GetBankDataType[]}
-          currencyData={currencyData}
-        />
-      )}
-      {tab === "bank" && (
-        <BankPage
-          bankByYear={bankByYear}
-          paramsValue={paramsValue}
-          currencyData={currencyData}
-          initialState={initialState as InitialStateFormType}
-        />
-      )}
-      {tab === "initial-state" && (
-        <InitialForm initialState={initialState} year={paramsValue.year} />
-      )}
-    </ViewTransition>
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomePageClient
+        paramsValue={paramsValue}
+        expenseData={expenseData}
+        initialState={initialState}
+        bankByYear={bankByYear}
+        currencyData={currencyData}
+      />
+    </Suspense>
   );
 }
