@@ -30,7 +30,8 @@ export default function NavMenuHeader({
   const navItems = NAV_ITEMS;
 
   const searchParams = useSearchParams();
-  const activeTab = searchParams.get("tab") || navItems[0] || "";
+  const activeTab =
+    searchParams.get("tab") || navItems[navItems.length - 1] || "";
 
   const formId = activeTab;
 
@@ -74,7 +75,7 @@ export default function NavMenuHeader({
   };
 
   const handlers = useSwipeable({
-    delta: 2000,
+    delta: 200,
     swipeDuration: 900,
     preventScrollOnSwipe: true,
     onSwipedUp: () => {
@@ -97,7 +98,7 @@ export default function NavMenuHeader({
   const selectClassName = "w-12 h-7! px-1 md:w-18 rounded-md text-xs bg-border";
   const iconCn = "bg-border rounded-md border px-3 py-1 cursor-pointer";
   return (
-    <div {...handlers} className="flex h-screen flex-col justify-between">
+    <div className="flex h-dvh flex-col justify-between">
       <div className="bg-background sticky top-1 z-20 my-1 flex justify-between px-4 md:gap-4">
         <div className="order-1 flex gap-4 md:order-0">
           {WITH_MONTH.includes(activeTab) && (
@@ -135,7 +136,9 @@ export default function NavMenuHeader({
         </div>
       </div>
 
-      <div className="flex-1">{children}</div>
+      <div {...handlers} className="flex-1">
+        {children}
+      </div>
 
       <div className="bg-background sticky bottom-4 z-20 flex items-center justify-between gap-2 px-4 pb-1 md:my-1 md:justify-start md:gap-4">
         {navItems.length > 0 && (

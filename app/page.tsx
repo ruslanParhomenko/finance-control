@@ -3,7 +3,7 @@ import AuthRedirect from "@/providers/auth-redirect";
 export default function Page() {
   return (
     <AuthRedirect>
-      <GoogleButton />;
+      <GoogleButton />
     </AuthRedirect>
   );
 }
