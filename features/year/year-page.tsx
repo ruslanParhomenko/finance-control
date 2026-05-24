@@ -31,19 +31,21 @@ export default function YearPage({
     MDL: Number(initialState.initialState) * Number(currencyData.EUR[0]),
   }[currency as Currency] as number;
   return (
-    <Table className="table-fixed">
-      <YearHeaderTable
-        year={year}
-        currency={currency}
-        currencyArray={currencyArray}
-      />
-      <YearBodyTable
-        data={expenseData ?? []}
-        currency={currency}
-        initialState={Number(initialStateByCurrency?.toFixed(0))}
-        bankData={bankData}
-        currencyArray={currencyArray}
-      />
-    </Table>
+    <div className="md:px-8">
+      <Table className="table-fixed">
+        <YearHeaderTable
+          year={year}
+          currency={currency}
+          currencyArray={currencyArray}
+        />
+        <YearBodyTable
+          data={expenseData ?? []}
+          currency={currency}
+          initialState={Number(initialStateByCurrency?.toFixed(0))}
+          bankData={bankData}
+          currencyArray={currencyArray}
+        />
+      </Table>
+    </div>
   );
 }

@@ -1,6 +1,6 @@
 // app/(home)/layout.tsx
 import { Suspense } from "react";
-import NavMenuHeader from "@/components/nav/nav-menu";
+import NavMenuHeader from "@/components/nav-layout/nav-menu";
 import EditProvider from "@/providers/edit-provider";
 
 export default function HomeLayout({

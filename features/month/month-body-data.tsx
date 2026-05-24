@@ -38,7 +38,7 @@ export default function MonthBodyData({
       {expenseCategories.map((row, index) => {
         const dataRow = value?.[row] || [];
         return (
-          <TableRow key={index + row} className="[&>td]:py-0">
+          <TableRow key={index + row} className="[&>td]:py-0 md:[&>td]:py-2.5">
             <TableCell className="bg-background sticky left-0 z-10 text-end text-xs font-bold text-blue-700">
               {(Number(totals?.[row]) / Number(currencyRates)).toFixed(0)}{" "}
               {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}

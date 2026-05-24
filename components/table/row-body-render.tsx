@@ -41,13 +41,13 @@ export default function RowBodyRender({
       {rowArray.map((row, index) => {
         return (
           <TableRow key={index + row} className="[&>td]:py-0">
-            <TableCell className="bg-background sticky left-0 z-10 text-end text-xs font-bold text-blue-700">
+            <TableCell className="bg-background sticky left-0 z-10 text-end text-xs font-bold text-blue-700 md:text-center md:text-sm">
               {(Number(totals?.[row]) / Number(currencyRates)).toFixed(0)}{" "}
               {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
             </TableCell>
             <TableCell
               className={cn(
-                "bg-background sticky left-13.5 z-10 text-start text-xs font-medium",
+                "bg-background sticky left-13.5 z-10 text-start text-xs font-medium md:text-sm",
                 selectedRow === index && "text-red-700",
               )}
             >
@@ -73,7 +73,7 @@ export default function RowBodyRender({
                         onBlur={() => handleSelect(null, null)}
                       />
                     )}
-                    <span className="text-center text-xs shadow-none">
+                    <span className="text-center text-xs shadow-none md:text-sm">
                       {(!register && value && value[row]?.[dayIndex]) || ""}
                     </span>
                   </TableCell>
@@ -103,8 +103,8 @@ export default function RowBodyRender({
                       />
                     )}
                     {!register && value && (
-                      <div className="flex h-8 items-center justify-center">
-                        <span className="text-center text-xs">
+                      <div className="flex h-8 items-center justify-center md:h-8.5">
+                        <span className="text-center text-xs md:text-sm">
                           {value[row]?.[dayIndex] || ""}
                         </span>
                       </div>

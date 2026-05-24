@@ -8,12 +8,14 @@ import SelectOptions from "../select/select-options";
 import { CURRENCY, MONTHS, YEAR } from "@/utils/get-month-days";
 import { cn } from "@/lib/utils";
 import TabsOptions from "../tabs/tabs-options";
-import { NAV_ITEMS, WITH_MONTH } from "./constants";
+import { NAV_BY_PATCH } from "./constants";
 import ThemesButton from "../button/themes-button";
 import { useEdit } from "@/providers/edit-provider";
 import EditButton from "../button/edit-button";
 import SaveButton from "../button/save-button";
 import { useSwipeable } from "react-swipeable";
+import ChartButton from "../button/chart-button";
+import ExitButton from "../button/exit-button";
 
 export default function NavMenuHeader({
   children,
@@ -22,12 +24,21 @@ export default function NavMenuHeader({
 }) {
   const router = useRouter();
   const pathname = usePathname();
-  const patchName = pathname?.split("/").pop();
+  const mainRoute = pathname?.split("/").pop();
 
   const { isEdit, setIsEdit } = useEdit();
 
-  const STORAGE_KEY = `nav-tab-${patchName}`;
-  const navItems = NAV_ITEMS;
+  const STORAGE_KEY = `nav-tab-${mainRoute}`;
+  const navItems =
+    NAV_BY_PATCH[mainRoute as keyof typeof NAV_BY_PATCH]?.tabs || [];
+
+  const actionItems =
+    NAV_BY_PATCH[mainRoute as keyof typeof NAV_BY_PATCH]?.action || [];
+  const has = (key: string) => actionItems.includes(key);
+
+  const selectMonthItems =
+    NAV_BY_PATCH[mainRoute as keyof typeof NAV_BY_PATCH]?.selectMonth || [];
+  const withMonth = (key: string) => selectMonthItems.includes(key);
 
   const searchParams = useSearchParams();
   const activeTab =
@@ -42,7 +53,7 @@ export default function NavMenuHeader({
   const [currency, setCurrency] = useState("EUR");
 
   useEffect(() => {
-    if (!patchName) return;
+    if (!mainRoute) return;
 
     const stored = localStorage.getItem(STORAGE_KEY);
     const params = new URLSearchParams(searchParams.toString());
@@ -53,17 +64,17 @@ export default function NavMenuHeader({
       params.set("tab", activeTab);
     }
     window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
-  }, [STORAGE_KEY, patchName]);
+  }, [STORAGE_KEY, mainRoute]);
 
   useEffect(() => {
-    if (!patchName) return;
+    if (!mainRoute) return;
 
-    const url = `/${patchName}?month=${month}&year=${year}&currency=${currency}&tab=${activeTab}`;
+    const url = `/${mainRoute}?month=${month}&year=${year}&currency=${currency}&tab=${activeTab}`;
 
     startTransition(() => {
       router.replace(url);
     });
-  }, [month, year, currency, router, patchName, startTransition, activeTab]);
+  }, [month, year, currency, router, mainRoute, startTransition, activeTab]);
 
   const handleTabChange = (value: string) => {
     localStorage.setItem(STORAGE_KEY, value);
@@ -80,28 +91,27 @@ export default function NavMenuHeader({
     preventScrollOnSwipe: true,
     onSwipedUp: () => {
       if (!activeTab) return;
-      const currentIndex = NAV_ITEMS.indexOf(activeTab ?? "");
-      const nextIndex = (currentIndex + 1) % NAV_ITEMS.length;
-      const nextTab = NAV_ITEMS[nextIndex];
+      const currentIndex = navItems.indexOf(activeTab ?? "");
+      const nextIndex = (currentIndex + 1) % navItems.length;
+      const nextTab = navItems[nextIndex];
       handleTabChange(nextTab);
     },
     onSwipedDown: () => {
       if (!activeTab) return;
-      const currentIndex = NAV_ITEMS.indexOf(activeTab ?? "");
-      const prevIndex =
-        (currentIndex - 1 + NAV_ITEMS.length) % NAV_ITEMS.length;
-      const prevTab = NAV_ITEMS[prevIndex];
+      const currentIndex = navItems.indexOf(activeTab ?? "");
+      const prevIndex = (currentIndex - 1 + navItems.length) % navItems.length;
+      const prevTab = navItems[prevIndex];
       handleTabChange(prevTab);
     },
   });
 
-  const selectClassName = "w-12 h-7! px-1 md:w-18 rounded-md text-xs bg-border";
+  const selectClassName = "w-12 h-6! px-1 md:w-18 rounded-md text-xs bg-border";
   const iconCn = "bg-border rounded-md border px-3 py-1 cursor-pointer";
   return (
     <div className="flex h-dvh flex-col justify-between">
       <div className="bg-background sticky top-0 z-20 my-1 flex justify-between px-4 md:gap-4">
         <div className="order-1 flex gap-4 md:order-0">
-          {WITH_MONTH.includes(activeTab) && (
+          {withMonth(activeTab) && (
             <SelectOptions
               options={MONTHS.map((month, index) => ({
                 value: month,
@@ -136,7 +146,10 @@ export default function NavMenuHeader({
         </div>
       </div>
 
-      <div {...handlers} className="flex-1 overflow-y-scroll">
+      <div
+        {...handlers}
+        className="flex-1 md:flex md:w-full md:items-center md:justify-center"
+      >
         {children}
       </div>
 
@@ -149,7 +162,8 @@ export default function NavMenuHeader({
             options={navItems}
           />
         )}
-        {isEdit && (
+        {has("chart") && <ChartButton className={iconCn} url={"/chart"} />}
+        {has("edit") && isEdit && (
           <SaveButton
             formId={formId}
             isEdit={isEdit}
@@ -157,7 +171,14 @@ export default function NavMenuHeader({
             className={iconCn}
           />
         )}
-        <EditButton isEdit={isEdit} setIsEdit={setIsEdit} className={iconCn} />
+        {has("edit") && (
+          <EditButton
+            isEdit={isEdit}
+            setIsEdit={setIsEdit}
+            className={iconCn}
+          />
+        )}
+        {has("exit") && <ExitButton className={iconCn} disabled={isPending} />}
       </div>
     </div>
   );

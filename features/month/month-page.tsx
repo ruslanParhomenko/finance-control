@@ -102,7 +102,7 @@ export default function MonthPage({
   }, [expenseDataByMonth, month, year, form, isEdit]);
 
   return (
-    <FormWrapper form={form} onSubmit={onSubmit}>
+    <FormWrapper form={form} onSubmit={onSubmit} className="md:px-4">
       <Table className="table-fixed">
         <MonthHeaderTable
           month={month}
