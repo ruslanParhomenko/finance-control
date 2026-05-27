@@ -1,4 +1,3 @@
-"use client";
 import { Suspense } from "react";
 import { ParamsValue } from "@/type/params-value";
 import { CurrencyData } from "@/type/currency-data";

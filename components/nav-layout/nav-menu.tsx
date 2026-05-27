@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState, useTransition, ViewTransition } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import LogOutButton from "../button/logout-button";
 
@@ -82,7 +82,9 @@ export default function NavMenuHeader({
     const params = new URLSearchParams(searchParams.toString());
     params.set("tab", value);
 
-    window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
+    startTransition(() => {
+      window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
+    });
   };
 
   const handlers = useSwipeable({
@@ -178,7 +180,9 @@ export default function NavMenuHeader({
             className={iconCn}
           />
         )}
-        {has("exit") && <ExitButton className={iconCn} disabled={isPending} />}
+        {has("exit") && (
+          <ExitButton className={iconCn} disabled={isPending} url={"/home"} />
+        )}
       </div>
     </div>
   );

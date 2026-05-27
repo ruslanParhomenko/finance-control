@@ -28,7 +28,7 @@ export default function HomePageClient({
 
   if (!tab) return null;
   return (
-    <ViewTransition>
+    <ViewTransition key={tab}>
       {tab === "month" && (
         <MonthPage
           paramsValue={paramsValue}

@@ -48,5 +48,5 @@ export default function ChartBank({
     },
   );
 
-  return <CustomChart chartData={chartData} barItem={BAR_KEYS} withLegend />;
+  return <CustomChart chartData={chartData} barItem={BAR_KEYS} />;
 }

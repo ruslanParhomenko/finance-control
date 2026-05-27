@@ -27,9 +27,11 @@ export default function ChartPage({
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab");
 
+  const prevMonth = +month - 1;
+
   // bank
   const dataBankPrevMonth =
-    data.bank?.find((item) => item.id === month) || null;
+    data.bank?.find((item) => +item.id === prevMonth) || null;
 
   return (
     <>
