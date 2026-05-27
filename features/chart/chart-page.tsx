@@ -9,7 +9,6 @@ import { ExpenseDataType } from "@/app/action/month-data-actions";
 import { GetBankDataType } from "@/app/action/bank-data-actions";
 import ChartExpenses from "./chart-expenses";
 import ChartExpenseMonth from "./chart-expense-month";
-import ChartBankTotals from "./chart-bank-totals";
 
 export default function ChartPage({
   paramsValue,
@@ -23,32 +22,20 @@ export default function ChartPage({
   };
   currencyData: CurrencyData;
 }) {
-  const { month, currency } = paramsValue;
+  const { currency } = paramsValue;
   const searchParams = useSearchParams();
   const tab = searchParams.get("tab");
-
-  const prevMonth = +month - 1;
-
-  // bank
-  const dataBankPrevMonth =
-    data.bank?.find((item) => +item.id === prevMonth) || null;
 
   return (
     <>
       {tab === "bank" && (
         <ChartBank
-          data={dataBankPrevMonth}
+          dataBank={data.bank}
           currencyData={currencyData}
-          currency={currency}
+          paramsValue={paramsValue}
         />
       )}
-      {tab === "totals" && (
-        <ChartBankTotals
-          data={data.bank}
-          currencyData={currencyData}
-          currency={currency}
-        />
-      )}
+
       {tab === "expenses" && (
         <ChartExpenses data={data.expense} currency={currency} />
       )}

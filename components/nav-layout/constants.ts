@@ -2,7 +2,7 @@ import { CHART_MAIN_ROUTE, HOME_MAIN_ROUTE } from "@/constants/route-tag";
 
 export const TABS_BY_ROUTE = {
   [HOME_MAIN_ROUTE]: ["bank", "year", "month"],
-  [CHART_MAIN_ROUTE]: ["bank", "expenses", "month", "totals"],
+  [CHART_MAIN_ROUTE]: ["bank", "expenses", "month"],
 };
 
 export const ACTION_BY_ROUTE = {

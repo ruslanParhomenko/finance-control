@@ -38,12 +38,9 @@ export default function CustomLegend<T extends string>({
             !visibleItems[key] && "opacity-35",
           )}
         >
-          <span
-            className="inline-block h-3 w-3 rounded-sm"
-            style={{ backgroundColor: color }}
-          />
-
-          <span className="w-9 truncate">{label}</span>
+          <span className="truncate" style={{ color }}>
+            {label}
+          </span>
         </button>
       ))}
     </div>
