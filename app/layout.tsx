@@ -19,6 +19,10 @@ export const metadata: Metadata = {
   title: "finance-control",
   description:
     "A personal finance management application to help you track your income, expenses, and savings effectively.",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+  },
 };
 
 export default function RootLayout({
