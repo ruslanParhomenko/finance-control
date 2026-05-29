@@ -24,7 +24,7 @@ export default function CustomLegend<T extends string>({
   return (
     <div
       className={cn(
-        "mt-1 flex flex-wrap justify-center gap-2 md:mt-4 md:gap-4",
+        "mt-1 flex flex-wrap justify-center gap-2 md:mt-4",
         className,
       )}
     >

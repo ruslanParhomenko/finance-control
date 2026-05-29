@@ -12,14 +12,15 @@ import ChartExpenseMonth from "./chart-expense-month";
 
 export default function ChartPage({
   paramsValue,
-  data,
+  dataBank,
+  dataExpense,
   currencyData,
 }: {
   paramsValue: ParamsValue;
-  data: {
-    bank: GetBankDataType[] | null;
-    expense: ExpenseDataType[] | null;
-  };
+
+  dataBank: GetBankDataType[] | null;
+  dataExpense: ExpenseDataType[] | null;
+
   currencyData: CurrencyData;
 }) {
   const { currency } = paramsValue;
@@ -30,17 +31,17 @@ export default function ChartPage({
     <>
       {tab === "bank" && (
         <ChartBank
-          dataBank={data.bank}
+          dataBank={dataBank}
           currencyData={currencyData}
           paramsValue={paramsValue}
         />
       )}
 
       {tab === "expenses" && (
-        <ChartExpenses data={data.expense} currency={currency} />
+        <ChartExpenses data={dataExpense} currency={currency} />
       )}
       {tab === "month" && (
-        <ChartExpenseMonth data={data.expense} currency={currency} />
+        <ChartExpenseMonth data={dataExpense} currency={currency} />
       )}
     </>
   );

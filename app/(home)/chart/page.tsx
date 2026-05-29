@@ -19,16 +19,12 @@ export default async function Page({
     getCurrencyData(Number(year)),
   ]);
 
-  const data = {
-    bank: bankByYear,
-    expense: expenseData,
-  };
-
   return (
     <Suspense fallback={null}>
       <ChartPage
         paramsValue={paramsValue}
-        data={data}
+        dataBank={bankByYear}
+        dataExpense={expenseData}
         currencyData={currencyData}
       />
     </Suspense>
