@@ -66,6 +66,7 @@ export default function ChartExpenses({
 
   return (
     <div className="flex flex-col">
+      <CustomChart chartData={chartData} barItem={BAR_KEYS} />
       <div className="flex items-center justify-center gap-2 px-6 md:gap-6">
         <MonthPicker value={range} onChange={setRange} />
         <button
@@ -77,7 +78,6 @@ export default function ChartExpenses({
           {range && <TrashIcon className="text-rd h-4 w-4" />}
         </button>
       </div>
-      <CustomChart chartData={chartData} barItem={BAR_KEYS} withLegend />
     </div>
   );
 }

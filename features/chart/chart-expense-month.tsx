@@ -65,12 +65,19 @@ export default function ChartExpenseMonth({
 
   const BAR_KEYS = DATA_EXPENSES.map((item, index) => ({
     key: item,
-    color: `hsl(${index * 60}, 70%, 55%)`,
+    color: "var(--color-blue-600)",
     label: item.trim(),
   }));
 
   const toggleBar = (key: BarKey) => {
-    setVisibleBars((prev) => ({ ...prev, [key]: !prev[key] }));
+    setVisibleBars((prev) => {
+      return {
+        ...(Object.fromEntries(
+          DATA_EXPENSES.map((item) => [item, false]),
+        ) as Record<BarKey, boolean>),
+        [key]: true,
+      };
+    });
   };
 
   return (
