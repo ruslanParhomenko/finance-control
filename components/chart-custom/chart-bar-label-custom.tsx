@@ -1,6 +1,13 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  LabelList,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 import { cn } from "@/lib/utils";
 import {
@@ -124,7 +131,9 @@ export default function CustomChart({
           <ChartLegend content={<ChartLegendContent payload={undefined} />} />
         )}
         {barItem.map(({ key, color }) => (
-          <Bar key={key} dataKey={key} fill={color} radius={6} />
+          <Bar key={key} dataKey={key} fill={color} radius={6}>
+            <LabelList key={key} values={key} fill="#ffff" position="top" />
+          </Bar>
         ))}
       </BarChart>
     </ChartContainer>

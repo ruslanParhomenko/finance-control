@@ -51,9 +51,12 @@ export default function ChartBank({
       }
       return {
         name: key,
-        value:
-          Math.abs(valueMdl) /
-          currencyRatesByMonth[currency as keyof typeof currencyRatesByMonth],
+        value: Number(
+          (
+            Math.abs(valueMdl) /
+            currencyRatesByMonth[currency as keyof typeof currencyRatesByMonth]
+          ).toFixed(0),
+        ),
       };
     },
   );
