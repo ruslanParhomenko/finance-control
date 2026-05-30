@@ -5,6 +5,7 @@ import { getInitialState } from "@/app/action/initial-state-actions";
 import { getExpenseByYear } from "@/app/action/month-data-actions";
 import HomePage from "@/features/home/home-page";
 import { ParamsValue } from "@/type/params-value";
+import { Suspense } from "react";
 
 export default async function Page({
   searchParams,
@@ -23,12 +24,14 @@ export default async function Page({
     ]);
 
   return (
-    <HomePage
-      paramsValue={paramsValue}
-      expenseData={expenseData}
-      initialState={initialState}
-      bankByYear={bankByYear}
-      currencyData={currencyData}
-    />
+    <Suspense fallback={null}>
+      <HomePage
+        paramsValue={paramsValue}
+        expenseData={expenseData}
+        initialState={initialState}
+        bankByYear={bankByYear}
+        currencyData={currencyData}
+      />
+    </Suspense>
   );
 }

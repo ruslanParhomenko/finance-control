@@ -4,15 +4,23 @@ import { unstable_cache } from "next/cache";
 import { MONTHS } from "@/utils/get-month-days";
 import { CurrencyData } from "@/type/currency-data";
 
+import { XMLParser } from "fast-xml-parser";
+
+const parser = new XMLParser({
+  ignoreAttributes: true,
+});
+
 function parseBnmXml(xml: string, currency: string): number | null {
-  const regex = new RegExp(
-    `<CharCode>${currency}</CharCode>[\\s\\S]*?<Value>([\\d,.]+)</Value>`,
-  );
+  const data = parser.parse(xml);
 
-  const match = xml.match(regex);
-  if (!match) return null;
+  const volutes = data?.ValCurs?.Valute;
+  if (!volutes) return null;
 
-  return Number(match[1].replace(",", "."));
+  const item = volutes.find((v: any) => v.CharCode === currency);
+
+  if (!item?.Value) return null;
+
+  return Number(String(item.Value).replace(",", "."));
 }
 
 async function fetchYearMonthlyAverageBNM(year: number): Promise<CurrencyData> {
@@ -42,13 +50,15 @@ async function fetchYearMonthlyAverageBNM(year: number): Promise<CurrencyData> {
     const ratesUSD: number[] = [];
     const ratesEUR: number[] = [];
 
+    // ⚡ CHANGE: step = 7 days
     for (
       let d = new Date(startDate);
       d <= endDate;
-      d.setDate(d.getDate() + 1)
+      d.setDate(d.getDate() + 7)
     ) {
       const day = String(d.getDate()).padStart(2, "0");
       const m = String(d.getMonth() + 1).padStart(2, "0");
+
       const date = `${day}.${m}.${d.getFullYear()}`;
 
       try {
