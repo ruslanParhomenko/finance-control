@@ -30,6 +30,7 @@ export default function ChartExpenseMonth({
       {} as Record<BarKey, boolean>,
     ),
   );
+
   function getCategoryTotals(value: ExpenseDataType[]): ChartDataItem[] {
     const totals: Record<string, Record<string, number>> = Object.fromEntries(
       MONTH_STRINGS.map((month) => [
