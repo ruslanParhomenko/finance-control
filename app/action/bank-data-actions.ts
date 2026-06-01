@@ -53,5 +53,5 @@ export const _getBankByYear = async (year: string) => {
 
 export const getBankByYear = unstable_cache(_getBankByYear, ["bank"], {
   revalidate: false,
-  tags: ["bank"],
+  tags: [actionTag],
 });

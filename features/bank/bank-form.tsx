@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import { GetBankDataType } from "@/app/action/bank-data-actions";
 import { PenBox } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { is } from "zod/v4/locales";
 
 export default function BankForm({
   bankData,
