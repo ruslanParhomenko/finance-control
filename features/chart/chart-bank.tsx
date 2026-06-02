@@ -150,11 +150,11 @@ export default function ChartBank({
 
   return (
     <ViewTransition>
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 pt-2">
         <CustomChart
           chartData={chartData}
           barItem={BAR_KEYS}
-          className="h-[70dvh]"
+          className="h-[65dvh]"
         />
         <div className="flex items-center justify-end gap-4 px-4 py-2">
           <Switch

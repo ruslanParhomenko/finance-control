@@ -24,7 +24,7 @@ export default function CustomLegend<T extends string>({
   return (
     <div
       className={cn(
-        "mt-1 flex flex-wrap justify-center gap-2 md:mt-4",
+        "mt-1 flex flex-wrap justify-center gap-1 md:mt-4",
         className,
       )}
     >
@@ -34,7 +34,7 @@ export default function CustomLegend<T extends string>({
           key={key}
           onClick={() => onToggle(key)}
           className={cn(
-            "flex cursor-pointer items-center gap-2 rounded-md px-1 py-1.5 text-xs font-medium transition-opacity md:gap-2 md:px-3 md:text-sm",
+            "flex cursor-pointer items-center rounded-md px-1 py-1.5 text-xs font-medium transition-opacity md:gap-2 md:px-3 md:text-sm",
             !visibleItems[key] && "opacity-35",
           )}
         >
