@@ -64,14 +64,14 @@ export default function ChartExpenseMonth({
 
   const chartData = getCategoryTotals(data || []);
 
-  const BAR_KEYS = DATA_EXPENSES.map((item, index) => ({
+  const BAR_KEYS = DATA_EXPENSES.map((item) => ({
     key: item,
     color: "var(--color-blue-600)",
     label: item.trim(),
   }));
 
   const toggleBar = (key: BarKey) => {
-    setVisibleBars((prev) => {
+    setVisibleBars(() => {
       return {
         ...(Object.fromEntries(
           DATA_EXPENSES.map((item) => [item, false]),
@@ -81,8 +81,19 @@ export default function ChartExpenseMonth({
     });
   };
 
+  const activeBarKey = BAR_KEYS.find(
+    ({ key }) => visibleBars[key as BarKey],
+  )?.key;
+
+  const totalValue = chartData.reduce(
+    (acc, item) => acc + item[activeBarKey as BarKey],
+    0,
+  );
   return (
     <div className="flex flex-col items-center">
+      <div className="text-muted-foreground w-full px-6 text-center text-xs font-medium">
+        {totalValue.toFixed(0)} {currency}
+      </div>
       <CustomChart
         chartData={chartData}
         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}

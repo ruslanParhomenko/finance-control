@@ -70,7 +70,12 @@ export default function CustomChart({
         config={chartConfig}
         className={cn("mt-2 w-[90dvw] md:mt-6", height, className)}
       >
-        <BarChart accessibilityLayer data={chartData} layout="vertical">
+        <BarChart
+          accessibilityLayer
+          data={chartData}
+          layout="vertical"
+          margin={{ right: 36 }}
+        >
           <CartesianGrid horizontal={false} />
 
           <XAxis
@@ -96,7 +101,13 @@ export default function CustomChart({
           )}
           {barItem.map(({ key, color }) => (
             <Bar key={key} dataKey={key} fill={color} radius={6}>
-              <LabelList key={key} values={key} fill="#ffff" />
+              <LabelList
+                key={key}
+                values={key}
+                fill="#ffff"
+                position="right"
+                fontSize={10}
+              />
             </Bar>
           ))}
         </BarChart>

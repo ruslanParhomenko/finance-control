@@ -5,6 +5,7 @@ import {
   MonthPicker,
   MonthRange,
 } from "@/components/input-controlled/month-range";
+import { Label } from "@/components/ui/label";
 import { addCash } from "@/constants/expense";
 import { MONTHS } from "@/utils/get-month-days";
 import { TrashIcon } from "lucide-react";
@@ -64,8 +65,13 @@ export default function ChartExpenses({
     { key: "value", color: "var(--color-chart-1)", label: "value" },
   ];
 
+  const totalValue = chartData.reduce((acc, item) => acc + item.value, 0);
+
   return (
     <div className="flex flex-col">
+      <div className="text-muted-foreground w-full px-6 text-center text-xs font-medium">
+        {totalValue.toFixed(0)} {currency}
+      </div>
       <CustomChart chartData={chartData} barItem={BAR_KEYS} />
       <div className="flex items-center justify-center gap-2 px-6 md:gap-6">
         <MonthPicker value={range} onChange={setRange} />
