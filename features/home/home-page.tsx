@@ -4,7 +4,7 @@ import { ParamsValue } from "@/type/params-value";
 import { InitialStateFormType } from "../initial-state/schema";
 import { GetBankDataType } from "@/app/action/bank-data-actions";
 import { CurrencyData } from "@/type/currency-data";
-import { ViewTransition } from "react";
+
 import MonthPage from "../month/month-page";
 import { useSearchParams } from "next/navigation";
 import YearPage from "../year/year-page";
@@ -28,34 +28,35 @@ export default function HomePage({
 
   if (!tab) return null;
   return (
-    <ViewTransition key={tab}>
-      {tab === "month" && (
-        <MonthPage
-          paramsValue={paramsValue}
-          currencyData={currencyData}
-          expenseData={expenseData}
-        />
-      )}
-      {tab === "year" && (
-        <YearPage
-          expenseData={expenseData}
-          paramsValue={paramsValue}
-          initialState={initialState as InitialStateFormType}
-          bankData={bankByYear as GetBankDataType[]}
-          currencyData={currencyData}
-        />
-      )}
-      {tab === "bank" && (
-        <BankPage
-          bankByYear={bankByYear}
-          paramsValue={paramsValue}
-          currencyData={currencyData}
-          initialState={initialState as InitialStateFormType}
-        />
-      )}
-      {tab === "initial-state" && (
-        <InitialForm initialState={initialState} year={paramsValue.year} />
-      )}
-    </ViewTransition>
+<>
+{tab === "month" && (
+  <MonthPage
+    paramsValue={paramsValue}
+    currencyData={currencyData}
+    expenseData={expenseData}
+  />
+)}
+{tab === "year" && (
+  <YearPage
+    expenseData={expenseData}
+    paramsValue={paramsValue}
+    initialState={initialState as InitialStateFormType}
+    bankData={bankByYear as GetBankDataType[]}
+    currencyData={currencyData}
+  />
+)}
+{tab === "bank" && (
+  <BankPage
+    bankByYear={bankByYear}
+    paramsValue={paramsValue}
+    currencyData={currencyData}
+    initialState={initialState as InitialStateFormType}
+  />
+)}
+{tab === "initial-state" && (
+  <InitialForm initialState={initialState} year={paramsValue.year} />
+)}
+</>
+
   );
 }

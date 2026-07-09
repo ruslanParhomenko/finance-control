@@ -1,8 +1,9 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from "next/dist/server/config";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  experimental: { viewTransition: true },
+  reactStrictMode: true,
+  reactCompiler:true,
+  cacheComponents: true,
 };
 
 export default nextConfig;
