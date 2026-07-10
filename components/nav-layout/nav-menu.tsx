@@ -88,7 +88,7 @@ export default function NavMenuHeader({
   };
 
   const handlers = useSwipeable({
-    delta: 100,
+    delta: 300,
     swipeDuration: 500,
     preventScrollOnSwipe: true,
     onSwipedUp: () => {

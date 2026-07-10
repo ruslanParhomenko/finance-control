@@ -1,7 +1,7 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { addCash, expenseCategories } from "@/constants/expense";
 import { getMonthDays } from "@/utils/get-month-days";
-import { UseFormReturn } from "react-hook-form";
+import { UseFormReturn, useWatch } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import {
   calculateOverallTotals,
@@ -24,8 +24,8 @@ export default function MonthBodyCreate({
   currencyRates: number;
   currency: string;
 }) {
-  const { watch } = form;
-  const value = watch("rowExpenseData");
+  const value = useWatch({ control: form.control, name: "rowExpenseData" });
+
   const totals = calculateTotals(value as Input);
 
   const { expenseTotal, addCashTotal } = calculateOverallTotals(totals);

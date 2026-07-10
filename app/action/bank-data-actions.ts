@@ -2,7 +2,7 @@
 
 import { BankFormData } from "@/features/bank/schema";
 import { dbAdmin } from "@/lib/firebase";
-import { cacheLife, cacheTag,  updateTag } from "next/cache";
+import { cacheLife, cacheTag, unstable_cache, updateTag } from "next/cache";
 
 const actionTag = "bank-data";
 
@@ -33,13 +33,9 @@ export async function createBank(data: BankForm) {
 }
 
 // get by year
-export const getBankByYear = async (year: string): Promise<GetBankDataType[]> => {
-  "use cache";
-
-  cacheTag(actionTag);
-   cacheLife("max");
-  
-  
+export const _getBankByYear = async (
+  year: string,
+): Promise<GetBankDataType[]> => {
   const colRef = await dbAdmin
     .collection(actionTag)
     .doc(year)
@@ -57,3 +53,7 @@ export const getBankByYear = async (year: string): Promise<GetBankDataType[]> =>
   })) as GetBankDataType[];
 };
 
+export const getBankByYear = unstable_cache(_getBankByYear, [actionTag], {
+  revalidate: false,
+  tags: [actionTag],
+});

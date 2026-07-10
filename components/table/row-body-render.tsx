@@ -24,8 +24,7 @@ export default function RowBodyRender({
   form?: UseFormReturn<ExpenseFormType>;
   totals: Record<string, number> | undefined;
   value?:
-    | Record<string, (string | number | undefined)[] | undefined>
-    | undefined;
+    Record<string, (string | number | undefined)[] | undefined> | undefined;
 }) {
   const register = form?.register;
 
@@ -39,10 +38,13 @@ export default function RowBodyRender({
   return (
     <>
       {rowArray.map((row, index) => {
+        const total = (Number(totals?.[row]) / Number(currencyRates)).toFixed(
+          0,
+        );
         return (
           <TableRow key={index + row} className="[&>td]:py-0">
             <TableCell className="bg-background sticky left-0 z-10 text-end text-xs font-bold text-blue-700 md:text-center md:text-sm">
-              {(Number(totals?.[row]) / Number(currencyRates)).toFixed(0)}{" "}
+              {isNaN(Number(total)) ? 0 : total}{" "}
               {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
             </TableCell>
             <TableCell

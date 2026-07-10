@@ -39,6 +39,11 @@ export default function NumericInput({
 
   const classNameButton = "h-12 text-xl bg-background";
 
+  const appendDigit = (num: string | number) => {
+    const val = control._getWatch(fieldName) ?? "";
+    field.onChange(`${val}${num}`);
+  };
+
   return (
     <FormItem>
       <Popover
@@ -69,11 +74,12 @@ export default function NumericInput({
           {Array.from({ length: 9 }, (_, i) => i + 1).map((num) => (
             <Button
               key={num}
+              type="button"
               variant="outline"
               className={classNameButton}
-              onClick={() => {
-                const val = control._getWatch(fieldName) ?? "";
-                field.onChange(val + num);
+              onClick={(e) => {
+                e.preventDefault();
+                appendDigit(num);
               }}
             >
               {num}
@@ -81,20 +87,23 @@ export default function NumericInput({
           ))}
 
           <Button
+            type="button"
             variant="outline"
             className={classNameButton}
-            onClick={() => {
-              const val = control._getWatch(fieldName) ?? "";
-              field.onChange(val + "0");
+            onClick={(e) => {
+              e.preventDefault();
+              appendDigit(0);
             }}
           >
             0
           </Button>
 
           <Button
+            type="button"
             variant="outline"
             className={classNameButton}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               const val = control._getWatch(fieldName) ?? "";
               if (!val.includes(".")) field.onChange(val + ".");
             }}
@@ -103,9 +112,11 @@ export default function NumericInput({
           </Button>
 
           <Button
+            type="button"
             variant="outline"
             className={classNameButton}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               const val = control._getWatch(fieldName) ?? "";
               if (!val.startsWith("-")) field.onChange("-" + val);
             }}
@@ -114,9 +125,11 @@ export default function NumericInput({
           </Button>
 
           <Button
+            type="button"
             variant="outline"
             className={cn(classNameButton, "text-red-700")}
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault();
               const val = control._getWatch(fieldName) ?? "";
               field.onChange(val.slice(0, -1));
             }}
@@ -125,9 +138,13 @@ export default function NumericInput({
           </Button>
 
           <Button
+            type="button"
             variant="outline"
             className={cn(classNameButton, "col-span-2 text-blue-700")}
-            onClick={() => setOpen(false)}
+            onClick={(e) => {
+              e.preventDefault();
+              setOpen(false);
+            }}
           >
             ok
           </Button>

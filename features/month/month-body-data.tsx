@@ -8,7 +8,6 @@ import {
   calculateTotals,
   Input,
 } from "@/utils/category-totals";
-import RowBodyRender from "@/components/table/row-body-render";
 import RowFooterRender from "@/components/table/row-footer-render";
 import { CURRENCY_ICON } from "./constants";
 
@@ -37,10 +36,16 @@ export default function MonthBodyData({
     <TableBody>
       {expenseCategories.map((row, index) => {
         const dataRow = value?.[row] || [];
+        const total = (Number(totals?.[row]) / Number(currencyRates)).toFixed(
+          0,
+        );
         return (
-          <TableRow key={index + row} className="[&>td]:py-0 md:[&>td]:py-2.5">
+          <TableRow
+            key={index + row}
+            className="h-7.5! [&>td]:py-0 md:[&>td]:py-2.5"
+          >
             <TableCell className="bg-background sticky left-0 z-10 text-end text-xs font-bold text-blue-700">
-              {(Number(totals?.[row]) / Number(currencyRates)).toFixed(0)}{" "}
+              {isNaN(Number(total)) ? 0 : total}{" "}
               {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
             </TableCell>
             <TableCell
@@ -76,10 +81,13 @@ export default function MonthBodyData({
       />
       {addCash.map((row, index) => {
         const dataRow = value?.[row] || [];
+        const total = (Number(totals?.[row]) / Number(currencyRates)).toFixed(
+          0,
+        );
         return (
-          <TableRow key={index + row} className="[&>td]:py-0">
+          <TableRow key={index + row} className="h-7.5 [&>td]:py-0">
             <TableCell className="bg-background sticky left-0 z-10 text-end text-xs font-bold text-blue-700">
-              {(Number(totals?.[row]) / Number(currencyRates)).toFixed(0)}{" "}
+              {isNaN(Number(total)) ? 0 : total}{" "}
               {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
             </TableCell>
             <TableCell
