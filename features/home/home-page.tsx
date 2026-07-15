@@ -26,6 +26,9 @@ export default function HomePage({
 }) {
   const tab = useSearchParams().get("tab");
 
+
+  console.log(currencyData);
+
   if (!tab) return null;
   return (
 <>
