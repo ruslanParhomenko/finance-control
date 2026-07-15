@@ -156,6 +156,7 @@ export default function NavMenuHeader({
       </div>
 
       <div className="bg-background sticky bottom-3 z-20 flex items-center justify-between gap-2 px-4 pb-1 md:my-1 md:justify-start md:gap-4">
+        {has("chart") && <ChartButton className={iconCn} url={"/chart"} />}
         {navItems.length > 0 && (
           <TabsOptions
             value={activeTab}
@@ -164,7 +165,6 @@ export default function NavMenuHeader({
             options={navItems}
           />
         )}
-        {has("chart") && <ChartButton className={iconCn} url={"/chart"} />}
         {has("edit") && isEdit && (
           <SaveButton
             formId={formId}
