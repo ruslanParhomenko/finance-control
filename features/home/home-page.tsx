@@ -26,40 +26,36 @@ export default function HomePage({
 }) {
   const tab = useSearchParams().get("tab");
 
-
-  console.log(currencyData);
-
   if (!tab) return null;
   return (
-<>
-{tab === "month" && (
-  <MonthPage
-    paramsValue={paramsValue}
-    currencyData={currencyData}
-    expenseData={expenseData}
-  />
-)}
-{tab === "year" && (
-  <YearPage
-    expenseData={expenseData}
-    paramsValue={paramsValue}
-    initialState={initialState as InitialStateFormType}
-    bankData={bankByYear as GetBankDataType[]}
-    currencyData={currencyData}
-  />
-)}
-{tab === "bank" && (
-  <BankPage
-    bankByYear={bankByYear}
-    paramsValue={paramsValue}
-    currencyData={currencyData}
-    initialState={initialState as InitialStateFormType}
-  />
-)}
-{tab === "initial-state" && (
-  <InitialForm initialState={initialState} year={paramsValue.year} />
-)}
-</>
-
+    <>
+      {tab === "month" && (
+        <MonthPage
+          paramsValue={paramsValue}
+          currencyData={currencyData}
+          expenseData={expenseData}
+        />
+      )}
+      {tab === "year" && (
+        <YearPage
+          expenseData={expenseData}
+          paramsValue={paramsValue}
+          initialState={initialState as InitialStateFormType}
+          bankData={bankByYear as GetBankDataType[]}
+          currencyData={currencyData}
+        />
+      )}
+      {tab === "bank" && (
+        <BankPage
+          bankByYear={bankByYear}
+          paramsValue={paramsValue}
+          currencyData={currencyData}
+          initialState={initialState as InitialStateFormType}
+        />
+      )}
+      {tab === "initial-state" && (
+        <InitialForm initialState={initialState} year={paramsValue.year} />
+      )}
+    </>
   );
 }

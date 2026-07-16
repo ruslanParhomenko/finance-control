@@ -1,6 +1,6 @@
 "use client";
 import { ExpenseDataType } from "@/app/action/month-data-actions";
-import CustomChart from "@/components/chart-custom/chart-bar-label-custom";
+import CustomChart from "@/components/chart-custom";
 import {
   MonthPicker,
   MonthRange,

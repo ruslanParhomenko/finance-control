@@ -108,7 +108,7 @@ export default function NavMenuHeader({
   });
 
   const selectClassName = "w-12 h-6! px-1 md:w-18 rounded-md text-xs bg-border";
-  const iconCn = "bg-border rounded-md border px-3 py-1 cursor-pointer";
+  const iconCn = "bg-border rounded-md border px-2.5 py-1 cursor-pointer";
   return (
     <div className="flex h-dvh flex-col justify-between">
       <div className="bg-background sticky top-0 z-20 my-1 flex justify-between px-4 md:gap-4">

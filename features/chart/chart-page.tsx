@@ -9,7 +9,6 @@ import { ExpenseDataType } from "@/app/action/month-data-actions";
 import { GetBankDataType } from "@/app/action/bank-data-actions";
 import ChartExpenses from "./chart-expenses";
 import ChartExpenseMonth from "./chart-expense-month";
-import ChartBankTotals from "./chart-totals-bank";
 
 export default function ChartPage({
   paramsValue,
@@ -43,13 +42,6 @@ export default function ChartPage({
       )}
       {tab === "month" && (
         <ChartExpenseMonth data={dataExpense} currency={currency} />
-      )}
-      {tab === "totals" && (
-        <ChartBankTotals
-          dataBank={dataBank}
-          currencyData={currencyData}
-          paramsValue={paramsValue}
-        />
       )}
     </>
   );

@@ -1,6 +1,6 @@
 "use client";
 import { ExpenseDataType } from "@/app/action/month-data-actions";
-import CustomChart from "@/components/chart-custom/chart-bar-label-custom";
+import CustomChart from "@/components/chart-custom";
 import CustomLegend from "@/components/chart-custom/chart-legend";
 
 import { addCash, expenseCategories } from "@/constants/expense";
@@ -85,10 +85,8 @@ export default function ChartExpenseMonth({
     ({ key }) => visibleBars[key as BarKey],
   )?.key;
 
-  const totalValue = chartData.reduce(
-    (acc, item) => acc + item[activeBarKey as BarKey],
-    0,
-  );
+  const totalValue =
+    chartData.reduce((acc, item) => acc + item[activeBarKey as BarKey], 0) || 0;
   return (
     <div className="flex flex-col items-center">
       <div className="text-muted-foreground w-full px-6 text-center text-xs font-medium">

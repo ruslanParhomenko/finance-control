@@ -6,22 +6,24 @@ export default function TabsOptions({
   setValue,
   isPending,
   options,
+  className,
 }: {
   value: string;
   setValue: (value: string) => void;
   isPending: boolean;
   options: string[];
+  className?: string;
 }) {
   return (
     <Tabs value={value} onValueChange={setValue}>
-      <TabsList className="flex h-8 md:gap-2">
+      <TabsList className={cn("flex h-8 md:gap-2", className)}>
         {options.map((item, idx) => (
           <TabsTrigger
             key={`${item}-${idx}`}
             value={item}
             disabled={isPending}
             className={cn(
-              "hover:text-bl w-13.5 cursor-pointer md:w-24",
+              "hover:text-bl w-16 cursor-pointer md:w-24",
               isPending && "opacity-50",
             )}
           >
