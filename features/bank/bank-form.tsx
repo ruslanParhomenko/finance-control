@@ -64,7 +64,7 @@ export default function BankForm({
           <TableCell className="w-12 px-4">{initialState.currency}</TableCell>
         </TableRow>
         {bankCategories.map((bank, index) => {
-          const value = bankData?.dataBank?.bank[bank.name].value || "0";
+          const value = bankData?.dataBank?.bank?.[bank.name]?.value || "0";
           return (
             <TableRow
               key={bank.name + index}
@@ -79,13 +79,13 @@ export default function BankForm({
                   <NumericInput
                     fieldName={`bank[${bank.name}].value`}
                     className={cn(
-                      "text-md h-8 w-26 border-red-600 font-bold text-red-600 md:w-60",
+                      "text-md h-7 w-26 border-red-600 font-bold text-red-600 md:w-60",
                     )}
                     disabled={!isEdit}
                   />
                 )}
                 {!isEdit && (
-                  <div className="flex h-8 w-26 items-center justify-center md:w-60">
+                  <div className="flex h-7 w-26 items-center justify-center md:w-60">
                     {value}
                   </div>
                 )}

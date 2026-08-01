@@ -8,6 +8,7 @@ export const bankCategories = [
   { name: "vbEUR", currency: "EUR", label: "VB EUR" },
   { name: "vbUSD", currency: "USD", label: "VB USD" },
   { name: "micbEUR", currency: "EUR", label: "MICB EUR" },
+  { name: "micbMDL", currency: "MDL", label: "MICB MDL" },
   { name: "otpEUR", currency: "EUR", label: "OTP EUR" },
   { name: "domEUR", currency: "EUR", label: "ДОМ EUR" },
   { name: "domMDL", currency: "MDL", label: "ДОМ MDL" },
