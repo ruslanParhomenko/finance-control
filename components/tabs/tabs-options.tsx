@@ -16,22 +16,26 @@ export default function TabsOptions({
 }) {
   return (
     <Tabs value={value} onValueChange={setValue}>
-      <TabsList className={cn("flex h-8 md:gap-2", className)}>
-        {options.map((item, idx) => (
-          <TabsTrigger
-            key={`${item}-${idx}`}
-            value={item}
-            disabled={isPending}
-            className={cn(
-              "hover:text-bl w-16 cursor-pointer md:w-24",
-              isPending && "opacity-50",
-            )}
-          >
-            <span className="md:text-md text-bl block w-full truncate text-xs">
-              {item.split("-")}
-            </span>
-          </TabsTrigger>
-        ))}
+      <TabsList className={cn("flex h-8 bg-transparent md:gap-2", className)}>
+        {options.map((item, idx) => {
+          const isSelected = item === value;
+          return (
+            <TabsTrigger
+              key={`${item}-${idx}`}
+              value={item}
+              disabled={isPending}
+              className={cn(
+                "w-16 cursor-pointer hover:text-red-600 md:w-24",
+                isPending && "opacity-50",
+                isSelected && "font-bold text-red-600!",
+              )}
+            >
+              <span className="md:text-md block w-full truncate text-xs tracking-wider">
+                {item}
+              </span>
+            </TabsTrigger>
+          );
+        })}
       </TabsList>
     </Tabs>
   );

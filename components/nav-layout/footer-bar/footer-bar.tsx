@@ -30,7 +30,7 @@ export default function FooterBar() {
 
   const [isPending, startTransition] = useTransition();
 
-  const iconCn = "bg-border rounded-md border px-2.5 py-1 cursor-pointer";
+  const iconCn = "px-2.5 py-1 cursor-pointer text-blue-600";
 
   const handleTabChange = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());

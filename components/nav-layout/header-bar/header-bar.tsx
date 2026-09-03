@@ -2,10 +2,10 @@
 import LogOutButton from "@/components/button/logout-button";
 import ThemesButton from "@/components/button/themes-button";
 import SelectOptions from "@/components/select/select-options";
-import { cn } from "@/lib/utils";
+
 import { CURRENCY, MONTHS, YEAR } from "@/utils/get-month-days";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
 
 export default function HeaderBar() {
   const searchParams = useSearchParams();
@@ -16,7 +16,8 @@ export default function HeaderBar() {
   const yearUrl = searchParams.get("year");
   const currencyUrl = searchParams.get("currency");
 
-  const selectClassName = "w-12 h-6! px-1 md:w-18 rounded-md text-xs bg-border";
+  const selectClassName =
+    "w-12 h-6! px-1 md:w-18 rounded-md text-xs font-bold tracking-wider text-green-900 border-b shadow-none";
 
   const [isPending, startTransition] = useTransition();
 
@@ -77,7 +78,7 @@ export default function HeaderBar() {
           }))}
           value={currencyUrl!}
           onChange={handleCurrencyChange}
-          className={cn(selectClassName, "font-bold text-green-900")}
+          className={selectClassName}
           isLoading={isPending}
         />
       </div>
