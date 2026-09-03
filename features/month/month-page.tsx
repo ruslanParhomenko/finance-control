@@ -17,13 +17,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { CurrencyData } from "@/type/currency-data";
 import { ParamsValue } from "@/type/params-value";
-import {
-  calculateOverallTotals,
-  calculateTotals,
-} from "@/utils/category-totals";
+import { calculateOverallTotals } from "@/utils/category-totals";
 import { useEdit } from "@/providers/edit-provider";
 import MonthBodyCreate from "./month-body-create";
 import MonthBodyData from "./month-body-data";
+import { calculateTotals } from "@/utils/calculate-totals";
 
 export default function MonthPage({
   paramsValue,

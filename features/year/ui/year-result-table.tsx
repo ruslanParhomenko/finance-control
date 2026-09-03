@@ -1,17 +1,22 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { MONTHS } from "@/utils/get-month-days";
-import { CURRENCY_ICON } from "../month/constants";
+import { CURRENCY_ICON } from "../../month/constants";
 import { Currency } from "./year-body-table";
 import { GetBankDataType } from "@/app/action/bank-data-actions";
+import { CurrencyData } from "@/type/currency-data";
+import { GetInitialStateType } from "@/app/action/initial-state-actions";
 
 type Props = {
-  initialState: number;
+  initialState: GetInitialStateType | null;
   currencyArray: number[];
   currency: Currency;
   bankData?: GetBankDataType[];
   remainingByMonth: number[];
+  currencyData: CurrencyData;
 };
+
+const roundSafe = (value: number) => Number(value.toFixed(0)) || 0;
 
 export default function YearResultTable({
   initialState,
@@ -19,21 +24,55 @@ export default function YearResultTable({
   currency,
   bankData,
   remainingByMonth,
+  currencyData,
 }: Props) {
-  const calculateMonthlyBalance = (initial: number, diffs: number[]) => {
-    let sum = initial;
+  const initialStateInEur = initialState?.initialState?.EUR || 0;
 
-    return diffs.map((val) => (sum += Number(val || 0)));
+  const initialStateByCurrency =
+    Number(initialState?.initialState.MDL) / (currencyArray[0] || 1);
+
+  const cumulativeDiff = remainingByMonth.reduce<number[]>(
+    (acc, value, index) => {
+      const previous = acc[index - 1] ?? 0;
+
+      acc.push(previous + Number(value || 0));
+
+      return acc;
+    },
+    [],
+  );
+
+  const getInitialStateForMonth = (index: number) => {
+    if (currency === "MDL") {
+      const monthRate = currencyData.EUR[index];
+
+      return initialStateInEur * monthRate;
+    }
+
+    return initialStateByCurrency;
   };
 
-  const totalByMonth = calculateMonthlyBalance(initialState, remainingByMonth);
+  const totalByMonth = cumulativeDiff.map(
+    (diffSum, index) => diffSum + getInitialStateForMonth(index),
+  );
+
   const difference = remainingByMonth.reduce(
     (sum, val) => sum + Number(val),
     0,
   );
 
-  const finalBank = difference + initialState;
-  const diffClass = difference > 0 ? "text-green-600" : "text-red-600";
+  const finalBank = roundSafe(
+    totalByMonth[totalByMonth.length - 1] ??
+      getInitialStateForMonth(Math.max(currencyArray.length - 1, 0)),
+  );
+
+  const diffClass =
+    difference > 0
+      ? "text-green-600"
+      : difference < 0
+        ? "text-red-600"
+        : "text-muted-foreground";
+
   return (
     <>
       <TableRow className="border-0">
@@ -43,7 +82,7 @@ export default function YearResultTable({
             diffClass,
           )}
         >
-          {difference.toFixed(0)} {CURRENCY_ICON[currency]}
+          {roundSafe(difference)} {CURRENCY_ICON[currency]}
         </TableCell>
 
         <TableCell className="bg-background sticky left-13.5" />
@@ -53,7 +92,7 @@ export default function YearResultTable({
             key={index}
             className={cn("py-0.5 text-center text-xs", diffClass)}
           >
-            {diff.toFixed(0)}
+            {roundSafe(diff)}
             {CURRENCY_ICON[currency]}
           </TableCell>
         ))}
@@ -72,11 +111,12 @@ export default function YearResultTable({
 
         {totalByMonth.map((value, index) => (
           <TableCell key={index} className="py-0 text-center text-xs">
-            {value.toFixed(0)}
+            {roundSafe(value)}
             {CURRENCY_ICON[currency]}
           </TableCell>
         ))}
       </TableRow>
+
       <TableRow className="border-0">
         <TableCell
           className={cn(
@@ -90,12 +130,22 @@ export default function YearResultTable({
         {MONTHS?.map((value, index) => {
           const rate = Number(currencyArray?.[index]) || 1;
 
-          const total =
-            Number(bankData?.find((i) => i.id === value)?.dataBank.totals) || 0;
+          const totalsRaw = bankData?.find((i) => i.id === value)?.dataBank
+            .totals;
+          const total = Number.isFinite(Number(totalsRaw))
+            ? Number(totalsRaw)
+            : 0;
 
-          const bankValue = Number((total / rate).toFixed(0));
+          console.log("total", total);
 
-          const diff = bankValue - Number(totalByMonth[index]);
+          const bankValue = roundSafe(total / rate);
+
+          console.log("bankValue", bankValue);
+
+          // Может быть undefined, если MONTHS длиннее remainingByMonth
+          const monthTotal = totalByMonth[index];
+          const diff =
+            monthTotal !== undefined ? roundSafe(bankValue - monthTotal) : 0;
 
           return (
             <TableCell
@@ -103,11 +153,17 @@ export default function YearResultTable({
               className={cn(
                 "py-0 text-center text-xs",
                 diff > 0 ? "text-green-600" : "text-red-600",
-                (bankValue === 0 || diff === 0) && "hidden",
+                (bankValue === 0 || diff === 0) && "text-muted",
               )}
             >
-              {diff.toFixed(0)}
-              {CURRENCY_ICON[currency]}
+              <div>
+                {bankValue}
+                {CURRENCY_ICON[currency]}
+              </div>
+              <div>
+                {diff}
+                {CURRENCY_ICON[currency]}
+              </div>
             </TableCell>
           );
         })}

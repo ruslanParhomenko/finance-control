@@ -15,8 +15,7 @@ export default function RowFooterRender({
   currency: string;
   totals: number;
   value?:
-    | Record<string, (string | number | undefined)[] | undefined>
-    | undefined;
+    Record<string, (string | number | undefined)[] | undefined> | undefined;
 }) {
   return (
     <TableRow>
@@ -24,7 +23,7 @@ export default function RowFooterRender({
         {(Number(totals) / Number(currencyRates)).toFixed(0)}{" "}
         {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
       </TableCell>
-      <TableCell className="bg-background sticky left-13.5" />
+      <TableCell className="bg-background sticky left-12" />
       {cellArray.map((_, dayIndex) => {
         const totalByDay = rowArray
           .reduce((acc, category) => {

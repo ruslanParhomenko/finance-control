@@ -16,7 +16,7 @@ export default async function Page({
   const { month, year, currency } = paramsValue;
   if (!month || !year || !currency) return;
   const [expenseData, initialState, bankByYear, currencyData] =
-    await Promise.all([
+    await Promise.allSettled([
       getExpenseByYear(year),
       getInitialState(year),
       getBankByYear(year),
@@ -27,10 +27,16 @@ export default async function Page({
     <Suspense fallback={null}>
       <HomePage
         paramsValue={paramsValue}
-        expenseData={expenseData}
-        initialState={initialState}
-        bankByYear={bankByYear}
-        currencyData={currencyData}
+        expenseData={
+          expenseData.status === "fulfilled" ? expenseData.value : null
+        }
+        initialState={
+          initialState.status === "fulfilled" ? initialState.value : null
+        }
+        bankByYear={bankByYear.status === "fulfilled" ? bankByYear.value : null}
+        currencyData={
+          currencyData.status === "fulfilled" ? currencyData.value : null
+        }
       />
     </Suspense>
   );

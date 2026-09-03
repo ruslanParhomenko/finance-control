@@ -3,15 +3,11 @@ import { addCash, expenseCategories } from "@/constants/expense";
 import { getMonthDays } from "@/utils/get-month-days";
 
 import { cn } from "@/lib/utils";
-import {
-  calculateOverallTotals,
-  calculateTotals,
-  Input,
-} from "@/utils/category-totals";
-import RowFooterRender from "@/components/table/row-footer-render";
+import { calculateOverallTotals, Input } from "@/utils/category-totals";
 import { CURRENCY_ICON } from "./constants";
 
 import { ExpenseDataType } from "@/app/action/month-data-actions";
+import { calculateTotals } from "@/utils/calculate-totals";
 
 export default function MonthBodyData({
   data,
@@ -26,7 +22,7 @@ export default function MonthBodyData({
 }) {
   const value = data?.rowExpenseData;
 
-  const totals = calculateTotals(value as Input);
+  const totals = value && calculateTotals(value);
 
   const { expenseTotal, addCashTotal } = calculateOverallTotals(totals);
 
@@ -71,14 +67,43 @@ export default function MonthBodyData({
           </TableRow>
         );
       })}
-      <RowFooterRender
+      {/* <RowFooterRender
         rowArray={expenseCategories}
         cellArray={monthDays.map((day) => day.weekday)}
         currencyRates={currencyRates}
         currency={currency}
         totals={expenseTotal}
         value={value}
-      />
+      /> */}
+
+      <TableRow>
+        <TableCell className="bg-background sticky left-0 px-2 text-end text-xs font-bold">
+          {(Number(expenseTotal) / Number(currencyRates)).toFixed(0)}{" "}
+          {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
+        </TableCell>
+        <TableCell className="bg-background sticky left-12" />
+        {monthDays
+          .map((day) => day.weekday)
+          .map((_, dayIndex) => {
+            const totalByDay = expenseCategories
+              .reduce((acc, category) => {
+                const dayValue = value?.[category]?.[dayIndex];
+
+                return acc + Number(dayValue || 0);
+              }, 0)
+              .toFixed(0);
+            return (
+              <TableCell
+                key={dayIndex}
+                className="p-0 text-center text-xs font-bold"
+              >
+                {(Number(totalByDay) / Number(currencyRates)).toFixed(0)}{" "}
+                {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
+              </TableCell>
+            );
+          })}
+      </TableRow>
+
       {addCash.map((row, index) => {
         const dataRow = value?.[row] || [];
         const total = (Number(totals?.[row]) / Number(currencyRates)).toFixed(

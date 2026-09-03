@@ -8,12 +8,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { createBank, GetBankDataType } from "@/app/action/bank-data-actions";
 import BankForm from "./bank-form";
-import { InitialStateFormType } from "../initial-state/schema";
+
 import { CurrencyData } from "@/type/currency-data";
 import { ParamsValue } from "@/type/params-value";
 
 import { bankCategories } from "./constants";
 import { useEdit } from "@/providers/edit-provider";
+import { GetInitialStateType } from "@/app/action/initial-state-actions";
 
 export default function BankPage({
   bankByYear,
@@ -24,7 +25,7 @@ export default function BankPage({
   bankByYear: GetBankDataType[] | null;
   paramsValue: ParamsValue;
   currencyData: CurrencyData;
-  initialState: InitialStateFormType;
+  initialState: GetInitialStateType | null;
 }) {
   const { month, year, currency } = paramsValue;
 
@@ -37,6 +38,7 @@ export default function BankPage({
     EUR: currencyData.EUR.find((_item, index) => index === Number(month) - 1),
     MDL: currencyData.MDL.find((_item, index) => index === Number(month) - 1),
   };
+
   const form = useForm<BankFormData>({
     resolver: zodResolver(bankSchema),
     defaultValues: defaultBankForm,

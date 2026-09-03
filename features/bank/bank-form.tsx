@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { GetBankDataType } from "@/app/action/bank-data-actions";
 import { PenBox } from "lucide-react";
 import { usePathname, useSearchParams } from "next/navigation";
+import { GetInitialStateType } from "@/app/action/initial-state-actions";
 
 export default function BankForm({
   bankData,
@@ -16,7 +17,7 @@ export default function BankForm({
   isEdit = false,
 }: {
   bankData: GetBankDataType | undefined;
-  initialState: InitialStateFormType;
+  initialState: GetInitialStateType | null;
   totals: number;
   selectedCurrency: number;
   currency: string;
@@ -58,10 +59,10 @@ export default function BankForm({
           <TableCell className="w-22" />
           <TableCell className="w-26 md:w-60">
             <div className="flex items-center justify-center">
-              {initialState.initialState}
+              {initialState?.initialState?.MDL?.toFixed(0) || 0}
             </div>
           </TableCell>
-          <TableCell className="w-12 px-4">{initialState.currency}</TableCell>
+          <TableCell className="w-12 px-4">MDL</TableCell>
         </TableRow>
         {bankCategories.map((bank, index) => {
           const value = bankData?.dataBank?.bank?.[bank.name]?.value || "0";

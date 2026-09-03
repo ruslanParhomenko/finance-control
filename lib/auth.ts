@@ -17,38 +17,18 @@ export const authOptions: NextAuthOptions = {
 
   pages: {
     signIn: "/signin",
-    error: "/403",
+    error: "/not-authorized",
   },
 
-  debug: true,
-
   callbacks: {
-    async jwt({ token, account, profile }) {
-      if (account && profile) {
-        const dbUser = profile.email === process.env.ADMIN_EMAIL;
-
-        if (dbUser) {
-          token.role = "ADMIN";
-        } else {
-          token.role = "OBSERVER";
-        }
-      }
-
-      return token;
-    },
-
-    async session({ session, token }) {
-      if (session.user) {
-        (session.user as any).role = token.role || "OBSERVER";
-      }
-      return session;
-    },
     async signIn({ profile }) {
-      const dbUser = profile?.email === process.env.ADMIN_EMAIL;
+      const email = profile?.email?.toLowerCase();
 
-      if (!dbUser) return "/403";
+      if (!email) {
+        return false;
+      }
 
-      return true;
+      return email === process.env.ADMIN_EMAIL?.toLowerCase();
     },
   },
 };

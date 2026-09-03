@@ -1,19 +1,29 @@
 "use server";
 
-import { InitialStateFormType } from "@/features/initial-state/schema";
 import { dbAdmin } from "@/lib/firebase";
 
 import { unstable_cache, updateTag } from "next/cache";
 
+export type GetInitialStateType = {
+  initialState: {
+    EUR: number;
+    USD: number;
+    MDL: number;
+  };
+};
+
 export async function createInitialState(
-  data: InitialStateFormType,
+  data: {
+    EUR: number;
+    USD: number;
+    MDL: number;
+  },
   year: string,
 ) {
   if (!year) return;
   await dbAdmin.collection("initialState").doc(year).set(
     {
-      initialState: data.initialState,
-      currency: data.currency,
+      initialState: data,
     },
     { merge: false },
   );
@@ -23,19 +33,10 @@ export async function createInitialState(
 export const _getInitialState = async (year: string) => {
   const doc = await dbAdmin.collection("initialState").doc(year).get();
 
-  if (!doc.exists) {
-    return {
-      initialState: "0",
-      currency: "EUR",
-    } as InitialStateFormType;
-  }
-
+  if (!doc.exists) return { initialState: { EUR: 0, USD: 0, MDL: 0 } };
   const data = doc.data()!;
 
-  return {
-    initialState: data.initialState ?? "",
-    currency: data.currency ?? "",
-  } as InitialStateFormType;
+  return data as GetInitialStateType;
 };
 export const getInitialState = unstable_cache(
   _getInitialState,

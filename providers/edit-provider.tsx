@@ -1,6 +1,6 @@
 "use client";
 
-import {  useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
 type EditContextType = {
@@ -14,8 +14,7 @@ export default function EditProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const searchParams = useSearchParams();
-  const activeTab = searchParams.get("tab") || "";
+  const activeTab = useSearchParams().get("tab") || "";
   const [isEdit, setIsEdit] = useState(false);
 
   useEffect(() => {

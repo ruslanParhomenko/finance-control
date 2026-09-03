@@ -3,15 +3,12 @@ import { addCash, expenseCategories } from "@/constants/expense";
 import { getMonthDays } from "@/utils/get-month-days";
 import { UseFormReturn, useWatch } from "react-hook-form";
 import { cn } from "@/lib/utils";
-import {
-  calculateOverallTotals,
-  calculateTotals,
-  Input,
-} from "@/utils/category-totals";
+import { calculateOverallTotals, Input } from "@/utils/category-totals";
 import RowBodyRender from "@/components/table/row-body-render";
 import RowFooterRender from "@/components/table/row-footer-render";
 import { CURRENCY_ICON } from "./constants";
 import { ExpenseFormType } from "./schema";
+import { calculateTotals } from "@/utils/calculate-totals";
 
 export default function MonthBodyCreate({
   form,
@@ -26,7 +23,7 @@ export default function MonthBodyCreate({
 }) {
   const value = useWatch({ control: form.control, name: "rowExpenseData" });
 
-  const totals = calculateTotals(value as Input);
+  const totals = calculateTotals(value);
 
   const { expenseTotal, addCashTotal } = calculateOverallTotals(totals);
 

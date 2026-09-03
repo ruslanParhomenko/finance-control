@@ -1,6 +1,5 @@
 import { InsufficientRights } from "@/components/page/insufficient-rights";
 
-const Page = () => {
+export default function NotAuthorized() {
   return <InsufficientRights exitButton={true} />;
-};
-export default Page;
+}

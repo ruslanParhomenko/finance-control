@@ -7,6 +7,7 @@ import { handleTableNavigation } from "@/utils/table-navigation";
 import { CURRENCY_ICON } from "@/features/month/constants";
 import { ExpenseFormType } from "@/features/month/schema";
 import { cn } from "@/lib/utils";
+import { calculateOverallTotals } from "@/utils/category-totals";
 
 export default function RowBodyRender({
   rowArray,
@@ -16,6 +17,7 @@ export default function RowBodyRender({
   form,
   totals,
   value,
+  withFooterTotals = false,
 }: {
   rowArray: readonly string[];
   cellArray: string[];
@@ -25,6 +27,7 @@ export default function RowBodyRender({
   totals: Record<string, number> | undefined;
   value?:
     Record<string, (string | number | undefined)[] | undefined> | undefined;
+  withFooterTotals?: boolean;
 }) {
   const register = form?.register;
 
@@ -35,6 +38,8 @@ export default function RowBodyRender({
     setSelectedRow(row);
     setSelectedDay(day);
   };
+
+  const { expenseTotal } = calculateOverallTotals(totals ?? {});
   return (
     <>
       {rowArray.map((row, index) => {
@@ -42,14 +47,14 @@ export default function RowBodyRender({
           0,
         );
         return (
-          <TableRow key={index + row} className="[&>td]:py-0">
-            <TableCell className="bg-background sticky left-0 z-10 text-end text-xs font-bold text-blue-700 md:text-center md:text-sm">
+          <TableRow key={index + row} className="[&>td]:p-0">
+            <TableCell className="bg-background sticky left-0 z-10 text-center text-xs font-bold text-blue-700">
               {isNaN(Number(total)) ? 0 : total}{" "}
               {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
             </TableCell>
             <TableCell
               className={cn(
-                "bg-background sticky left-13.5 z-10 text-start text-xs font-medium md:text-sm",
+                "bg-background sticky left-12 z-10 text-start text-xs",
                 selectedRow === index && "text-red-700",
               )}
             >
@@ -118,6 +123,29 @@ export default function RowBodyRender({
           </TableRow>
         );
       })}
+      {withFooterTotals && (
+        <TableRow className="[&>td]:px-0 [&>td]:py-2 [&>td]:text-center [&>td]:text-xs [&>td]:text-red-600">
+          <TableCell className="bg-background sticky left-0 font-bold md:bg-transparent">
+            {(Number(expenseTotal) / Number(currencyRates)).toFixed(0)}{" "}
+            {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
+          </TableCell>
+          <TableCell className="bg-background sticky left-12 md:bg-transparent" />
+          {cellArray.map((_, dayIndex) => {
+            const totalByDay = rowArray
+              .reduce((acc, category) => {
+                const dayValue = value?.[category]?.[dayIndex];
+
+                return acc + Number(dayValue || 0);
+              }, 0)
+              .toFixed(0);
+            return (
+              <TableCell key={dayIndex} className="font-bold">
+                {(Number(totalByDay) / Number(currencyRates)).toFixed(0)}{" "}
+              </TableCell>
+            );
+          })}
+        </TableRow>
+      )}
     </>
   );
 }
