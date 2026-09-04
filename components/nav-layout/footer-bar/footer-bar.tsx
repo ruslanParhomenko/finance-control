@@ -38,7 +38,7 @@ export default function FooterBar() {
 
   const handleTabChange = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set("mode", "view"); // сброс режима при смене patch
+    params.set("mode", "view");
 
     startTransition(() => {
       router.replace(`${value}?${params.toString()}`);
@@ -46,7 +46,7 @@ export default function FooterBar() {
   };
 
   return (
-    <div className="bg-background sticky bottom-1 z-20 my-1.5 flex flex-col items-center justify-between px-4 pb-1 md:flex-row md:justify-start md:gap-4">
+    <div className="bg-background sticky bottom-0 z-20 my-1 flex flex-col items-center justify-between px-4 md:flex-row md:justify-start md:gap-4">
       <div className="order-2 md:order-1">
         <TabsOptions
           value={mainRoute || ""}

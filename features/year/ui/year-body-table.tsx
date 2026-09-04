@@ -7,6 +7,7 @@ import { calculateCategoryTotalsByMonths } from "../utils/get-totals-category-mo
 import { calculateTotals } from "@/utils/calculate-totals";
 import { GetExpenseDataType } from "@/features/month/actions/get-expense";
 import { Currency } from "@/type/currency-data";
+import RowYearBody from "./row-year-body";
 
 type Props = {
   data: GetExpenseDataType[];
@@ -24,7 +25,7 @@ export default function YearBodyTable({
 
   return (
     <TableBody>
-      <RowBodyRender
+      <RowYearBody
         rowArray={expenseCategories}
         cellArray={MONTHS}
         currencyRates={1}
@@ -34,7 +35,7 @@ export default function YearBodyTable({
         withFooterTotals={true}
       />
 
-      <RowBodyRender
+      <RowYearBody
         rowArray={addCash}
         cellArray={MONTHS}
         currencyRates={1}

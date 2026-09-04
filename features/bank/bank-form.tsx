@@ -20,7 +20,7 @@ export default function BankForm({
   mode?: "view" | "edit";
 }) {
   return (
-    <Table className="w-full">
+    <Table className="mt-2 w-full">
       <TableBody>
         {bankCategories.map((bank, index) => {
           const value = bankData?.dataBank?.bank?.[bank.name]?.value || "0";
@@ -30,7 +30,7 @@ export default function BankForm({
               className="[&>td]:py-1 [&>td]:md:py-2"
             >
               <TableCell className="w-4 border-r">{index + 1}</TableCell>
-              <TableCell className="w-22 px-4">
+              <TableCell className="w-22 px-4 text-xs">
                 {bank.label.toLowerCase()}
               </TableCell>
               <TableCell className="text-center">
@@ -38,17 +38,19 @@ export default function BankForm({
                   <NumericInput
                     fieldName={`bank[${bank.name}].value`}
                     className={cn(
-                      "text-md h-7 w-26 border-red-600 font-bold text-red-600 md:w-60",
+                      "text-md h-6 w-26 border-red-600 text-xs font-bold text-red-600 md:w-60",
                     )}
                   />
                 )}
                 {mode === "view" && (
-                  <div className="flex h-7 w-26 items-center justify-center md:w-60">
+                  <div className="flex h-6 w-26 items-center justify-center text-xs md:w-60">
                     {value}
                   </div>
                 )}
               </TableCell>
-              <TableCell className="w-12 px-4">{bank.currency}</TableCell>
+              <TableCell className="w-12 px-4 text-xs">
+                {bank.currency}
+              </TableCell>
             </TableRow>
           );
         })}
