@@ -1,47 +1,73 @@
-// "use client";
+"use client";
 
-// import { useSearchParams } from "next/navigation";
-// import ChartBank from "./chart-bank";
-// import { ParamsValue } from "@/type/params-value";
-// import { CurrencyData } from "@/type/currency-data";
-// import { GetBankDataType } from "@/app/action/bank-data-actions";
-// import ChartExpenses from "./chart-expenses";
-// import ChartExpenseMonth from "./chart-expense-month";
-// import { GetExpenseDataType } from "../month/actions/get-expense";
+import { ParamsValue } from "@/type/params-value";
+import { CurrencyData } from "@/type/currency-data";
+import { GetBankDataType } from "@/app/action/bank-data-actions";
 
-// export default function ChartPage({
-//   paramsValue,
-//   dataBank,
-//   dataExpense,
-//   currencyData,
-// }: {
-//   paramsValue: ParamsValue;
+import { GetExpenseDataType } from "../month/actions/get-expense";
+import { TabsLine } from "@/components/ui/tabs-line";
+import { TABS_LINE_BY_ROUTE } from "@/components/nav-layout/constants";
+import { CHART_MAIN_ROUTE } from "@/constants/route-tag";
+import { useState } from "react";
+import ChartExpenses from "./chart-expenses";
+import ChartExpenseMonth from "./chart-expense-month";
+import ChartBankMonth from "./chart-bank-month";
+import ChartBankYear from "./chart-bank-year";
 
-//   dataBank: GetBankDataType[] | null;
-//   dataExpense: GetExpenseDataType[] | null;
+const OPTIONS =
+  TABS_LINE_BY_ROUTE[CHART_MAIN_ROUTE as keyof typeof TABS_LINE_BY_ROUTE];
 
-//   currencyData: CurrencyData;
-// }) {
-//   const { currency } = paramsValue;
-//   const searchParams = useSearchParams();
-//   const tab = searchParams.get("tab");
+export function ChartPage({
+  paramsValue,
+  dataBank,
+  dataExpense,
+  currencyData,
+}: {
+  paramsValue: ParamsValue;
 
-//   return (
-//     <>
-//       {tab === "bank" && (
-//         <ChartBank
-//           dataBank={dataBank}
-//           currencyData={currencyData}
-//           paramsValue={paramsValue}
-//         />
-//       )}
+  dataBank: GetBankDataType[] | null;
+  dataExpense: GetExpenseDataType[] | null;
 
-//       {tab === "expenses" && (
-//         <ChartExpenses data={dataExpense} currency={currency} />
-//       )}
-//       {tab === "month" && (
-//         <ChartExpenseMonth data={dataExpense} currency={currency} />
-//       )}
-//     </>
-//   );
-// }
+  currencyData: CurrencyData;
+}) {
+  const { currency } = paramsValue;
+
+  const [chartType, setChartType] =
+    useState<(typeof OPTIONS)[number]>("expenses");
+
+  return (
+    <div className="flex h-[90dvh] flex-col items-center justify-between">
+      <div className="flex items-center justify-center gap-12">
+        <TabsLine
+          options={OPTIONS}
+          value={chartType}
+          onChange={setChartType}
+          className="flex items-center justify-center py-2"
+        />
+      </div>
+      <div className="flex-1">
+        {chartType === "bank-month" && (
+          <ChartBankMonth
+            dataBank={dataBank}
+            currencyData={currencyData}
+            paramsValue={paramsValue}
+          />
+        )}
+        {chartType === "bank-year" && (
+          <ChartBankYear
+            dataBank={dataBank}
+            currencyData={currencyData}
+            paramsValue={paramsValue}
+          />
+        )}
+
+        {chartType === "expenses" && (
+          <ChartExpenses data={dataExpense} currency={currency} />
+        )}
+        {chartType === "expense" && (
+          <ChartExpenseMonth data={dataExpense} currency={currency} />
+        )}
+      </div>
+    </div>
+  );
+}

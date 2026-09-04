@@ -35,7 +35,7 @@ export default function MonthBodyData({
         return (
           <TableRow
             key={index + row}
-            className="h-7.5! [&>td]:py-0 md:[&>td]:py-2.5"
+            className="[&>td]:py-1.5 md:[&>td]:py-2.5"
           >
             <TableCell className="bg-background sticky left-0 z-10 text-end text-xs font-bold text-blue-700">
               {isNaN(Number(total)) ? 0 : total}{" "}
@@ -53,7 +53,7 @@ export default function MonthBodyData({
               return (
                 <TableCell
                   key={dayIndex}
-                  className={cn("h-8 border-x px-0 text-center")}
+                  className={cn("border-x px-0 text-center")}
                 >
                   <span className="text-center text-xs shadow-none">
                     {value?.[row]?.[dayIndex] || ""}
@@ -65,7 +65,7 @@ export default function MonthBodyData({
         );
       })}
 
-      <TableRow>
+      <TableRow className="[&>td]:py-1.5 md:[&>td]:py-2.5">
         <TableCell className="bg-background sticky left-0 px-2 text-end text-xs font-bold">
           {(Number(expenseTotal) / Number(currencyRates)).toFixed(0)}{" "}
           {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
@@ -99,7 +99,10 @@ export default function MonthBodyData({
           0,
         );
         return (
-          <TableRow key={index + row} className="h-7.5 [&>td]:py-0">
+          <TableRow
+            key={index + row}
+            className="[&>td]:py-1.5 md:[&>td]:py-2.5"
+          >
             <TableCell className="bg-background sticky left-0 z-10 text-end text-xs font-bold text-blue-700">
               {isNaN(Number(total)) ? 0 : total}{" "}
               {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
@@ -116,7 +119,7 @@ export default function MonthBodyData({
               return (
                 <TableCell
                   key={dayIndex}
-                  className={cn("h-8 border-x px-0 text-center")}
+                  className={cn("border-x px-0 text-center")}
                 >
                   <span className="text-center text-xs shadow-none">
                     {value?.[row]?.[dayIndex] || ""}

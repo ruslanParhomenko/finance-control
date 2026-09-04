@@ -1,8 +1,8 @@
 import { getBankByYear } from "@/app/action/bank-data-actions";
 import { getCurrencyData } from "@/app/action/get-currency";
+import { ChartPage } from "@/features/chart";
 import { getExpenseByYear } from "@/features/month/actions/get-expense";
 import { ParamsValue } from "@/type/params-value";
-import { Suspense } from "react";
 
 export default async function Page({
   searchParams,
@@ -19,14 +19,11 @@ export default async function Page({
   ]);
 
   return (
-    <Suspense fallback={null}>
-      {/* <ChartPage
-        paramsValue={paramsValue}
-        dataBank={bankByYear}
-        dataExpense={expenseData}
-        currencyData={currencyData}
-      /> */}
-      <div>chart</div>
-    </Suspense>
+    <ChartPage
+      paramsValue={paramsValue}
+      dataBank={bankByYear}
+      dataExpense={expenseData}
+      currencyData={currencyData}
+    />
   );
 }

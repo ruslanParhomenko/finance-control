@@ -34,23 +34,23 @@ export default function ChartDesktop({
   return (
     <ChartContainer
       config={chartConfig}
-      className={cn("mt-2 h-[82dvh] w-[90dvw]", className)}
+      className={cn("mt-2 h-[77dvh] w-[90dvw]", className)}
     >
       <BarChart
         accessibilityLayer
         data={chartData}
-        margin={{ top: 20, right: 0, left: 0, bottom: 0 }}
+        margin={{ top: 30, right: 0, left: 0, bottom: 0 }}
       >
         <CartesianGrid vertical={false} />
 
         <XAxis
           dataKey="name"
           tickLine={false}
-          tickMargin={5}
+          tickMargin={20}
           axisLine={false}
           angle={vertical ? -90 : 0}
           textAnchor={vertical ? "end" : "middle"}
-          height={vertical ? 80 : 30}
+          height={vertical ? 80 : 50}
           tickFormatter={(value: string) => value?.split(" ")[0]}
         />
 

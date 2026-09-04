@@ -1,108 +1,110 @@
-// "use client";
-// import CustomChart from "@/components/chart-custom";
-// import CustomLegend from "@/components/chart-custom/chart-legend";
+"use client";
+import CustomChart from "@/components/chart-custom";
+import CustomLegend from "@/components/chart-custom/chart-legend";
 
-// import { addCash, expenseCategories } from "@/constants/expense";
-// import { useIsMobile } from "@/hooks/use-mobile";
-// import { MONTH_STRINGS } from "@/utils/get-month-days";
-// import { useState } from "react";
-// import { GetExpenseDataType } from "../month/actions/get-expense";
+import { addCash, expenseCategories } from "@/constants/expense";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { MONTH_STRINGS } from "@/utils/get-month-days";
+import { useState } from "react";
+import { GetExpenseDataType } from "../month/actions/get-expense";
 
-// const DATA_EXPENSES = [...expenseCategories, ...addCash];
+const DATA_EXPENSES = [...expenseCategories, ...addCash];
 
-// type ExpenseType = (typeof DATA_EXPENSES)[number];
+type ExpenseType = (typeof DATA_EXPENSES)[number];
 
-// type ChartDataItem = { name: string } & { [key in ExpenseType]: number };
-// type BarKey = keyof Omit<ChartDataItem, "name">;
+type ChartDataItem = { name: string } & { [key in ExpenseType]: number };
+type BarKey = keyof Omit<ChartDataItem, "name">;
 
-// export default function ChartExpenseMonth({
-//   data,
-//   currency,
-// }: {
-//   data: GetExpenseDataType[] | null;
-//   currency: string;
-// }) {
-//   const isMobile = useIsMobile();
+export default function ChartExpenseMonth({
+  data,
+  currency,
+}: {
+  data: GetExpenseDataType[] | null;
+  currency: string;
+}) {
+  const isMobile = useIsMobile();
 
-//   const [visibleBars, setVisibleBars] = useState<Record<BarKey, boolean>>(
-//     DATA_EXPENSES.reduce(
-//       (acc, key) => ({ ...acc, [key]: false }),
-//       {} as Record<BarKey, boolean>,
-//     ),
-//   );
+  const [visibleBars, setVisibleBars] = useState<Record<BarKey, boolean>>(
+    DATA_EXPENSES.reduce(
+      (acc, key) => ({ ...acc, [key]: false }),
+      {} as Record<BarKey, boolean>,
+    ),
+  );
 
-//   function getCategoryTotals(value: GetExpenseDataType[]): ChartDataItem[] {
-//     const totals: Record<string, Record<string, number>> = Object.fromEntries(
-//       MONTH_STRINGS.map((month) => [
-//         month,
-//         Object.fromEntries(DATA_EXPENSES.map((cat) => [cat, 0])),
-//       ]),
-//     );
+  function getCategoryTotals(value: GetExpenseDataType[]): ChartDataItem[] {
+    const totals: Record<string, Record<string, number>> = Object.fromEntries(
+      MONTH_STRINGS.map((month) => [
+        month,
+        Object.fromEntries(DATA_EXPENSES.map((cat) => [cat, 0])),
+      ]),
+    );
 
-//     value.forEach((data) => {
-//       const currencyRates = data.data.currencyRates[currency];
-//       const month = MONTH_STRINGS[+data.month - 1];
+    value.forEach((data) => {
+      const currencyRates =
+        data.data.currencyRates[
+          currency as keyof typeof data.data.currencyRates
+        ];
+      const month = MONTH_STRINGS[+data.id - 1];
 
-//       Object.entries(data.rowExpenseData).forEach(([key, days]) => {
-//         if (!DATA_EXPENSES.includes(key as ExpenseType)) return;
+      Object.entries(data.data.dataExpense).forEach(([key, days]) => {
+        if (!DATA_EXPENSES.includes(key as ExpenseType)) return;
 
-//         const sum = days.reduce((acc, val) => {
-//           const converted = +val / currencyRates;
-//           const num = parseFloat(converted.toFixed(0));
-//           return acc + (isNaN(num) ? 0 : num);
-//         }, 0);
+        const sum = days.reduce((acc, val) => {
+          const converted = +val / currencyRates;
+          const num = parseFloat(converted.toFixed(0));
+          return acc + (isNaN(num) ? 0 : num);
+        }, 0);
 
-//         totals[month][key] = (totals[month][key] || 0) + sum;
-//       });
-//     });
+        totals[month][key] = (totals[month][key] || 0) + sum;
+      });
+    });
 
-//     return Object.entries(totals).map(([name, categories]) => ({
-//       name,
-//       ...categories,
-//     })) as ChartDataItem[];
-//   }
+    return Object.entries(totals).map(([name, categories]) => ({
+      name,
+      ...categories,
+    })) as ChartDataItem[];
+  }
 
-//   const chartData = getCategoryTotals(data || []);
+  const chartData = getCategoryTotals(data || []);
 
-//   const BAR_KEYS = DATA_EXPENSES.map((item) => ({
-//     key: item,
-//     color: "var(--color-blue-600)",
-//     label: item.trim(),
-//   }));
+  const BAR_KEYS = DATA_EXPENSES.map((item) => ({
+    key: item,
+    color: "var(--color-blue-600)",
+    label: item.trim(),
+  }));
 
-//   const toggleBar = (key: BarKey) => {
-//     setVisibleBars(() => {
-//       return {
-//         ...(Object.fromEntries(
-//           DATA_EXPENSES.map((item) => [item, false]),
-//         ) as Record<BarKey, boolean>),
-//         [key]: true,
-//       };
-//     });
-//   };
+  const toggleBar = (key: BarKey) => {
+    setVisibleBars(() => {
+      return {
+        ...(Object.fromEntries(
+          DATA_EXPENSES.map((item) => [item, false]),
+        ) as Record<BarKey, boolean>),
+        [key]: true,
+      };
+    });
+  };
 
-//   const activeBarKey = BAR_KEYS.find(
-//     ({ key }) => visibleBars[key as BarKey],
-//   )?.key;
+  const activeBarKey = BAR_KEYS.find(
+    ({ key }) => visibleBars[key as BarKey],
+  )?.key;
 
-//   const totalValue =
-//     chartData.reduce((acc, item) => acc + item[activeBarKey as BarKey], 0) || 0;
-//   return (
-//     <div className="flex flex-col items-center">
-//       <div className="text-muted-foreground w-full px-6 text-center text-xs font-medium">
-//         {totalValue.toFixed(0)} {currency}
-//       </div>
-//       <CustomChart
-//         chartData={chartData}
-//         barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
-//         vertical={isMobile}
-//         className={isMobile ? "h-[70dvh]" : "h-[80dvh]"}
-//       />
-//       <CustomLegend
-//         items={BAR_KEYS}
-//         visibleItems={visibleBars}
-//         onToggle={toggleBar}
-//       />
-//     </div>
-//   );
-// }
+  const totalValue =
+    chartData.reduce((acc, item) => acc + item[activeBarKey as BarKey], 0) || 0;
+  return (
+    <div className="flex flex-col items-center">
+      <div className="text-muted-foreground w-full px-6 text-center text-xs font-medium">
+        {totalValue.toFixed(0)} {currency}
+      </div>
+      <CustomChart
+        chartData={chartData}
+        barItem={BAR_KEYS.filter(({ key }) => visibleBars[key as BarKey])}
+        vertical={isMobile}
+      />
+      <CustomLegend
+        items={BAR_KEYS}
+        visibleItems={visibleBars}
+        onToggle={toggleBar}
+      />
+    </div>
+  );
+}
