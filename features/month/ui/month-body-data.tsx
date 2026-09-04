@@ -35,7 +35,7 @@ export default function MonthBodyData({
         return (
           <TableRow
             key={index + row}
-            className="[&>td]:py-1.5 md:[&>td]:py-2.5"
+            className="[&>td]:py-1.25 md:[&>td]:py-2.5"
           >
             <TableCell className="bg-background sticky left-0 z-10 text-end text-xs font-bold text-blue-700">
               {isNaN(Number(total)) ? 0 : total}{" "}

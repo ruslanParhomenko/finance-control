@@ -75,7 +75,7 @@ export default function RowBodyRender({
                     {register && !value && (
                       <NumericInput
                         fieldName={`rowExpenseData.${row}.${dayIndex}`}
-                        className="h-7 w-10 rounded-none border-0 text-center text-xs text-red-700 shadow-none"
+                        className="h-5 w-10 rounded-none border-0 text-center text-xs text-red-700 shadow-none"
                         onFocus={() => handleSelect(index, dayIndex)}
                         onBlur={() => handleSelect(null, null)}
                       />
@@ -100,7 +100,7 @@ export default function RowBodyRender({
                         data-col={dayIndex}
                         {...register(`rowExpenseData.${row}.${dayIndex}`)}
                         className={
-                          "h-9 w-10 border-0 text-center text-xs shadow-none"
+                          "h-7 w-10 border-0 text-center text-xs shadow-none"
                         }
                         onKeyDown={(e) =>
                           handleTableNavigation(e, +index, dayIndex)
@@ -110,7 +110,7 @@ export default function RowBodyRender({
                       />
                     )}
                     {!register && value && (
-                      <div className="flex h-8 items-center justify-center md:h-8.5">
+                      <div className="flex h-7 items-center justify-center">
                         <span className="text-center text-xs md:text-sm">
                           {value[row]?.[dayIndex] || ""}
                         </span>
