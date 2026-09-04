@@ -4,12 +4,8 @@ const HOME_DEFAULTS = {
   currency: "EUR",
 };
 
-export function getHomeUrl(
-  request: NextRequest,
-  pathname?: string,
-  defaultTab = "month",
-) {
-  const url = new URL(pathname || "/home", request.url);
+export function getHomeUrl(request: NextRequest, pathname?: string) {
+  const url = new URL(pathname || "/month", request.url);
 
   const now = new Date();
 
@@ -29,8 +25,8 @@ export function getHomeUrl(
   );
 
   url.searchParams.set(
-    "tab",
-    request.nextUrl.searchParams.get("tab") ?? defaultTab,
+    "mode",
+    request.nextUrl.searchParams.get("mode") ?? "view",
   );
 
   return url;

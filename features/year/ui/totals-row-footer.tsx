@@ -1,6 +1,6 @@
 import { TableCell, TableRow } from "@/components/ui/table";
-import { CURRENCY_ICON } from "@/features/month/constants";
-import { Currency } from "./year-body-table";
+import { CURRENCY_ICON } from "@/features/month/model/constants";
+import { Currency } from "@/type/currency-data";
 
 export default function TotalsRowFooter({
   totalsByMonth,

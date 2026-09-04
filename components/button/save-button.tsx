@@ -8,7 +8,7 @@ export default function SaveButton({
   disabled = true,
   size = 18,
 }: {
-  formId: string;
+  formId: string | undefined;
   className?: string;
   isEdit: boolean;
   disabled?: boolean;
@@ -19,11 +19,15 @@ export default function SaveButton({
       form={formId}
       type="submit"
       disabled={disabled}
-      className={cn(className, "cursor-pointer")}
+      className={cn(
+        className,
+        "cursor-pointer px-1.5 py-1 hover:opacity-40",
+        disabled && "opacity-50",
+      )}
     >
       <SaveIcon
         size={size}
-        className={cn("text-bl", isEdit ? "text-rd" : "opacity-50")}
+        className={cn(isEdit ? "text-green-600" : "opacity-50")}
         strokeWidth={1.5}
       />
     </button>

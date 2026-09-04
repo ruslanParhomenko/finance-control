@@ -1,4 +1,3 @@
-import { ExpenseDataType } from "@/app/action/month-data-actions";
 import RowBodyRender from "@/components/table/row-body-render";
 import { TableBody } from "@/components/ui/table";
 import { addCash, expenseCategories } from "@/constants/expense";
@@ -6,11 +5,11 @@ import { addCash, expenseCategories } from "@/constants/expense";
 import { MONTHS } from "@/utils/get-month-days";
 import { calculateCategoryTotalsByMonths } from "../utils/get-totals-category-month";
 import { calculateTotals } from "@/utils/calculate-totals";
-
-export type Currency = "EUR" | "USD" | "MDL";
+import { GetExpenseDataType } from "@/features/month/actions/get-expense";
+import { Currency } from "@/type/currency-data";
 
 type Props = {
-  data: ExpenseDataType[];
+  data: GetExpenseDataType[];
   currency: Currency;
   currencyArray: number[];
 };

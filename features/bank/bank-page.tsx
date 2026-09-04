@@ -1,6 +1,5 @@
 "use client";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
-
 import { useEffect } from "react";
 import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { BankFormData, bankSchema, defaultBankForm } from "./schema";
@@ -8,28 +7,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { createBank, GetBankDataType } from "@/app/action/bank-data-actions";
 import BankForm from "./bank-form";
-
 import { CurrencyData } from "@/type/currency-data";
 import { ParamsValue } from "@/type/params-value";
-
 import { bankCategories } from "./constants";
-import { useEdit } from "@/providers/edit-provider";
-import { GetInitialStateType } from "@/app/action/initial-state-actions";
 
 export default function BankPage({
   bankByYear,
   paramsValue,
   currencyData,
-  initialState,
 }: {
   bankByYear: GetBankDataType[] | null;
   paramsValue: ParamsValue;
   currencyData: CurrencyData;
-  initialState: GetInitialStateType | null;
 }) {
-  const { month, year, currency } = paramsValue;
-
-  const { isEdit, setIsEdit } = useEdit();
+  const { month, year, currency, mode } = paramsValue;
 
   const bankData = bankByYear?.find((item) => item.id === month);
 
@@ -74,8 +65,6 @@ export default function BankPage({
     } else {
       toast.success("Bank успешно создан!");
     }
-
-    setIsEdit(false);
   };
 
   useEffect(() => {
@@ -109,11 +98,10 @@ export default function BankPage({
     <FormWrapper form={form} onSubmit={onSubmit}>
       <BankForm
         bankData={bankData}
-        initialState={initialState}
         totals={totals}
         selectedCurrency={Number(currencyRates[currency])}
         currency={currency}
-        isEdit={isEdit}
+        mode={mode}
       />
     </FormWrapper>
   );

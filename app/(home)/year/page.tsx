@@ -2,10 +2,9 @@ import { getBankByYear } from "@/app/action/bank-data-actions";
 import { getCurrencyData } from "@/app/action/get-currency";
 
 import { getInitialState } from "@/app/action/initial-state-actions";
-import { getExpenseByYear } from "@/app/action/month-data-actions";
-import HomePage from "@/features/home/home-page";
+import { getExpenseByYear } from "@/features/month/actions/get-expense";
+import { YearPage } from "@/features/year";
 import { ParamsValue } from "@/type/params-value";
-import { Suspense } from "react";
 
 export default async function Page({
   searchParams,
@@ -16,7 +15,7 @@ export default async function Page({
   const { month, year, currency } = paramsValue;
   if (!month || !year || !currency) return;
   const [expenseData, initialState, bankByYear, currencyData] =
-    await Promise.allSettled([
+    await Promise.all([
       getExpenseByYear(year),
       getInitialState(year),
       getBankByYear(year),
@@ -24,20 +23,12 @@ export default async function Page({
     ]);
 
   return (
-    <Suspense fallback={null}>
-      <HomePage
-        paramsValue={paramsValue}
-        expenseData={
-          expenseData.status === "fulfilled" ? expenseData.value : null
-        }
-        initialState={
-          initialState.status === "fulfilled" ? initialState.value : null
-        }
-        bankByYear={bankByYear.status === "fulfilled" ? bankByYear.value : null}
-        currencyData={
-          currencyData.status === "fulfilled" ? currencyData.value : null
-        }
-      />
-    </Suspense>
+    <YearPage
+      expenseData={expenseData}
+      paramsValue={paramsValue}
+      initialState={initialState}
+      bankData={bankByYear}
+      currencyData={currencyData}
+    />
   );
 }

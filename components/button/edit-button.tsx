@@ -20,15 +20,15 @@ export default function EditButton({
       onClick={() => setIsEdit(!isEdit)}
       className={cn(
         className,
-        "cursor-pointer hover:text-black",
+        "cursor-pointer px-1.5 py-1 hover:opacity-40",
         disabled && "opacity-50",
       )}
       disabled={disabled}
     >
       {isEdit ? (
-        <LogOut size={size} className="text-rd" strokeWidth={1.5} />
+        <LogOut size={size} className="text-red-600" strokeWidth={1.5} />
       ) : (
-        <PenBox size={size} className="text-bl" strokeWidth={1.5} />
+        <PenBox size={size} className="text-blue-600" strokeWidth={1.5} />
       )}
     </button>
   );

@@ -1,7 +1,5 @@
-
 import { Suspense } from "react";
 import NavMenuHeader from "@/components/nav-layout/nav-menu";
-import EditProvider from "@/providers/edit-provider";
 
 export default function HomeLayout({
   children,
@@ -10,9 +8,7 @@ export default function HomeLayout({
 }) {
   return (
     <Suspense fallback={null}>
-      <EditProvider>
-        <NavMenuHeader>{children}</NavMenuHeader>
-      </EditProvider>
+      <NavMenuHeader>{children}</NavMenuHeader>
     </Suspense>
   );
 }

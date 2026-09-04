@@ -3,12 +3,12 @@ import { addCash, expenseCategories } from "@/constants/expense";
 import { getMonthDays } from "@/utils/get-month-days";
 import { UseFormReturn, useWatch } from "react-hook-form";
 import { cn } from "@/lib/utils";
-import { calculateOverallTotals, Input } from "@/utils/category-totals";
+import { calculateOverallTotals } from "@/utils/category-totals";
 import RowBodyRender from "@/components/table/row-body-render";
 import RowFooterRender from "@/components/table/row-footer-render";
-import { CURRENCY_ICON } from "./constants";
-import { ExpenseFormType } from "./schema";
 import { calculateTotals } from "@/utils/calculate-totals";
+import { ExpenseFormType } from "../model/schema";
+import { CURRENCY_ICON } from "../model/constants";
 
 export default function MonthBodyCreate({
   form,

@@ -2,7 +2,7 @@
 import { SubmitHandler, UseFormReturn } from "react-hook-form";
 import { Form } from "../ui/form";
 import { cn } from "@/lib/utils";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 export function FormWrapper({
   formId,
@@ -17,9 +17,9 @@ export function FormWrapper({
   onSubmit?: SubmitHandler<any>;
   className?: string;
 }) {
-  const searchParams = useSearchParams();
-  const activeTab = searchParams.get("tab") || "";
-  const id = formId || activeTab;
+  const pathname = usePathname();
+  const mainRoute = pathname?.split("/").pop();
+  const id = formId || mainRoute;
   return (
     <Form {...form}>
       <form

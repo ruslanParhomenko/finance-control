@@ -1,10 +1,9 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { MONTHS } from "@/utils/get-month-days";
-import { CURRENCY_ICON } from "../../month/constants";
-import { Currency } from "./year-body-table";
+import { CURRENCY_ICON } from "../../month/model/constants";
 import { GetBankDataType } from "@/app/action/bank-data-actions";
-import { CurrencyData } from "@/type/currency-data";
+import { Currency, CurrencyData } from "@/type/currency-data";
 import { GetInitialStateType } from "@/app/action/initial-state-actions";
 
 type Props = {
@@ -136,13 +135,7 @@ export default function YearResultTable({
             ? Number(totalsRaw)
             : 0;
 
-          console.log("total", total);
-
           const bankValue = roundSafe(total / rate);
-
-          console.log("bankValue", bankValue);
-
-          // Может быть undefined, если MONTHS длиннее remainingByMonth
           const monthTotal = totalByMonth[index];
           const diff =
             monthTotal !== undefined ? roundSafe(bankValue - monthTotal) : 0;

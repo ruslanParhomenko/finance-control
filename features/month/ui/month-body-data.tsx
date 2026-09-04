@@ -1,13 +1,11 @@
 import { TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { addCash, expenseCategories } from "@/constants/expense";
 import { getMonthDays } from "@/utils/get-month-days";
-
 import { cn } from "@/lib/utils";
-import { calculateOverallTotals, Input } from "@/utils/category-totals";
-import { CURRENCY_ICON } from "./constants";
-
-import { ExpenseDataType } from "@/app/action/month-data-actions";
+import { calculateOverallTotals } from "@/utils/category-totals";
 import { calculateTotals } from "@/utils/calculate-totals";
+import { CURRENCY_ICON } from "../model/constants";
+import { ExpenseFormData } from "../actions/create-expense";
 
 export default function MonthBodyData({
   data,
@@ -15,13 +13,12 @@ export default function MonthBodyData({
   currencyRates,
   currency,
 }: {
-  data: ExpenseDataType | null;
+  data: ExpenseFormData | null;
   monthDays: ReturnType<typeof getMonthDays> | [];
   currencyRates: number;
   currency: string;
 }) {
-  const value = data?.rowExpenseData;
-
+  const value = data?.dataExpense;
   const totals = value && calculateTotals(value);
 
   const { expenseTotal, addCashTotal } = calculateOverallTotals(totals);
@@ -67,14 +64,6 @@ export default function MonthBodyData({
           </TableRow>
         );
       })}
-      {/* <RowFooterRender
-        rowArray={expenseCategories}
-        cellArray={monthDays.map((day) => day.weekday)}
-        currencyRates={currencyRates}
-        currency={currency}
-        totals={expenseTotal}
-        value={value}
-      /> */}
 
       <TableRow>
         <TableCell className="bg-background sticky left-0 px-2 text-end text-xs font-bold">

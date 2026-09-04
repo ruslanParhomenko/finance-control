@@ -1,21 +1,20 @@
-import { ExpenseDataType } from "@/app/action/month-data-actions";
+import { GetExpenseDataType } from "@/features/month/actions/get-expense";
 import { MONTHS } from "@/utils/get-month-days";
 
 export function calculateCategoryTotalsByMonths(
-  data: ExpenseDataType[],
+  data: GetExpenseDataType[],
   currencyRates: number[],
 ): Record<string, number[]> {
   const result: Record<string, number[]> = {};
 
-  const dataByMonth = new Map<string, ExpenseDataType>();
+  const dataByMonth = new Map<string, GetExpenseDataType>();
   data.forEach((item) => {
-    dataByMonth.set(item.month, item);
+    dataByMonth.set(item.id, item);
   });
 
-  /* собираем все категории */
   const allCategories = new Set<string>();
   data.forEach((item) => {
-    Object.keys(item.rowExpenseData).forEach((key) => {
+    Object?.keys(item.data.dataExpense).forEach((key) => {
       allCategories.add(key);
     });
   });
@@ -25,7 +24,7 @@ export function calculateCategoryTotalsByMonths(
       const monthData = dataByMonth.get(month);
       if (!monthData) return 0;
 
-      const values = monthData.rowExpenseData[category];
+      const values = monthData.data.dataExpense[category];
       if (!Array.isArray(values)) return 0;
 
       const rate = currencyRates?.[monthIndex] || 1;

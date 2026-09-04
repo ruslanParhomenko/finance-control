@@ -1,7 +1,6 @@
 import { TableFooter } from "@/components/ui/table";
-import { Currency } from "./year-body-table";
 import { GetBankDataType } from "@/app/action/bank-data-actions";
-import { CurrencyData } from "@/type/currency-data";
+import { Currency, CurrencyData } from "@/type/currency-data";
 import { GetInitialStateType } from "@/app/action/initial-state-actions";
 import RemainingRowFooter from "./remaining-row-footer";
 import TotalsRowFooter from "./totals-row-footer";

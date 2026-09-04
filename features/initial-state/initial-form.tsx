@@ -12,21 +12,19 @@ import {
 import { toast } from "sonner";
 import { useEffect } from "react";
 
-import { useEdit } from "@/providers/edit-provider";
 import { CurrencyData } from "@/type/currency-data";
+import { ParamsValue } from "@/type/params-value";
 
 export default function InitialForm({
   initialState,
-  year,
+  paramsValue,
   currencyData,
 }: {
   initialState: GetInitialStateType | null;
-  year: string;
+  paramsValue: ParamsValue;
   currencyData: CurrencyData;
 }) {
-  const { isEdit, setIsEdit } = useEdit();
-
-  console.log("initialState", initialState);
+  const { year, mode } = paramsValue;
 
   const form = useForm<InitialStateFormType>({
     resolver: zodResolver(initialStateSchema),
@@ -35,7 +33,6 @@ export default function InitialForm({
     },
   });
 
-  console.log("currencyData", currencyData);
   const onSubmit: SubmitHandler<InitialStateFormType> = async (data) => {
     const formatData = {
       MDL: Number(data) / (currencyData.MDL[0] || 1),
@@ -44,7 +41,6 @@ export default function InitialForm({
     };
     await createInitialState(formatData, year);
     toast.success("initialState успешно обновлён!");
-    setIsEdit(false);
   };
 
   useEffect(() => {
@@ -61,12 +57,12 @@ export default function InitialForm({
           <Label className="flex w-30 items-center justify-center">
             initial balance :
           </Label>
-          {!isEdit && (
+          {mode === "view" && (
             <Label className="flex w-30 items-center justify-center">
               {initialState?.initialState?.MDL?.toFixed(0) || 0}
             </Label>
           )}
-          {isEdit && (
+          {mode === "edit" && (
             <NumericInput
               fieldName="initialState"
               className="h-7 w-30 border-red-600 text-xs font-semibold text-red-600"

@@ -21,9 +21,13 @@ export default function ExitButton({
         url ? router.replace(url) : router.back();
       }}
       disabled={disabled}
-      className={cn("cursor-pointer", className, disabled && "opacity-50")}
+      className={cn(
+        "cursor-pointer px-1.5 py-1",
+        className,
+        disabled && "opacity-50",
+      )}
     >
-      <LogOutIcon size={18} strokeWidth={1.5} className="text-rd" />
+      <LogOutIcon size={18} strokeWidth={1.5} className="text-red-600" />
     </button>
   );
 }

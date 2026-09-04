@@ -4,8 +4,8 @@ import React from "react";
 import NumericInput from "@/components/input/numeric-input";
 import { UseFormReturn } from "react-hook-form";
 import { handleTableNavigation } from "@/utils/table-navigation";
-import { CURRENCY_ICON } from "@/features/month/constants";
-import { ExpenseFormType } from "@/features/month/schema";
+import { CURRENCY_ICON } from "@/features/month/model/constants";
+import { ExpenseFormType } from "@/features/month/model/schema";
 import { cn } from "@/lib/utils";
 import { calculateOverallTotals } from "@/utils/category-totals";
 

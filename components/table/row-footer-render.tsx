@@ -1,5 +1,5 @@
 import { TableCell, TableRow } from "@/components/ui/table";
-import { CURRENCY_ICON } from "@/features/month/constants";
+import { CURRENCY_ICON } from "@/features/month/model/constants";
 
 export default function RowFooterRender({
   rowArray,

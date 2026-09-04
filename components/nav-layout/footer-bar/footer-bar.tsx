@@ -1,90 +1,76 @@
 "use client";
-import ChartButton from "@/components/button/chart-button";
-import { useEdit } from "@/providers/edit-provider";
-import { usePathname, useSearchParams } from "next/navigation";
-import { NAV_BY_PATCH } from "../constants";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { ACTION_BUTTONS_BY_PATCH, NAV_BY_PATCH } from "../constants";
 import { useTransition } from "react";
 import TabsOptions from "@/components/tabs/tabs-options";
 import SaveButton from "@/components/button/save-button";
 import EditButton from "@/components/button/edit-button";
-import ExitButton from "@/components/button/exit-button";
+
+type Mode = "edit" | "view";
 
 export default function FooterBar() {
   const pathname = usePathname();
-  const mainRoute = pathname?.split("/").pop();
-
-  const { isEdit, setIsEdit } = useEdit();
-
-  const navItems =
-    NAV_BY_PATCH[mainRoute as keyof typeof NAV_BY_PATCH]?.tabs || [];
-
-  const actionItems =
-    NAV_BY_PATCH[mainRoute as keyof typeof NAV_BY_PATCH]?.action || [];
-  const has = (key: string) => actionItems.includes(key);
-
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const activeTab =
-    searchParams.get("tab") || navItems[navItems.length - 1] || "";
 
-  const formId = activeTab;
+  const mainRoute = pathname?.split("/").pop();
+  const formId = mainRoute;
 
   const [isPending, startTransition] = useTransition();
 
-  const iconCn = "px-2.5 py-1 cursor-pointer text-blue-600";
+  const actionItems =
+    ACTION_BUTTONS_BY_PATCH[mainRoute as keyof typeof ACTION_BUTTONS_BY_PATCH];
 
-  const handleTabChange = (value: string) => {
+  const has = (key: string) => actionItems?.includes(key);
+
+  const rawMode = searchParams.get("mode");
+  const mode: Mode = rawMode === "edit" ? "edit" : "view";
+  const isEdit = mode === "edit";
+
+  const setMode = (value: Mode) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set("tab", value);
+    params.set("mode", value);
 
     startTransition(() => {
-      window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
+      router.replace(`${pathname}?${params.toString()}`);
     });
   };
 
-  const getChartUrl = (pathName: string) => {
+  const handleTabChange = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());
+    params.set("mode", "view"); // сброс режима при смене patch
 
-    const now = new Date();
-
-    params.set("month", String(now.getMonth() + 1));
-    params.set("year", String(now.getFullYear()));
-
-    params.set("tab", "month");
-
-    return `/${pathName}?${params.toString()}`;
+    startTransition(() => {
+      router.replace(`${value}?${params.toString()}`);
+    });
   };
 
   return (
-    <div className="bg-background sticky bottom-3 z-20 flex items-center justify-between gap-2 px-4 pb-1 md:my-1 md:justify-start md:gap-4">
-      {has("chart") && (
-        <ChartButton className={iconCn} url={getChartUrl("chart")} />
-      )}
-      {navItems.length > 0 && (
+    <div className="bg-background sticky bottom-3 z-20 my-1.5 flex flex-col items-center justify-between px-4 pb-1 md:flex-row md:justify-start md:gap-4">
+      <div className="order-2 md:order-1">
         <TabsOptions
-          value={activeTab}
+          value={mainRoute || ""}
           setValue={handleTabChange}
           isPending={isPending}
-          options={navItems}
+          options={NAV_BY_PATCH}
         />
-      )}
-      {has("edit") && isEdit && (
-        <SaveButton
-          formId={formId}
-          isEdit={isEdit}
-          disabled={isPending || !isEdit}
-          className={iconCn}
-        />
-      )}
-      {has("edit") && (
-        <EditButton isEdit={isEdit} setIsEdit={setIsEdit} className={iconCn} />
-      )}
-      {has("exit") && (
-        <ExitButton
-          className={iconCn}
-          disabled={isPending}
-          url={getChartUrl("home")}
-        />
-      )}
+      </div>
+      <div className="order-1 flex w-full items-center justify-end gap-6 md:order-2 md:justify-start">
+        {has("edit") && isEdit && (
+          <SaveButton
+            formId={formId}
+            isEdit={isEdit}
+            disabled={isPending || !isEdit}
+          />
+        )}
+
+        {has("edit") && (
+          <EditButton
+            isEdit={isEdit}
+            setIsEdit={() => setMode(isEdit ? "view" : "edit")}
+          />
+        )}
+      </div>
     </div>
   );
 }
