@@ -47,7 +47,7 @@ export default function RowBodyRender({
           0,
         );
         return (
-          <TableRow key={index + row} className="[&>td]:p-0">
+          <TableRow key={index + row} className="[&>td]:px-0 [&>td]:py-1">
             <TableCell className="bg-background sticky left-0 z-10 text-center text-xs font-bold text-blue-700">
               {isNaN(Number(total)) ? 0 : total}{" "}
               {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
@@ -66,7 +66,7 @@ export default function RowBodyRender({
                 <React.Fragment key={dayIndex}>
                   <TableCell
                     className={cn(
-                      "h-7.5 border-x px-0 text-center md:hidden",
+                      "border-x px-0 text-center md:hidden",
                       selectedDay === dayIndex &&
                         selectedRow === index &&
                         "bg-border",
@@ -75,7 +75,7 @@ export default function RowBodyRender({
                     {register && !value && (
                       <NumericInput
                         fieldName={`rowExpenseData.${row}.${dayIndex}`}
-                        className="h-7.5 w-10 rounded-none border-0 text-center text-xs text-red-700 shadow-none"
+                        className="h-7 w-10 rounded-none border-0 text-center text-xs text-red-700 shadow-none"
                         onFocus={() => handleSelect(index, dayIndex)}
                         onBlur={() => handleSelect(null, null)}
                       />
