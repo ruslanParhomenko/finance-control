@@ -1,16 +1,12 @@
-import { CurrencyData } from "@/type/currency-data";
 import { ParamsValue } from "@/type/params-value";
-import { MONTHS } from "@/utils/get-month-days";
 import CustomChart from "@/components/chart-custom";
 import { GetBankDataType } from "../bank/model/type";
 
 export default function ChartBankMonth({
   dataBank,
-  currencyData,
   paramsValue,
 }: {
   dataBank: GetBankDataType[] | null;
-  currencyData: CurrencyData;
   paramsValue: ParamsValue;
 }) {
   const { month, currency } = paramsValue;
@@ -21,14 +17,7 @@ export default function ChartBankMonth({
   ];
 
   const data = dataBank?.find((item) => +item.id === prevMonth) || null;
-
-  const monthIndex = MONTHS.findIndex((m) => m === data?.id);
-
-  const currencyRatesByMonth = {
-    EUR: currencyData.EUR.find((_item, index) => index === monthIndex) || 1,
-    USD: currencyData.USD.find((_item, index) => index === monthIndex) || 1,
-    MDL: 1,
-  };
+  const currencyRatesByMonth = data?.dataCurrency!;
 
   const chartDataBank = Object.entries(data?.dataBank.bank || {}).map(
     ([key, value]) => {

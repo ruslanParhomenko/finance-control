@@ -1,6 +1,5 @@
 "use client";
 
-import { CurrencyData } from "@/type/currency-data";
 import { ParamsValue } from "@/type/params-value";
 import { MONTHS } from "@/utils/get-month-days";
 import { useState } from "react";
@@ -18,11 +17,9 @@ type BarKey = keyof Omit<ChartDataItem, "name">;
 
 export default function ChartBankYear({
   dataBank,
-  currencyData,
   paramsValue,
 }: {
   dataBank: GetBankDataType[] | null;
-  currencyData: CurrencyData;
   paramsValue: ParamsValue;
 }) {
   const { currency } = paramsValue;
@@ -46,13 +43,11 @@ export default function ChartBankYear({
     const bankData = dataByMonth?.bank;
     const totalsByMonth = Number(dataByMonth?.totals);
 
-    const monthIndex = dataBank?.findIndex((item) => item.id === month) ?? 0;
+    const currencyRatesByMonth = dataBank?.find(
+      (item) => item.id === month,
+    )?.dataCurrency!;
 
-    const currencyRatesByMonth = {
-      EUR: currencyData.EUR[monthIndex] || 1,
-      USD: currencyData.USD[monthIndex] || 1,
-      MDL: 1,
-    };
+    console.log(currencyRatesByMonth);
 
     const result: ChartDataItem = {
       name: month,
@@ -63,7 +58,9 @@ export default function ChartBankYear({
         result[bank] = Number(
           (
             Math.abs(totalsByMonth) /
-            currencyRatesByMonth[currency as keyof typeof currencyRatesByMonth]
+            currencyRatesByMonth?.[
+              currency as keyof typeof currencyRatesByMonth
+            ]
           ).toFixed(0),
         );
         return;

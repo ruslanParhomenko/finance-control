@@ -4,13 +4,12 @@ import { getMonthDays } from "@/utils/get-month-days";
 import { UseFormReturn, useWatch } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { calculateOverallTotals } from "@/utils/category-totals";
-import RowBodyRender from "@/components/table/row-body-render";
-import RowFooterRender from "@/components/table/row-footer-render";
 import { calculateTotals } from "@/utils/calculate-totals";
 import { ExpenseFormType } from "../model/schema";
 import { CURRENCY_ICON } from "../model/constants";
+import RowEditBody from "./row-edit-body";
 
-export default function MonthBodyCreate({
+export default function MonthEditBody({
   form,
   monthDays,
   currencyRates,
@@ -31,23 +30,18 @@ export default function MonthBodyCreate({
 
   return (
     <TableBody>
-      <RowBodyRender
+      <RowEditBody
         rowArray={expenseCategories}
         cellArray={monthDays.map((day) => day.weekday)}
         currencyRates={currencyRates}
         currency={currency}
         form={form}
         totals={totals}
-      />
-      <RowFooterRender
-        rowArray={expenseCategories}
-        cellArray={monthDays.map((day) => day.weekday)}
-        currencyRates={currencyRates}
-        currency={currency}
-        totals={expenseTotal}
+        withFooterTotals={true}
         value={value}
       />
-      <RowBodyRender
+
+      <RowEditBody
         rowArray={addCash}
         cellArray={monthDays.map((day) => day.weekday)}
         form={form}

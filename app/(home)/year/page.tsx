@@ -1,4 +1,3 @@
-import { getCurrencyData } from "@/app/action/get-currency";
 import { getBankByYear } from "@/features/bank/actions/get-bank-data";
 import { getInitialState } from "@/features/initial-state/actions/get-init-bal";
 import { getExpenseByYear } from "@/features/month/actions/get-expense";
@@ -13,13 +12,11 @@ export default async function Page({
   const paramsValue = (await searchParams) as ParamsValue;
   const { month, year, currency } = paramsValue;
   if (!month || !year || !currency) return;
-  const [expenseData, initialState, bankByYear, currencyData] =
-    await Promise.all([
-      getExpenseByYear(year),
-      getInitialState(year),
-      getBankByYear(year),
-      getCurrencyData(Number(year)),
-    ]);
+  const [expenseData, initialState, bankByYear] = await Promise.all([
+    getExpenseByYear(year),
+    getInitialState(year),
+    getBankByYear(year),
+  ]);
 
   return (
     <YearPage
@@ -27,7 +24,6 @@ export default async function Page({
       paramsValue={paramsValue}
       initialState={initialState}
       bankData={bankByYear}
-      currencyData={currencyData}
     />
   );
 }

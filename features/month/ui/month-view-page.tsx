@@ -1,40 +1,39 @@
 import { Table } from "@/components/ui/table";
-import MonthHeaderTable from "./month-header-table";
 import { getMonthDays } from "@/utils/get-month-days";
 import { ParamsValue } from "@/type/params-value";
-import { CurrencyRatesByMonth } from "@/type/currency-data";
-import MonthBodyData from "./month-body-data";
 import { GetExpenseDataType } from "../actions/get-expense";
+import MonthViewBody from "./month-view-body";
+import MonthHeader from "./month-header";
 
-export default function MonthViewPage({
+export function MonthViewPage({
   paramsValue,
   expenseDataByMonth,
-  currencyRatesByMonth,
 }: {
   paramsValue: ParamsValue;
   expenseDataByMonth: GetExpenseDataType | null;
-  currencyRatesByMonth: CurrencyRatesByMonth;
 }) {
   const { month, year, currency } = paramsValue;
 
   const monthDays = getMonthDays({ month, year });
+  const currencyRates = expenseDataByMonth?.data.currencyRates[currency] || 1;
 
+  if (!expenseDataByMonth)
+    return (
+      <div className="flex h-full items-center justify-center text-red-600">
+        not data
+      </div>
+    );
   return (
     <Table className="table-fixed">
-      <MonthHeaderTable
+      <MonthHeader
         month={month}
         monthDays={monthDays}
-        currencyRates={
-          currencyRatesByMonth[currency as keyof CurrencyRatesByMonth]
-        }
+        currencyRates={currencyRates}
       />
 
-      <MonthBodyData
+      <MonthViewBody
         data={expenseDataByMonth?.data || null}
         monthDays={monthDays}
-        currencyRates={
-          currencyRatesByMonth[currency as keyof CurrencyRatesByMonth]
-        }
         currency={currency}
       />
     </Table>

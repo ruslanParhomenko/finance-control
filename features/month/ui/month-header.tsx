@@ -2,7 +2,7 @@ import { TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { getMonthDays, MONTH_STRINGS } from "@/utils/get-month-days";
 
-export default function MonthHeaderTable({
+export default function MonthHeader({
   month,
   monthDays,
   currencyRates,

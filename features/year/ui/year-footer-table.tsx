@@ -1,5 +1,5 @@
 import { TableFooter } from "@/components/ui/table";
-import { Currency, CurrencyData } from "@/type/currency-data";
+import { Currency } from "@/type/currency-data";
 import RemainingRowFooter from "./remaining-row-footer";
 import TotalsRowFooter from "./totals-row-footer";
 import BankRowFooter from "./bank-row-footer";
@@ -8,11 +8,10 @@ import { GetBankDataType } from "@/features/bank/model/type";
 
 type Props = {
   initialState: GetInitialStateType | null;
-  currencyArray: number[];
+  currencyArray: { EUR: number[]; USD: number[]; MDL: number[] };
   currency: Currency;
   bankData: GetBankDataType[] | null;
   remainingByMonth: number[];
-  currencyData: CurrencyData;
 };
 
 export default function YearFooterTable({
@@ -21,12 +20,11 @@ export default function YearFooterTable({
   currency,
   bankData,
   remainingByMonth,
-  currencyData,
 }: Props) {
   const initialStateInEur = initialState?.initialState?.EUR || 0;
 
   const initialStateByCurrency =
-    Number(initialState?.initialState.MDL) / (currencyArray[0] || 1);
+    Number(initialState?.initialState.MDL) / (currencyArray[currency][0] || 1);
 
   const cumulativeDiff = remainingByMonth.reduce<number[]>(
     (acc, value, index) => {
@@ -40,7 +38,7 @@ export default function YearFooterTable({
   );
   const getInitialStateForMonth = (index: number) => {
     if (currency === "MDL") {
-      const monthRate = currencyData.EUR[index];
+      const monthRate = currencyArray.EUR[index];
 
       return initialStateInEur * monthRate;
     }
@@ -61,7 +59,7 @@ export default function YearFooterTable({
       <TotalsRowFooter totalsByMonth={totalByMonth} currency={currency} />
       <BankRowFooter
         totalByMonth={totalByMonth}
-        currencyArray={currencyArray}
+        currencyArray={currencyArray[currency]}
         bankData={bankData}
       />
     </TableFooter>

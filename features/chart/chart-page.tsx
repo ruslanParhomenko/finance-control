@@ -20,14 +20,11 @@ export function ChartPage({
   paramsValue,
   dataBank,
   dataExpense,
-  currencyData,
 }: {
   paramsValue: ParamsValue;
 
   dataBank: GetBankDataType[] | null;
   dataExpense: GetExpenseDataType[] | null;
-
-  currencyData: CurrencyData;
 }) {
   const { currency } = paramsValue;
 
@@ -46,18 +43,10 @@ export function ChartPage({
       </div>
       <div className="flex-1">
         {chartType === "bank-month" && (
-          <ChartBankMonth
-            dataBank={dataBank}
-            currencyData={currencyData}
-            paramsValue={paramsValue}
-          />
+          <ChartBankMonth dataBank={dataBank} paramsValue={paramsValue} />
         )}
         {chartType === "bank-year" && (
-          <ChartBankYear
-            dataBank={dataBank}
-            currencyData={currencyData}
-            paramsValue={paramsValue}
-          />
+          <ChartBankYear dataBank={dataBank} paramsValue={paramsValue} />
         )}
 
         {chartType === "expenses" && (

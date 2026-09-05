@@ -9,7 +9,7 @@ import { ExpenseFormType } from "@/features/month/model/schema";
 import { cn } from "@/lib/utils";
 import { calculateOverallTotals } from "@/utils/category-totals";
 
-export default function RowBodyRender({
+export default function RowEditBody({
   rowArray,
   cellArray,
   currencyRates,
@@ -23,14 +23,11 @@ export default function RowBodyRender({
   cellArray: string[];
   currencyRates: number;
   currency: string;
-  form?: UseFormReturn<ExpenseFormType>;
+  form: UseFormReturn<ExpenseFormType>;
   totals: Record<string, number> | undefined;
-  value?:
-    Record<string, (string | number | undefined)[] | undefined> | undefined;
+  value?: Record<string, string[]>;
   withFooterTotals?: boolean;
 }) {
-  const register = form?.register;
-
   const [selectedRow, setSelectedRow] = React.useState<number | null>(null);
   const [selectedDay, setSelectedDay] = React.useState<number | null>(null);
 
@@ -39,6 +36,7 @@ export default function RowBodyRender({
     setSelectedDay(day);
   };
 
+  const register = form?.register;
   const { expenseTotal } = calculateOverallTotals(totals ?? {});
   return (
     <>
@@ -47,7 +45,7 @@ export default function RowBodyRender({
           0,
         );
         return (
-          <TableRow key={index + row} className="[&>td]:px-0 [&>td]:py-1">
+          <TableRow key={index + row} className="[&>td]:px-0 [&>td]:py-0">
             <TableCell className="bg-background sticky left-0 z-10 text-center text-xs font-bold text-blue-700">
               {isNaN(Number(total)) ? 0 : total}{" "}
               {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
@@ -72,17 +70,12 @@ export default function RowBodyRender({
                         "bg-border",
                     )}
                   >
-                    {register && !value && (
-                      <NumericInput
-                        fieldName={`rowExpenseData.${row}.${dayIndex}`}
-                        className="h-4.5 w-10 rounded-none border-0 text-center text-xs text-red-700 shadow-none"
-                        onFocus={() => handleSelect(index, dayIndex)}
-                        onBlur={() => handleSelect(null, null)}
-                      />
-                    )}
-                    <span className="text-center text-xs shadow-none md:text-sm">
-                      {(!register && value && value[row]?.[dayIndex]) || ""}
-                    </span>
+                    <NumericInput
+                      fieldName={`rowExpenseData.${row}.${dayIndex}`}
+                      className="h-[1.6rem] w-10 rounded-none border-0 text-center text-xs text-red-700 shadow-none"
+                      onFocus={() => handleSelect(index, dayIndex)}
+                      onBlur={() => handleSelect(null, null)}
+                    />
                   </TableCell>
                   <TableCell
                     key={dayIndex}
@@ -93,29 +86,20 @@ export default function RowBodyRender({
                         "bg-border",
                     )}
                   >
-                    {register && !value && (
-                      <input
-                        type="text"
-                        data-row={index}
-                        data-col={dayIndex}
-                        {...register(`rowExpenseData.${row}.${dayIndex}`)}
-                        className={
-                          "h-7 w-10 border-0 text-center text-xs shadow-none"
-                        }
-                        onKeyDown={(e) =>
-                          handleTableNavigation(e, +index, dayIndex)
-                        }
-                        onFocus={() => handleSelect(index, dayIndex)}
-                        onBlur={() => handleSelect(null, null)}
-                      />
-                    )}
-                    {!register && value && (
-                      <div className="flex h-7 items-center justify-center">
-                        <span className="text-center text-xs md:text-sm">
-                          {value[row]?.[dayIndex] || ""}
-                        </span>
-                      </div>
-                    )}
+                    <input
+                      type="text"
+                      data-row={index}
+                      data-col={dayIndex}
+                      {...register(`rowExpenseData.${row}.${dayIndex}`)}
+                      className={
+                        "h-9 w-10 border-0 text-center text-xs shadow-none"
+                      }
+                      onKeyDown={(e) =>
+                        handleTableNavigation(e, +index, dayIndex)
+                      }
+                      onFocus={() => handleSelect(index, dayIndex)}
+                      onBlur={() => handleSelect(null, null)}
+                    />
                   </TableCell>
                 </React.Fragment>
               );
@@ -124,7 +108,7 @@ export default function RowBodyRender({
         );
       })}
       {withFooterTotals && (
-        <TableRow className="[&>td]:px-0 [&>td]:py-2 [&>td]:text-center [&>td]:text-xs [&>td]:text-red-600">
+        <TableRow className="[&>td]:p-0 [&>td]:text-center [&>td]:text-xs [&>td]:text-red-600">
           <TableCell className="bg-background sticky left-0 font-bold md:bg-transparent">
             {(Number(expenseTotal) / Number(currencyRates)).toFixed(0)}{" "}
             {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
@@ -139,7 +123,7 @@ export default function RowBodyRender({
               }, 0)
               .toFixed(0);
             return (
-              <TableCell key={dayIndex} className="font-bold">
+              <TableCell key={dayIndex} className="h-6.5 font-bold">
                 {(Number(totalByDay) / Number(currencyRates)).toFixed(0)}{" "}
               </TableCell>
             );

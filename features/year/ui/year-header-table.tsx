@@ -12,14 +12,14 @@ export default function YearHeaderTable({
   return (
     <TableHeader>
       <TableRow>
-        <TableCell className="bg-background sticky left-0 w-12" />
+        <TableCell className="bg-background sticky left-0 w-14" />
 
-        <TableCell className="front-bold bg-background sticky left-12 w-16 p-0 px-3 text-start text-xs">
+        <TableCell className="front-bold bg-background sticky left-12 w-18 p-0 px-3 text-start text-xs">
           {year}
         </TableCell>
 
         {MONTHS.map((month, index) => (
-          <TableCell key={month} className="w-12 cursor-pointer p-0">
+          <TableCell key={month} className="w-14 cursor-pointer p-0">
             <div className="text-muted-foreground text-center text-xs">
               {MONTH_STRINGS[Number(month) - 1].toLowerCase().slice(0, 3)}
             </div>

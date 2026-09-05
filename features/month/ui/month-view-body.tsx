@@ -7,19 +7,20 @@ import { calculateTotals } from "@/utils/calculate-totals";
 import { CURRENCY_ICON } from "../model/constants";
 import { ExpenseFormData } from "../actions/create-expense";
 
-export default function MonthBodyData({
+export default function MonthViewBody({
   data,
   monthDays,
-  currencyRates,
   currency,
 }: {
   data: ExpenseFormData | null;
   monthDays: ReturnType<typeof getMonthDays> | [];
-  currencyRates: number;
   currency: string;
 }) {
   const value = data?.dataExpense;
   const totals = value && calculateTotals(value);
+
+  const currencyRates =
+    data?.currencyRates[currency as keyof typeof data.currencyRates];
 
   const { expenseTotal, addCashTotal } = calculateOverallTotals(totals);
 
@@ -33,10 +34,7 @@ export default function MonthBodyData({
           0,
         );
         return (
-          <TableRow
-            key={index + row}
-            className="[&>td]:py-1.25 md:[&>td]:py-2.5"
-          >
+          <TableRow key={index + row} className="[&>td]:py-0">
             <TableCell className="bg-background sticky left-0 z-10 text-end text-xs font-bold text-blue-700">
               {isNaN(Number(total)) ? 0 : total}{" "}
               {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
@@ -53,7 +51,7 @@ export default function MonthBodyData({
               return (
                 <TableCell
                   key={dayIndex}
-                  className={cn("border-x px-0 text-center")}
+                  className={"h-6.5 border-x px-0 text-center md:h-9"}
                 >
                   <span className="text-center text-xs shadow-none">
                     {value?.[row]?.[dayIndex] || ""}

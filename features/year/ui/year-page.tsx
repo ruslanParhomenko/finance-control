@@ -1,6 +1,5 @@
 import { Table } from "@/components/ui/table";
 import { ParamsValue } from "@/type/params-value";
-import { Currency, CurrencyData } from "@/type/currency-data";
 import { MONTHS } from "@/utils/get-month-days";
 import YearHeaderTable from "./year-header-table";
 import YearFooterTable from "./year-footer-table";
@@ -14,49 +13,65 @@ export function YearPage({
   paramsValue,
   initialState,
   bankData,
-  currencyData,
 }: {
   expenseData: GetExpenseDataType[] | null;
   paramsValue: ParamsValue;
   initialState: GetInitialStateType | null;
   bankData: GetBankDataType[] | null;
-  currencyData: CurrencyData;
 }) {
   const { year, currency } = paramsValue;
 
-  const currencyArray = MONTHS.reduce((acc: number[], month: string) => {
-    const sortedExpenseData = [...(expenseData ?? [])].sort(
-      (a, b) => Number(a.id) - Number(b.id),
-    );
-    const item = expenseData?.find((item) => +item.id === Number(month))?.data;
+  const sortedExpenseData = [...(expenseData ?? [])].sort(
+    (a, b) => Number(a.id) - Number(b.id),
+  );
 
-    const lastItem = sortedExpenseData[sortedExpenseData.length - 1].data;
+  const lastItem = sortedExpenseData.at(-1)?.data;
 
-    const currencyByItem = item
-      ? Number(item.currencyRates[currency as Currency])
-      : Number(lastItem?.currencyRates?.[currency as Currency]);
-    const value = currencyByItem;
-    return [...acc, value];
-  }, []);
+  const currencyArray = MONTHS.reduce(
+    (acc, month) => {
+      const item = expenseData?.find(
+        (item) => Number(item.id) === Number(month),
+      )?.data;
+
+      const rates = item?.currencyRates ?? lastItem?.currencyRates;
+
+      acc.EUR.push(Number(rates?.EUR ?? 0));
+      acc.USD.push(Number(rates?.USD ?? 0));
+      acc.MDL.push(Number(rates?.MDL ?? 1));
+
+      return acc;
+    },
+    { EUR: [], USD: [], MDL: [] } as {
+      EUR: number[];
+      USD: number[];
+      MDL: number[];
+    },
+  );
 
   const remainingByMonth = MONTHS.map((_, monthIndex) => {
     const monthData = expenseData?.find(
       (item) => +item.id === monthIndex + 1,
     )?.data;
     const remaining =
-      Number(monthData?.difference || 0) / Number(currencyArray?.[monthIndex]);
+      Number(monthData?.difference || 0) /
+      Number(currencyArray?.[currency]?.[monthIndex]);
     return Number(remaining.toFixed(0));
   });
 
-  if (!expenseData) return null;
+  if (!expenseData?.length)
+    return (
+      <div className="flex h-full items-center justify-center text-red-600">
+        not data
+      </div>
+    );
 
   return (
     <Table className="table-fixed">
-      <YearHeaderTable year={year} currencyArray={currencyArray} />
+      <YearHeaderTable year={year} currencyArray={currencyArray?.[currency]} />
       <YearBodyTable
         data={expenseData}
         currency={currency}
-        currencyArray={currencyArray}
+        currencyArray={currencyArray?.[currency]}
       />
       <YearFooterTable
         initialState={initialState}
@@ -64,7 +79,6 @@ export function YearPage({
         currency={currency}
         bankData={bankData}
         remainingByMonth={remainingByMonth}
-        currencyData={currencyData}
       />
     </Table>
   );

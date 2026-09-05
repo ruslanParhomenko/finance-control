@@ -1,19 +1,17 @@
 "use client";
 import { Table } from "@/components/ui/table";
-import MonthHeaderTable from "./month-header-table";
 import { getMonthDays } from "@/utils/get-month-days";
 import { FormWrapper } from "@/components/wrapper/form-wrapper";
-
 import { useEffect } from "react";
 import { expenseCategories } from "@/constants/expense";
-
 import { CurrencyRatesByMonth } from "@/type/currency-data";
 import { ParamsValue } from "@/type/params-value";
 import useMonthForm from "../hooks/use-month-form";
-import MonthBodyCreate from "./month-body-create";
 import { GetExpenseDataType } from "../actions/get-expense";
+import MonthHeader from "./month-header";
+import MonthEditBody from "./month-edit-body";
 
-export default function MonthEditPage({
+export function MonthEditPage({
   paramsValue,
   expenseDataByMonth,
   currencyRatesByMonth,
@@ -58,7 +56,7 @@ export default function MonthEditPage({
   return (
     <FormWrapper form={form} onSubmit={onSubmit} className="md:px-4">
       <Table className="table-fixed">
-        <MonthHeaderTable
+        <MonthHeader
           month={month}
           monthDays={monthDays}
           currencyRates={
@@ -66,7 +64,7 @@ export default function MonthEditPage({
           }
         />
 
-        <MonthBodyCreate
+        <MonthEditBody
           form={form}
           monthDays={monthDays}
           currencyRates={

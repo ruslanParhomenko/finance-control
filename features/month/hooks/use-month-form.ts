@@ -12,6 +12,7 @@ import {
 } from "../model/schema";
 import { CurrencyRatesByMonth } from "@/type/currency-data";
 import { createExpenseMonth } from "../actions/create-expense";
+import { useSetViewMode } from "@/hooks/use-set-view-mode";
 
 export default function useMonthForm({
   month,
@@ -22,6 +23,8 @@ export default function useMonthForm({
   year: string;
   currencyRatesByMonth: CurrencyRatesByMonth;
 }) {
+  const setViewMode = useSetViewMode();
+
   const form = useForm<ExpenseFormType>({
     resolver: zodResolver(expenseSchema),
     defaultValues: defaultExpenseForm,
@@ -42,6 +45,9 @@ export default function useMonthForm({
     };
 
     await createExpenseMonth(formatData);
+
+    setViewMode();
+
     toast.success("Expense успешно обновлён!");
   };
 

@@ -1,7 +1,5 @@
-import RowBodyRender from "@/components/table/row-body-render";
 import { TableBody } from "@/components/ui/table";
 import { addCash, expenseCategories } from "@/constants/expense";
-
 import { MONTHS } from "@/utils/get-month-days";
 import { calculateCategoryTotalsByMonths } from "../utils/get-totals-category-month";
 import { calculateTotals } from "@/utils/calculate-totals";

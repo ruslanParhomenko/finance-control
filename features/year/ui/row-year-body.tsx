@@ -1,11 +1,5 @@
-"use client";
 import { TableCell, TableRow } from "@/components/ui/table";
-import React from "react";
-import NumericInput from "@/components/input/numeric-input";
-import { UseFormReturn } from "react-hook-form";
-import { handleTableNavigation } from "@/utils/table-navigation";
 import { CURRENCY_ICON } from "@/features/month/model/constants";
-import { ExpenseFormType } from "@/features/month/model/schema";
 import { cn } from "@/lib/utils";
 import { calculateOverallTotals } from "@/utils/category-totals";
 
@@ -37,9 +31,9 @@ export default function RowYearBody({
         return (
           <TableRow
             key={index + row}
-            className="[&>td]:px-0 [&>td]:py-1 md:[&>td]:py-2"
+            className="[&>td]:px-0 [&>td]:py-0 md:[&>td]:py-2"
           >
-            <TableCell className="bg-background sticky left-0 z-10 px-2 text-center text-xs font-bold text-blue-700">
+            <TableCell className="bg-background sticky left-0 z-10 text-center text-xs font-bold text-blue-700">
               {isNaN(Number(total)) ? 0 : total}{" "}
               {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
             </TableCell>
@@ -55,7 +49,7 @@ export default function RowYearBody({
               return (
                 <TableCell
                   key={dayIndex + row}
-                  className={cn("border-x px-0 text-center")}
+                  className={"h-6.5 border-x px-0 text-center md:h-9"}
                 >
                   <span className="text-center text-xs shadow-none">
                     {value?.[row]?.[dayIndex]}
@@ -83,7 +77,7 @@ export default function RowYearBody({
               .toFixed(0);
             return (
               <TableCell key={dayIndex} className="font-bold">
-                {(Number(totalByDay) / Number(currencyRates)).toFixed(0)}{" "}
+                {(Number(totalByDay) / Number(currencyRates)).toFixed(0)}
               </TableCell>
             );
           })}
