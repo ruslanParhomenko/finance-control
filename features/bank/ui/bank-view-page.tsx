@@ -14,7 +14,7 @@ export function BankViewPage({
   const selectedCurrency = bankData?.dataCurrency?.[currency as Currency] || 1;
   return (
     <div className="p-4">
-      <Table className="mt-2 w-full md:w-100">
+      <Table className="w-full md:w-100">
         <TableBody>
           {bankCategories.map((bank, index) => {
             const value = bankData?.dataBank?.bank?.[bank.name]?.value || "0";
