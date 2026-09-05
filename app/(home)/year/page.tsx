@@ -1,7 +1,6 @@
-import { getBankByYear } from "@/app/action/bank-data-actions";
 import { getCurrencyData } from "@/app/action/get-currency";
-
-import { getInitialState } from "@/app/action/initial-state-actions";
+import { getBankByYear } from "@/features/bank/actions/get-bank-data";
+import { getInitialState } from "@/features/initial-state/actions/get-init-bal";
 import { getExpenseByYear } from "@/features/month/actions/get-expense";
 import { YearPage } from "@/features/year";
 import { ParamsValue } from "@/type/params-value";

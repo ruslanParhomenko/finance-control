@@ -15,7 +15,6 @@ export const rowBankSchema = z.object(rowBankShape);
 
 export const bankSchema = z.object({
   bank: rowBankSchema,
-  totals: z.string(),
 });
 
 export type BankFormData = z.infer<typeof bankSchema>;
@@ -23,5 +22,4 @@ export const defaultBankForm: BankFormData = {
   bank: Object.fromEntries(
     bankCategories.map((c) => [c.name, { currency: c.currency, value: "" }]),
   ),
-  totals: "",
 };

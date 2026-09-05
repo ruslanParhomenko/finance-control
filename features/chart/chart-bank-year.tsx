@@ -1,12 +1,13 @@
 "use client";
-import { GetBankDataType } from "@/app/action/bank-data-actions";
+
 import { CurrencyData } from "@/type/currency-data";
 import { ParamsValue } from "@/type/params-value";
 import { MONTHS } from "@/utils/get-month-days";
 import { useState } from "react";
-import { bankCategories } from "../bank/constants";
+import { bankCategories } from "../bank/model/constants";
 import CustomLegend from "@/components/chart-custom/chart-legend";
 import CustomChart from "@/components/chart-custom";
+import { GetBankDataType } from "../bank/model/type";
 
 const DATA_BANK = [...bankCategories.map((key) => key.name), "totals"] as const;
 

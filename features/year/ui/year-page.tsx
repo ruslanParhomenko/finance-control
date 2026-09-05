@@ -1,14 +1,13 @@
 import { Table } from "@/components/ui/table";
-
-import { GetBankDataType } from "@/app/action/bank-data-actions";
 import { ParamsValue } from "@/type/params-value";
 import { Currency, CurrencyData } from "@/type/currency-data";
 import { MONTHS } from "@/utils/get-month-days";
-import { GetInitialStateType } from "@/app/action/initial-state-actions";
 import YearHeaderTable from "./year-header-table";
 import YearFooterTable from "./year-footer-table";
 import { GetExpenseDataType } from "@/features/month/actions/get-expense";
 import YearBodyTable from "./year-body-table";
+import { GetInitialStateType } from "@/features/initial-state/model/type";
+import { GetBankDataType } from "@/features/bank/model/type";
 
 export function YearPage({
   expenseData,

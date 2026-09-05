@@ -1,6 +1,6 @@
-import { getBankByYear } from "@/app/action/bank-data-actions";
 import { getCurrencyData } from "@/app/action/get-currency";
-import BankPage from "@/features/bank/bank-page";
+import { BankEditPage, BankViewPage } from "@/features/bank";
+import { getBankByYear } from "@/features/bank/actions/get-bank-data";
 import { ParamsValue } from "@/type/params-value";
 
 export default async function Page({
@@ -12,16 +12,27 @@ export default async function Page({
   const { month, year, currency, mode } = paramsValue;
   if (!month || !year || !currency || !mode) return;
 
-  const [bankByYear, currencyData] = await Promise.all([
-    getBankByYear(year),
-    getCurrencyData(Number(year)),
-  ]);
+  const monthIndex = Number(month) - 1;
 
-  return (
-    <BankPage
-      bankByYear={bankByYear}
-      paramsValue={paramsValue}
-      currencyData={currencyData}
-    />
-  );
+  const bankByYear = await getBankByYear(year);
+  const bankByMonth = bankByYear?.find((item) => item.id === month) || null;
+
+  if (mode === "edit") {
+    const currencyData = await getCurrencyData(Number(year));
+    const currencyRatesByMonth = {
+      USD: currencyData.USD.find((_item, index) => index === monthIndex)!,
+      EUR: currencyData.EUR.find((_item, index) => index === monthIndex)!,
+      MDL: currencyData.MDL.find((_item, index) => index === monthIndex)!,
+    };
+
+    return (
+      <BankEditPage
+        bankByMonth={bankByMonth}
+        paramsValue={paramsValue}
+        currencyRatesByMonth={currencyRatesByMonth}
+      />
+    );
+  }
+
+  return <BankViewPage bankData={bankByMonth} currency={currency} />;
 }

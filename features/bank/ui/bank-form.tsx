@@ -1,29 +1,20 @@
 import NumericInput from "@/components/input/numeric-input";
-import { bankCategories } from "./constants";
+import { bankCategories } from "../model/constants";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { GetBankDataType } from "@/app/action/bank-data-actions";
-
-import { GetInitialStateType } from "@/app/action/initial-state-actions";
-
 export default function BankForm({
-  bankData,
   totals,
   selectedCurrency,
   currency,
-  mode = "view",
 }: {
-  bankData: GetBankDataType | undefined;
   totals: number;
   selectedCurrency: number;
   currency: string;
-  mode?: "view" | "edit";
 }) {
   return (
     <Table className="mt-2 w-full">
       <TableBody>
         {bankCategories.map((bank, index) => {
-          const value = bankData?.dataBank?.bank?.[bank.name]?.value || "0";
           return (
             <TableRow
               key={bank.name + index}
@@ -34,19 +25,12 @@ export default function BankForm({
                 {bank.label.toLowerCase()}
               </TableCell>
               <TableCell className="text-center">
-                {mode === "edit" && (
-                  <NumericInput
-                    fieldName={`bank[${bank.name}].value`}
-                    className={cn(
-                      "text-md h-6 w-26 border-red-600 text-xs font-bold text-red-600 md:w-60",
-                    )}
-                  />
-                )}
-                {mode === "view" && (
-                  <div className="flex h-6 w-26 items-center justify-center text-xs md:w-60">
-                    {value}
-                  </div>
-                )}
+                <NumericInput
+                  fieldName={`bank[${bank.name}].value`}
+                  className={cn(
+                    "text-md h-6 w-26 border-red-600 text-xs font-bold text-red-600 md:w-60",
+                  )}
+                />
               </TableCell>
               <TableCell className="w-12 px-4 text-xs">
                 {bank.currency}

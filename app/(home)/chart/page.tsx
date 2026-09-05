@@ -1,5 +1,5 @@
-import { getBankByYear } from "@/app/action/bank-data-actions";
 import { getCurrencyData } from "@/app/action/get-currency";
+import { getBankByYear } from "@/features/bank/actions/get-bank-data";
 import { ChartPage } from "@/features/chart";
 import { getExpenseByYear } from "@/features/month/actions/get-expense";
 import { ParamsValue } from "@/type/params-value";

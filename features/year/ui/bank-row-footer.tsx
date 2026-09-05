@@ -1,5 +1,5 @@
-import { GetBankDataType } from "@/app/action/bank-data-actions";
 import { TableCell, TableRow } from "@/components/ui/table";
+import { GetBankDataType } from "@/features/bank/model/type";
 import { cn } from "@/lib/utils";
 import { MONTHS } from "@/utils/get-month-days";
 

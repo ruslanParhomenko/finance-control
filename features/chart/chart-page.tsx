@@ -2,8 +2,6 @@
 
 import { ParamsValue } from "@/type/params-value";
 import { CurrencyData } from "@/type/currency-data";
-import { GetBankDataType } from "@/app/action/bank-data-actions";
-
 import { GetExpenseDataType } from "../month/actions/get-expense";
 import { TabsLine } from "@/components/ui/tabs-line";
 import { TABS_LINE_BY_ROUTE } from "@/components/nav-layout/constants";
@@ -13,6 +11,7 @@ import ChartExpenses from "./chart-expenses";
 import ChartExpenseMonth from "./chart-expense-month";
 import ChartBankMonth from "./chart-bank-month";
 import ChartBankYear from "./chart-bank-year";
+import { GetBankDataType } from "../bank/model/type";
 
 const OPTIONS =
   TABS_LINE_BY_ROUTE[CHART_MAIN_ROUTE as keyof typeof TABS_LINE_BY_ROUTE];

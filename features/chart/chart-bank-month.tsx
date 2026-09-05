@@ -1,8 +1,8 @@
-import { GetBankDataType } from "@/app/action/bank-data-actions";
 import { CurrencyData } from "@/type/currency-data";
 import { ParamsValue } from "@/type/params-value";
 import { MONTHS } from "@/utils/get-month-days";
 import CustomChart from "@/components/chart-custom";
+import { GetBankDataType } from "../bank/model/type";
 
 export default function ChartBankMonth({
   dataBank,

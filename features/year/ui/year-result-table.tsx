@@ -2,9 +2,9 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { MONTHS } from "@/utils/get-month-days";
 import { CURRENCY_ICON } from "../../month/model/constants";
-import { GetBankDataType } from "@/app/action/bank-data-actions";
 import { Currency, CurrencyData } from "@/type/currency-data";
-import { GetInitialStateType } from "@/app/action/initial-state-actions";
+import { GetInitialStateType } from "@/features/initial-state/model/type";
+import { GetBankDataType } from "@/features/bank/model/type";
 
 type Props = {
   initialState: GetInitialStateType | null;
