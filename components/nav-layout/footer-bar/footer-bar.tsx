@@ -55,7 +55,7 @@ export default function FooterBar() {
   };
 
   const handlers = useSwipeable({
-    delta: 80,
+    delta: 50,
     swipeDuration: 500,
     onSwipedLeft: () => goToTab(1),
     onSwipedRight: () => goToTab(-1),

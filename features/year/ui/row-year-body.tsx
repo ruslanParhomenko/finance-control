@@ -46,13 +46,14 @@ export default function RowYearBody({
             </TableCell>
 
             {cellArray.map((_, dayIndex) => {
+              const dayValue = Number(value?.[row]?.[dayIndex] || 0);
               return (
                 <TableCell
                   key={dayIndex + row}
                   className={"h-6.5 border-x px-0 text-center md:h-9"}
                 >
                   <span className="text-center text-xs shadow-none">
-                    {value?.[row]?.[dayIndex]}
+                    {dayValue === 0 ? "" : dayValue}
                   </span>
                 </TableCell>
               );

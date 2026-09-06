@@ -29,7 +29,7 @@ export function BankViewPage({
                 </TableCell>
                 <TableCell className="text-center">
                   <div className="flex h-6 w-26 items-center justify-center text-xs md:w-60">
-                    {value}
+                    {value === "0" ? "." : value}
                   </div>
                 </TableCell>
                 <TableCell className="w-12 px-4 text-xs">
