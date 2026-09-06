@@ -1,10 +1,8 @@
 "use client";
 
 import { useIsMobile } from "@/hooks/use-mobile";
-
 import ChartDesktop from "./chart-desktop";
 import ChartMobile from "./chart-mobile";
-
 import { createChartConfig } from "./chart-utils";
 import { CustomChartProps } from "./chart-types";
 

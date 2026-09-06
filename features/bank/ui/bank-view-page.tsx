@@ -20,7 +20,7 @@ export function BankViewPage({
 
   const bankDataByMonth = bankData?.find((item) => item.id === month) || null;
   return (
-    <div className="flex h-[80dvh] flex-col items-center justify-between p-1">
+    <div className="flex h-[90dvh] flex-col items-center justify-between p-1">
       {activeTab === "table" && (
         <BankViewTable bankData={bankDataByMonth} currency={currency} />
       )}
