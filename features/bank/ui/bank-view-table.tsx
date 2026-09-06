@@ -18,16 +18,13 @@ export default function BankViewTable({
         {bankCategories.map((bank, index) => {
           const value = bankData?.dataBank?.bank?.[bank.name]?.value || "0";
           return (
-            <TableRow
-              key={bank.name + index}
-              className="[&>td]:py-1 [&>td]:md:py-2"
-            >
+            <TableRow key={bank.name + index} className="[&>td]:py-0">
               <TableCell className="w-4 border-r">{index + 1}</TableCell>
               <TableCell className="w-22 px-4 text-xs">
                 {bank.label.toLowerCase()}
               </TableCell>
               <TableCell className="text-center">
-                <div className="flex h-6 w-26 items-center justify-center text-xs md:w-60">
+                <div className="flex h-8 w-26 items-center justify-center text-xs md:h-10.5 md:w-60">
                   {value === "0" ? "." : value}
                 </div>
               </TableCell>

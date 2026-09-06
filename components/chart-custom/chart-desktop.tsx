@@ -34,7 +34,7 @@ export default function ChartDesktop({
   return (
     <ChartContainer
       config={chartConfig}
-      className={cn("mt-2 h-[77dvh] w-[90dvw]", className)}
+      className={cn("mt-1 h-[70dvh] w-[92dvw]", className)}
     >
       <BarChart
         accessibilityLayer
