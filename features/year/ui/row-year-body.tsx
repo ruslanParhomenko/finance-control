@@ -29,10 +29,7 @@ export default function RowYearBody({
           0,
         );
         return (
-          <TableRow
-            key={index + row}
-            className="[&>td]:px-0 [&>td]:py-0 md:[&>td]:py-2"
-          >
+          <TableRow key={index + row} className="[&>td]:p-0">
             <TableCell className="bg-background sticky left-0 z-10 text-center text-xs font-bold text-blue-700">
               {isNaN(Number(total)) ? 0 : total}{" "}
               {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
@@ -50,7 +47,7 @@ export default function RowYearBody({
               return (
                 <TableCell
                   key={dayIndex + row}
-                  className={"h-6.5 border-x px-0 text-center md:h-9"}
+                  className={"h-6 border-x px-0 text-center md:h-8.5"}
                 >
                   <span className="text-center text-xs shadow-none">
                     {dayValue === 0 ? "" : dayValue}

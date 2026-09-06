@@ -34,12 +34,7 @@ export function BankViewPage({
         <ChartBankMonth dataBank={bankData} paramsValue={paramsValue} />
       )}
       <div {...handlers} className="flex items-center justify-center">
-        <TabsLine
-          options={OPTIONS}
-          value={activeTab}
-          onChange={setActiveTab}
-          className="flex items-center justify-center py-2"
-        />
+        <TabsLine options={OPTIONS} value={activeTab} onChange={setActiveTab} />
       </div>
     </div>
   );
