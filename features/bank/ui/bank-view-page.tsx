@@ -26,7 +26,7 @@ export function BankViewPage({
   });
 
   return (
-    <div className="flex h-[84dvh] flex-col items-center justify-between p-1 md:h-[88dvh]">
+    <div className="flex h-[86dvh] flex-col items-center justify-between p-1 md:h-[88dvh]">
       {activeTab === "table" && (
         <BankViewTable bankData={bankDataByMonth} currency={currency} />
       )}
