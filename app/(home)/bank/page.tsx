@@ -34,5 +34,5 @@ export default async function Page({
     );
   }
 
-  return <BankViewPage bankData={bankByMonth} currency={currency} />;
+  return <BankViewPage bankData={bankByYear} paramsValue={paramsValue} />;
 }

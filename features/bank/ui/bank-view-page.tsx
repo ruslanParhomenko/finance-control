@@ -1,55 +1,40 @@
-import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
-import { bankCategories } from "../model/constants";
+"use client";
 import { GetBankDataType } from "../model/type";
-import { Currency } from "@/type/currency-data";
+import { useState } from "react";
+import { TabsLine } from "@/components/ui/tabs-line";
+import BankViewTable from "./bank-view-table";
+import ChartBankMonth from "@/features/chart/chart-bank-month";
+import { ParamsValue } from "@/type/params-value";
+
+const OPTIONS = ["table", "chart"];
 
 export function BankViewPage({
   bankData,
-  currency,
+  paramsValue,
 }: {
-  bankData: GetBankDataType | null;
-  currency: string;
+  bankData: GetBankDataType[] | null;
+  paramsValue: ParamsValue;
 }) {
-  const totals = bankData?.dataBank?.totals || "0";
-  const selectedCurrency = bankData?.dataCurrency?.[currency as Currency] || 1;
-  return (
-    <div className="p-4">
-      <Table className="w-full md:w-100">
-        <TableBody>
-          {bankCategories.map((bank, index) => {
-            const value = bankData?.dataBank?.bank?.[bank.name]?.value || "0";
-            return (
-              <TableRow
-                key={bank.name + index}
-                className="[&>td]:py-1 [&>td]:md:py-2"
-              >
-                <TableCell className="w-4 border-r">{index + 1}</TableCell>
-                <TableCell className="w-22 px-4 text-xs">
-                  {bank.label.toLowerCase()}
-                </TableCell>
-                <TableCell className="text-center">
-                  <div className="flex h-6 w-26 items-center justify-center text-xs md:w-60">
-                    {value === "0" ? "." : value}
-                  </div>
-                </TableCell>
-                <TableCell className="w-12 px-4 text-xs">
-                  {bank.currency}
-                </TableCell>
-              </TableRow>
-            );
-          })}
-          <TableRow>
-            <TableCell colSpan={2} />
+  const { month, currency } = paramsValue;
+  const [activeTab, setActiveTab] = useState<(typeof OPTIONS)[number]>("table");
 
-            <TableCell>
-              <div className="flex w-26 items-center justify-center font-bold">
-                {(Number(totals) / Number(selectedCurrency)).toFixed(0)}
-              </div>
-            </TableCell>
-            <TableCell className="w-12 px-4">{currency}</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+  const bankDataByMonth = bankData?.find((item) => item.id === month) || null;
+  return (
+    <div className="flex h-[80dvh] flex-col items-center justify-between p-1">
+      {activeTab === "table" && (
+        <BankViewTable bankData={bankDataByMonth} currency={currency} />
+      )}
+      {activeTab === "chart" && (
+        <ChartBankMonth dataBank={bankData} paramsValue={paramsValue} />
+      )}
+      <div className="flex items-center justify-center">
+        <TabsLine
+          options={OPTIONS}
+          value={activeTab}
+          onChange={setActiveTab}
+          className="flex items-center justify-center py-2"
+        />
+      </div>
     </div>
   );
 }

@@ -1,7 +1,6 @@
 "use client";
 
 import { ParamsValue } from "@/type/params-value";
-import { CurrencyData } from "@/type/currency-data";
 import { GetExpenseDataType } from "../month/actions/get-expense";
 import { TabsLine } from "@/components/ui/tabs-line";
 import { TABS_LINE_BY_ROUTE } from "@/components/nav-layout/constants";
@@ -9,8 +8,6 @@ import { CHART_MAIN_ROUTE } from "@/constants/route-tag";
 import { useState } from "react";
 import ChartExpenses from "./chart-expenses";
 import ChartExpenseMonth from "./chart-expense-month";
-import ChartBankMonth from "./chart-bank-month";
-import ChartBankYear from "./chart-bank-year";
 import { GetBankDataType } from "../bank/model/type";
 
 const OPTIONS =
@@ -18,12 +15,9 @@ const OPTIONS =
 
 export function ChartPage({
   paramsValue,
-  dataBank,
   dataExpense,
 }: {
   paramsValue: ParamsValue;
-
-  dataBank: GetBankDataType[] | null;
   dataExpense: GetExpenseDataType[] | null;
 }) {
   const { currency } = paramsValue;
@@ -42,13 +36,6 @@ export function ChartPage({
         />
       </div>
       <div className="flex-1">
-        {chartType === "bank-month" && (
-          <ChartBankMonth dataBank={dataBank} paramsValue={paramsValue} />
-        )}
-        {chartType === "bank-year" && (
-          <ChartBankYear dataBank={dataBank} paramsValue={paramsValue} />
-        )}
-
         {chartType === "expenses" && (
           <ChartExpenses data={dataExpense} currency={currency} />
         )}

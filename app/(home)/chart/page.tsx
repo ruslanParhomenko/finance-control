@@ -11,16 +11,8 @@ export default async function Page({
   const paramsValue = (await searchParams) as ParamsValue;
   const { month, year, currency } = paramsValue;
   if (!month || !year || !currency) return;
-  const [expenseData, bankByYear] = await Promise.all([
-    getExpenseByYear(year),
-    getBankByYear(year),
-  ]);
 
-  return (
-    <ChartPage
-      paramsValue={paramsValue}
-      dataBank={bankByYear}
-      dataExpense={expenseData}
-    />
-  );
+  const expenseData = await getExpenseByYear(year);
+
+  return <ChartPage paramsValue={paramsValue} dataExpense={expenseData} />;
 }

@@ -7,7 +7,7 @@ import {
 } from "@/constants/route-tag";
 
 export const TABS_LINE_BY_ROUTE = {
-  [CHART_MAIN_ROUTE]: ["bank-month", "bank-year", "expenses", "expense"],
+  [CHART_MAIN_ROUTE]: ["expenses", "expense"],
 };
 
 export const ACTION_BY_ROUTE = {
