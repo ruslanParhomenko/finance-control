@@ -5,6 +5,7 @@ import { useTransition } from "react";
 import TabsOptions from "@/components/tabs/tabs-options";
 import SaveButton from "@/components/button/save-button";
 import EditButton from "@/components/button/edit-button";
+import { useSwipeable } from "react-swipeable";
 
 type Mode = "edit" | "view";
 
@@ -45,8 +46,26 @@ export default function FooterBar() {
     });
   };
 
+  const goToTab = (direction: 1 | -1) => {
+    if (NAV_BY_PATCH.length === 0) return;
+    const currentIndex = NAV_BY_PATCH.indexOf(mainRoute ?? "");
+    const nextIndex =
+      (currentIndex + direction + NAV_BY_PATCH.length) % NAV_BY_PATCH.length;
+    handleTabChange(NAV_BY_PATCH[nextIndex]);
+  };
+
+  const handlers = useSwipeable({
+    delta: 80,
+    swipeDuration: 500,
+    onSwipedLeft: () => goToTab(1),
+    onSwipedRight: () => goToTab(-1),
+  });
+
   return (
-    <div className="bg-background sticky bottom-0 z-20 my-1 flex items-center justify-between px-4 md:justify-start md:gap-4">
+    <div
+      {...handlers}
+      className="bg-background sticky bottom-0 z-20 flex w-full items-center justify-between px-4 py-2 md:justify-start md:gap-4"
+    >
       <div>
         <TabsOptions
           value={mainRoute || ""}
