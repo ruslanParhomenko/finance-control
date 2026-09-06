@@ -14,12 +14,12 @@ export function TabsLine({
   return (
     <div className={className}>
       <Tabs defaultValue="overview" value={value} onValueChange={onChange}>
-        <TabsList variant="line">
+        <TabsList variant="line" className="h-8 gap-4">
           {options.map((option, index) => (
             <TabsTrigger
               key={`${option}-${index}`}
               value={option}
-              className="tracking-wide"
+              className="h-6 tracking-wide"
             >
               {option}
             </TabsTrigger>

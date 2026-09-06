@@ -33,7 +33,7 @@ export function BankViewPage({
       {activeTab === "chart" && (
         <ChartBankMonth dataBank={bankData} paramsValue={paramsValue} />
       )}
-      <div {...handlers} className="mt-0 flex items-center justify-center">
+      <div {...handlers} className="flex items-center justify-center">
         <TabsLine
           options={OPTIONS}
           value={activeTab}
