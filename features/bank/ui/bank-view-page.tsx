@@ -5,6 +5,7 @@ import { TabsLine } from "@/components/ui/tabs-line";
 import BankViewTable from "./bank-view-table";
 import ChartBankMonth from "@/features/chart/chart-bank-month";
 import { ParamsValue } from "@/type/params-value";
+import { useSwipeable } from "react-swipeable";
 
 const OPTIONS = ["table", "chart"];
 
@@ -19,6 +20,11 @@ export function BankViewPage({
   const [activeTab, setActiveTab] = useState<(typeof OPTIONS)[number]>("table");
 
   const bankDataByMonth = bankData?.find((item) => item.id === month) || null;
+  const handlers = useSwipeable({
+    onSwipedLeft: () => setActiveTab("chart"),
+    onSwipedRight: () => setActiveTab("table"),
+  });
+
   return (
     <div className="flex h-[90dvh] flex-col items-center justify-between p-1">
       {activeTab === "table" && (
@@ -27,7 +33,7 @@ export function BankViewPage({
       {activeTab === "chart" && (
         <ChartBankMonth dataBank={bankData} paramsValue={paramsValue} />
       )}
-      <div className="flex items-center justify-center">
+      <div {...handlers} className="mt-0 flex items-center justify-center">
         <TabsLine
           options={OPTIONS}
           value={activeTab}
