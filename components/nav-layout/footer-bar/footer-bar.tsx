@@ -46,8 +46,8 @@ export default function FooterBar() {
   };
 
   return (
-    <div className="bg-background sticky bottom-0 z-20 my-1 flex flex-col items-center justify-between px-4 md:flex-row md:justify-start md:gap-4">
-      <div className="order-2 md:order-1">
+    <div className="bg-background sticky bottom-0 z-20 my-1 flex items-center justify-between px-4 md:justify-start md:gap-4">
+      <div>
         <TabsOptions
           value={mainRoute || ""}
           setValue={handleTabChange}
@@ -55,7 +55,7 @@ export default function FooterBar() {
           options={NAV_BY_PATCH}
         />
       </div>
-      <div className="order-1 flex w-full items-center justify-end gap-6 md:order-2 md:justify-start">
+      <div className="flex w-full items-center justify-end gap-6 md:justify-start">
         {has("edit") && isEdit && (
           <SaveButton
             formId={formId}

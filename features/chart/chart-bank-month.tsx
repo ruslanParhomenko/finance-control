@@ -10,13 +10,12 @@ export default function ChartBankMonth({
   paramsValue: ParamsValue;
 }) {
   const { month, currency } = paramsValue;
-  const prevMonth = +month - 1;
 
   const BAR_KEYS = [
     { key: "value", color: "var(--color-chart-1)", label: "value" },
   ];
 
-  const data = dataBank?.find((item) => +item.id === prevMonth) || null;
+  const data = dataBank?.find((item) => +item.id === +month) || null;
   const currencyRatesByMonth = data?.dataCurrency!;
 
   const chartDataBank = Object.entries(data?.dataBank.bank || {}).map(

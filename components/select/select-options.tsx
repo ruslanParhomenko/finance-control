@@ -6,10 +6,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { Options } from "@/type/options";
-import { SelectViewport } from "@radix-ui/react-select";
-
-type Mode = "default" | "grid";
 
 export default function SelectOptions({
   options,
@@ -18,23 +14,14 @@ export default function SelectOptions({
   isLoading = false,
   className,
   placeHolder,
-  mode = "default",
 }: {
-  options: Options;
+  options: { value: string; label: string }[];
   value: string;
   onChange: (value: string) => void;
   isLoading?: boolean;
   className?: string;
   placeHolder?: string;
-  mode?: Mode;
 }) {
-  const getGridCols = () => {
-    if (options.length <= 4) return "grid grid-cols-2";
-    if (options.length <= 9) return "grid grid-cols-3";
-
-    return "grid grid-cols-4";
-  };
-
   return (
     <Select
       value={value}
@@ -49,20 +36,18 @@ export default function SelectOptions({
       >
         <SelectValue placeholder={placeHolder ?? ""} />
       </SelectTrigger>
-      <SelectContent className="overflow-visible p-0" position="popper">
-        <SelectViewport className="overflow-visible">
-          <div className={cn("", mode === "grid" && getGridCols())}>
-            {options.map((item, idx) => (
-              <SelectItem
-                key={`${item.value}-${idx}`}
-                value={item.value}
-                className={cn(mode === "grid" && "justify-center text-center")}
-              >
-                {item.label}
-              </SelectItem>
-            ))}
-          </div>
-        </SelectViewport>
+      <SelectContent className="mt-4">
+        <div className="grid grid-cols-3 gap-3 p-2">
+          {options.map((item, idx) => (
+            <SelectItem
+              key={`${item.value}-${idx}`}
+              value={item.value}
+              className="border-border flex h-9 items-center justify-center border p-0 px-3 text-center [&>span:first-child]:hidden"
+            >
+              {item.label}
+            </SelectItem>
+          ))}
+        </div>
       </SelectContent>
     </Select>
   );
