@@ -1,9 +1,11 @@
+"use client";
 import { Table } from "@/components/ui/table";
 import { getMonthDays } from "@/utils/get-month-days";
 import { ParamsValue } from "@/type/params-value";
 import { GetExpenseDataType } from "../actions/get-expense";
 import MonthViewBody from "./month-view-body";
 import MonthHeader from "./month-header";
+import { useDoubleTapEdit } from "@/hooks/use-double-tap-edit";
 
 export function MonthViewPage({
   paramsValue,
@@ -17,6 +19,8 @@ export function MonthViewPage({
   const monthDays = getMonthDays({ month, year });
   const currencyRates = expenseDataByMonth?.data.currencyRates[currency] || 1;
 
+  const { onPointerUp } = useDoubleTapEdit();
+
   if (!expenseDataByMonth)
     return (
       <div className="flex h-full items-center justify-center text-red-600">
@@ -24,7 +28,7 @@ export function MonthViewPage({
       </div>
     );
   return (
-    <Table className="table-fixed">
+    <Table className="table-fixed" onPointerUp={onPointerUp}>
       <MonthHeader
         month={month}
         monthDays={monthDays}
