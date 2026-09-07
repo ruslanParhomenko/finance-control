@@ -1,8 +1,5 @@
 "use client";
-
-import { CalendarIcon } from "lucide-react";
 import * as React from "react";
-
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -75,14 +72,13 @@ export function MonthPicker({
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className="h-7 w-40 items-center justify-center gap-4 border-0 bg-transparent! text-left text-xs font-normal md:w-60"
+            className="h-7 w-30 items-center justify-center gap-4 border-0 bg-transparent! text-left text-xs font-normal shadow-none"
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
             {label}
           </Button>
         </PopoverTrigger>
 
-        <PopoverContent className="w-60 p-3" align="start">
+        <PopoverContent className="w-50 p-3" align="start">
           <div className="grid grid-cols-3 gap-2">
             {MONTH_STRINGS.map((m, idx) => (
               <button

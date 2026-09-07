@@ -4,14 +4,13 @@ import {
   MonthPicker,
   MonthRange,
 } from "@/components/input-controlled/month-range";
-import { Label } from "@/components/ui/label";
 import { addCash } from "@/constants/expense";
 import { MONTHS } from "@/utils/get-month-days";
 import { TrashIcon } from "lucide-react";
 import { useMemo, useState } from "react";
-import { GetExpenseDataType } from "../month/actions/get-expense";
+import { GetExpenseDataType } from "../../month/actions/get-expense";
 
-export default function ChartExpenses({
+export default function YearViewChart({
   data,
   currency,
 }: {
@@ -72,21 +71,21 @@ export default function ChartExpenses({
 
   return (
     <div className="flex flex-col">
-      <div className="text-muted-foreground w-full px-6 text-center text-xs font-medium">
-        {totalValue.toFixed(0)} {currency}
-      </div>
-      <CustomChart chartData={chartData} barItem={BAR_KEYS} />
-      <div className="my-2 flex items-center justify-center gap-2 px-6 md:gap-6">
-        <MonthPicker value={range} onChange={setRange} />
+      <div className="my-1 flex items-center justify-center gap-2 px-4">
         <button
           disabled={!range}
           type="button"
           onClick={() => setRange(undefined)}
           className="w-4"
         >
-          {range && <TrashIcon className="text-rd h-4 w-4" />}
+          {range && <TrashIcon className="h-3.5 w-4 text-red-600" />}
         </button>
+        <MonthPicker value={range} onChange={setRange} />
+        <div className="text-muted-foreground px-6 text-center text-xs font-medium">
+          Total: {totalValue.toFixed(0)} {currency}
+        </div>
       </div>
+      <CustomChart chartData={chartData} barItem={BAR_KEYS} />
     </div>
   );
 }

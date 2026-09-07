@@ -6,7 +6,7 @@ import { TabsLine } from "@/components/ui/tabs-line";
 import { TABS_LINE_BY_ROUTE } from "@/components/nav-layout/constants";
 import { CHART_MAIN_ROUTE } from "@/constants/route-tag";
 import { useState } from "react";
-import ChartExpenses from "./chart-expenses";
+import ChartExpenses from "../year/ui/year-view-chart";
 import ChartExpenseMonth from "./chart-expense-month";
 import { GetBankDataType } from "../bank/model/type";
 

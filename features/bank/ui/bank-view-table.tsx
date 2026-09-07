@@ -24,7 +24,7 @@ export default function BankViewTable({
                 {bank.label.toLowerCase()}
               </TableCell>
               <TableCell className="text-center">
-                <div className="flex h-8 w-26 items-center justify-center text-xs md:h-10 md:w-60">
+                <div className="flex h-7.5 w-26 items-center justify-center text-xs md:h-10 md:w-60">
                   {value === "0" ? "." : value}
                 </div>
               </TableCell>
