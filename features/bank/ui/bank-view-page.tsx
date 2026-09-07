@@ -3,9 +3,9 @@ import { GetBankDataType } from "../model/type";
 import { useState } from "react";
 import { TabsLine } from "@/components/ui/tabs-line";
 import BankViewTable from "./bank-view-table";
-import ChartBankMonth from "@/features/chart/chart-bank-month";
 import { ParamsValue } from "@/type/params-value";
 import { useSwipeable } from "react-swipeable";
+import BankViewChart from "./bank-view-chart";
 
 const OPTIONS = ["table", "chart"];
 
@@ -31,7 +31,7 @@ export function BankViewPage({
         <BankViewTable bankData={bankDataByMonth} currency={currency} />
       )}
       {activeTab === "chart" && (
-        <ChartBankMonth dataBank={bankData} paramsValue={paramsValue} />
+        <BankViewChart dataBank={bankData} paramsValue={paramsValue} />
       )}
       <div {...handlers} className="flex items-center justify-center">
         <TabsLine options={OPTIONS} value={activeTab} onChange={setActiveTab} />

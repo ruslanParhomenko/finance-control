@@ -74,7 +74,7 @@ export default function FooterBar() {
           options={NAV_BY_PATCH}
         />
       </div>
-      <div className="flex w-full items-center justify-end gap-6 md:justify-start">
+      <div className="flex w-full items-center justify-end gap-4 md:justify-start">
         {has("edit") && isEdit && (
           <SaveButton
             formId={formId}

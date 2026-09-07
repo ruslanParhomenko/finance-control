@@ -1,5 +1,4 @@
 "use client";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { LogOut, PenBox } from "lucide-react";
 
@@ -16,8 +15,6 @@ export default function EditButton({
   setIsEdit: (isEdit: boolean) => void;
   size?: number;
 }) {
-  const isMobile = useIsMobile();
-  if (isEdit && isMobile) return null;
   return (
     <button
       type="button"
