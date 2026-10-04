@@ -14,18 +14,33 @@ export default async function Page({
 
   if (!month || !year || !currency || !mode) return;
 
-  const expenseData = await getExpenseByYear(year);
+  const [expenseData, currencyData] = await Promise.allSettled([
+    getExpenseByYear(year),
+    getCurrencyData(Number(year)),
+  ]);
 
   const indexMonth = Number(month) - 1;
+  const expenseDataFulfilled =
+    expenseData?.status === "fulfilled" ? expenseData.value : null;
+  const currencyDataFulfilled =
+    currencyData?.status === "fulfilled" ? currencyData.value : null;
   const expenseDataByMonth =
-    expenseData?.find((item) => item.id === month) || null;
+    expenseDataFulfilled?.find((item) => item.id === month) || null;
 
   if (mode === "edit") {
-    const currencyData = await getCurrencyData(Number(year));
     const currencyRatesByMonth = {
-      USD: currencyData?.USD?.find((_i, index) => index === indexMonth)!,
-      EUR: currencyData?.EUR?.find((_i, index) => index === indexMonth)!,
-      MDL: currencyData?.MDL?.find((_i, index) => index === indexMonth)!,
+      USD:
+        currencyDataFulfilled?.USD?.find(
+          (_i, index) => index === indexMonth,
+        )! ?? 18,
+      EUR:
+        currencyDataFulfilled?.EUR?.find(
+          (_i, index) => index === indexMonth,
+        )! ?? 20,
+      MDL:
+        currencyDataFulfilled?.MDL?.find(
+          (_i, index) => index === indexMonth,
+        )! ?? 1,
     };
     return (
       <MonthEditPage
