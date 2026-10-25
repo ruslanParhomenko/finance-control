@@ -30,13 +30,12 @@ export default function RowYearBody({
         );
         return (
           <TableRow key={index + row} className="[&>td]:p-0">
-            <TableCell className="bg-background sticky left-0 z-10 text-center text-xs font-bold text-blue-700">
+            <TableCell className="bg-background sticky left-0 z-10 text-xs text-blue-700">
               {isNaN(Number(total)) ? 0 : total}{" "}
-              {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
             </TableCell>
             <TableCell
               className={cn(
-                "bg-background sticky left-12 z-10 text-start text-xs",
+                "bg-background sticky left-9 z-10 text-start text-xs",
               )}
             >
               {row}
@@ -59,12 +58,11 @@ export default function RowYearBody({
         );
       })}
       {withFooterTotals && (
-        <TableRow className="[&>td]:px-0 [&>td]:py-1 [&>td]:text-center [&>td]:text-xs [&>td]:text-red-600">
-          <TableCell className="bg-background sticky left-0 font-bold md:bg-transparent">
+        <TableRow className="[&>td]:px-0 [&>td]:py-1 [&>td]:text-xs [&>td]:text-red-600">
+          <TableCell className="bg-background sticky left-0 md:bg-transparent">
             {(Number(expenseTotal) / Number(currencyRates)).toFixed(0)}{" "}
-            {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
           </TableCell>
-          <TableCell className="bg-background sticky left-12 md:bg-transparent" />
+          <TableCell className="bg-background sticky left-9 md:bg-transparent" />
           {cellArray.map((_, dayIndex) => {
             const totalByDay = rowArray
               .reduce((acc, category) => {
@@ -74,7 +72,7 @@ export default function RowYearBody({
               }, 0)
               .toFixed(0);
             return (
-              <TableCell key={dayIndex} className="font-bold">
+              <TableCell key={dayIndex} className="text-center">
                 {(Number(totalByDay) / Number(currencyRates)).toFixed(0)}
               </TableCell>
             );

@@ -14,10 +14,10 @@ export default function BankRowFooter({
 }) {
   const roundSafe = (value: number) => Number(value.toFixed(0)) || 0;
   return (
-    <TableRow className="border-0">
-      <TableCell className="bg-background sticky left-0 z-10 px-1 py-0.5 text-end text-xs font-bold" />
+    <TableRow className="border-0 [&>td]:px-0">
+      <TableCell className="bg-background sticky left-0 z-10 py-0.5 pl-0.5! text-xs" />
 
-      <TableCell className="bg-background sticky left-13.5" />
+      <TableCell className="bg-background sticky left-9" />
 
       {MONTHS?.map((value, index) => {
         const rate = Number(currencyArray?.[index]) || 1;

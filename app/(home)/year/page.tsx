@@ -12,7 +12,7 @@ export default async function Page({
   const paramsValue = (await searchParams) as ParamsValue;
   const { month, year, currency } = paramsValue;
   if (!month || !year || !currency) return;
-  const [expenseData, initialState, bankByYear] = await Promise.all([
+  const [expenseData, initialState, bankByYear] = await Promise.allSettled([
     getExpenseByYear(year),
     getInitialState(year),
     getBankByYear(year),
@@ -20,10 +20,14 @@ export default async function Page({
 
   return (
     <YearPage
-      expenseData={expenseData}
+      expenseData={
+        expenseData.status === "fulfilled" ? expenseData.value : null
+      }
       paramsValue={paramsValue}
-      initialState={initialState}
-      bankData={bankByYear}
+      initialState={
+        initialState.status === "fulfilled" ? initialState.value : null
+      }
+      bankData={bankByYear.status === "fulfilled" ? bankByYear.value : null}
     />
   );
 }

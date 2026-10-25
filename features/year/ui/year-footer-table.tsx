@@ -52,11 +52,8 @@ export default function YearFooterTable({
 
   return (
     <TableFooter className="bg-transparent">
-      <RemainingRowFooter
-        remainingByMonth={remainingByMonth}
-        currency={currency}
-      />
-      <TotalsRowFooter totalsByMonth={totalByMonth} currency={currency} />
+      <RemainingRowFooter remainingByMonth={remainingByMonth} />
+      <TotalsRowFooter totalsByMonth={totalByMonth} />
       <BankRowFooter
         totalByMonth={totalByMonth}
         currencyArray={currencyArray[currency]}

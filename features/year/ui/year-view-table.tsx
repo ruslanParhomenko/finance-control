@@ -65,7 +65,11 @@ export default function YearViewTable({
 
   return (
     <Table className="table-fixed">
-      <YearHeaderTable year={year} currencyArray={currencyArray?.[currency]} />
+      <YearHeaderTable
+        year={year}
+        currencyArray={currencyArray?.[currency]}
+        currency={currency}
+      />
       <YearBodyTable
         data={expenseData}
         currency={currency}
