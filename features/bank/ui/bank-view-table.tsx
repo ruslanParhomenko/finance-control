@@ -3,7 +3,7 @@ import { bankCategories } from "../model/constants";
 import { GetBankDataType } from "../model/type";
 import { Currency } from "@/type/currency-data";
 
-export default function BankViewTable({
+export function BankViewTable({
   bankData,
   currency,
 }: {

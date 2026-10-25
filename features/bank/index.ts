@@ -1,3 +1,3 @@
-export { BankViewPage } from "./ui/bank-view-page";
+export { BankViewTable } from "./ui/bank-view-table";
 
 export { BankEditPage } from "./ui/bank-edit-page";

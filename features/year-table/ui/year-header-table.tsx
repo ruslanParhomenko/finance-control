@@ -15,16 +15,16 @@ export default function YearHeaderTable({
   return (
     <TableHeader>
       <TableRow>
-        <TableCell className="bg-background sticky left-0 w-9">
+        <TableCell className="bg-background sticky left-0 w-11 text-end">
           {CURRENCY_ICON[currency as "USD" | "EUR" | "MDL"]}
         </TableCell>
 
-        <TableCell className="front-bold bg-background sticky left-9 w-16 p-0 text-xs">
+        <TableCell className="front-bold bg-background sticky left-11 w-16 p-0 pl-1 text-xs">
           {year}
         </TableCell>
 
         {MONTHS.map((month, index) => (
-          <TableCell key={month} className="w-10 cursor-pointer p-0">
+          <TableCell key={month} className="w-12 cursor-pointer p-0">
             <div className="text-muted-foreground text-center text-xs">
               {MONTH_STRINGS[Number(month) - 1].toLowerCase().slice(0, 3)}
             </div>

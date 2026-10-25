@@ -13,15 +13,15 @@ export default function RemainingRowFooter({
   );
 
   return (
-    <TableRow className="border-0 [&>td]:px-0 [&>td]:py-0.5">
-      <TableCell className="bg-background sticky left-0 z-10 text-xs">
+    <TableRow className="border-0 [&>td]:p-0">
+      <TableCell className="bg-background sticky left-0 z-10 text-end text-xs">
         {roundSafe(difference)}
       </TableCell>
 
-      <TableCell className="bg-background sticky left-9" />
+      <TableCell className="bg-background sticky left-11" />
 
       {remainingByMonth.map((diff, index) => (
-        <TableCell key={index} className="text-center text-xs">
+        <TableCell key={index} className="h-6.5 text-center text-xs">
           {roundSafe(diff)}
         </TableCell>
       ))}

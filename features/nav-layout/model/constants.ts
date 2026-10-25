@@ -3,6 +3,7 @@ import {
   CHART_MAIN_ROUTE,
   INIT_BALANCE_MAIN_ROUTE,
   MONTH_MAIN_ROUTE,
+  YEAR_MAIN_ROUTE,
 } from "@/constants/route-tag";
 
 export const ACTION_BY_ROUTE = {
@@ -13,6 +14,7 @@ export const NAV_BY_PATCH = ["init-bal", "bank", "year", "month"];
 
 export const ACTION_BUTTONS_BY_PATCH = {
   [MONTH_MAIN_ROUTE]: ["edit"],
-  [BANK_MAIN_ROUTE]: ["edit"],
+  [BANK_MAIN_ROUTE]: ["edit", "chart"],
   [INIT_BALANCE_MAIN_ROUTE]: ["edit"],
+  [YEAR_MAIN_ROUTE]: ["chart"],
 };

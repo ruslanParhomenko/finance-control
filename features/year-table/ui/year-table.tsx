@@ -8,7 +8,7 @@ import { GetInitialStateType } from "@/features/initial-state/model/type";
 import { ParamsValue } from "@/type/params-value";
 import { MONTHS } from "@/utils/get-month-days";
 
-export default function YearViewTable({
+export function YearTable({
   expenseData,
   paramsValue,
   initialState,

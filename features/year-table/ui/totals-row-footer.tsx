@@ -11,14 +11,14 @@ export default function TotalsRowFooter({
 
   return (
     <TableRow className="border-0 text-green-600 [&>td]:p-0">
-      <TableCell className="bg-background sticky left-0 z-10 text-xs">
+      <TableCell className="bg-background sticky left-0 z-10 text-end text-xs">
         {finalBank}
       </TableCell>
 
-      <TableCell className="bg-background sticky left-9" />
+      <TableCell className="bg-background sticky left-11" />
 
       {totalsByMonth.map((value, index) => (
-        <TableCell key={index} className="py-0 text-center text-xs">
+        <TableCell key={index} className="h-6.5 text-center text-xs">
           {roundSafe(value)}
         </TableCell>
       ))}

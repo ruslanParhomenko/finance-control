@@ -1,6 +1,8 @@
 import { getCurrencyData } from "@/app/action/get-currency";
-import { BankEditPage, BankViewPage } from "@/features/bank";
+import { BankEditPage } from "@/features/bank";
 import { getBankByYear } from "@/features/bank/actions/get-bank-data";
+import BankViewChart from "@/features/bank/ui/bank-view-chart";
+import { BankViewTable } from "@/features/bank";
 import { ParamsValue } from "@/type/params-value";
 
 export default async function Page({
@@ -9,7 +11,7 @@ export default async function Page({
   searchParams: Promise<Record<string, string | undefined>>;
 }) {
   const paramsValue = (await searchParams) as ParamsValue;
-  const { month, year, currency, mode } = paramsValue;
+  const { month, year, currency, mode, viewMode } = paramsValue;
   if (!month || !year || !currency || !mode) return;
 
   const monthIndex = Number(month) - 1;
@@ -34,5 +36,11 @@ export default async function Page({
     );
   }
 
-  return <BankViewPage bankData={bankByYear} paramsValue={paramsValue} />;
+  if (viewMode === "chart") {
+    return <BankViewChart dataBank={bankByYear} paramsValue={paramsValue} />;
+  }
+
+  const bankDataByMonth = bankByYear?.find((item) => item.id === month) || null;
+
+  return <BankViewTable bankData={bankDataByMonth} currency={currency} />;
 }

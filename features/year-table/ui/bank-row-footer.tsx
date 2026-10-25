@@ -17,7 +17,7 @@ export default function BankRowFooter({
     <TableRow className="border-0 [&>td]:px-0">
       <TableCell className="bg-background sticky left-0 z-10 py-0.5 pl-0.5! text-xs" />
 
-      <TableCell className="bg-background sticky left-9" />
+      <TableCell className="bg-background sticky left-11" />
 
       {MONTHS?.map((value, index) => {
         const rate = Number(currencyArray?.[index]) || 1;

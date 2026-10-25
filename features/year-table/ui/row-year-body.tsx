@@ -30,12 +30,12 @@ export default function RowYearBody({
         );
         return (
           <TableRow key={index + row} className="[&>td]:p-0">
-            <TableCell className="bg-background sticky left-0 z-10 text-xs text-blue-700">
-              {isNaN(Number(total)) ? 0 : total}{" "}
+            <TableCell className="bg-background sticky left-0 z-10 text-end text-xs text-blue-700">
+              {isNaN(Number(total)) ? 0 : total}
             </TableCell>
             <TableCell
               className={cn(
-                "bg-background sticky left-9 z-10 text-start text-xs",
+                "bg-background sticky left-11 z-10 pl-2! text-start text-xs",
               )}
             >
               {row}
@@ -46,7 +46,7 @@ export default function RowYearBody({
               return (
                 <TableCell
                   key={dayIndex + row}
-                  className={"h-6 border-x px-0 text-center md:h-8.5"}
+                  className={"h-6.5 border-x px-0 text-center md:h-8.5"}
                 >
                   <span className="text-center text-xs shadow-none">
                     {dayValue === 0 ? "" : dayValue}
@@ -58,11 +58,11 @@ export default function RowYearBody({
         );
       })}
       {withFooterTotals && (
-        <TableRow className="[&>td]:px-0 [&>td]:py-1 [&>td]:text-xs [&>td]:text-red-600">
-          <TableCell className="bg-background sticky left-0 md:bg-transparent">
+        <TableRow className="[&>td]:p-0 [&>td]:text-xs [&>td]:text-red-600">
+          <TableCell className="bg-background sticky left-0 text-end md:bg-transparent">
             {(Number(expenseTotal) / Number(currencyRates)).toFixed(0)}{" "}
           </TableCell>
-          <TableCell className="bg-background sticky left-9 md:bg-transparent" />
+          <TableCell className="bg-background sticky left-11 md:bg-transparent" />
           {cellArray.map((_, dayIndex) => {
             const totalByDay = rowArray
               .reduce((acc, category) => {
@@ -72,7 +72,7 @@ export default function RowYearBody({
               }, 0)
               .toFixed(0);
             return (
-              <TableCell key={dayIndex} className="text-center">
+              <TableCell key={dayIndex} className="h-6.5 text-center">
                 {(Number(totalByDay) / Number(currencyRates)).toFixed(0)}
               </TableCell>
             );

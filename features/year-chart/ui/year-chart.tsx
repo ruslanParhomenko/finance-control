@@ -18,7 +18,7 @@ type ExpenseType = (typeof DATA_EXPENSES)[number];
 type ChartDataItem = { name: string } & { [key in ExpenseType]: number };
 type BarKey = keyof Omit<ChartDataItem, "name">;
 
-export default function YearViewChart({
+export function YearChart({
   data,
   currency,
 }: {

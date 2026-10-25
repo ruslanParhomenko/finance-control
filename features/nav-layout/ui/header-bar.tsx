@@ -7,7 +7,7 @@ import { CURRENCY, MONTHS, YEAR } from "@/utils/get-month-days";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTransition } from "react";
 
-export default function HeaderBar() {
+export function HeaderBar() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();

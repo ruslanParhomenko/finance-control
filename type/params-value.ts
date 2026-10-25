@@ -3,4 +3,5 @@ export type ParamsValue = {
   year: string;
   currency: "EUR" | "USD" | "MDL";
   mode: "view" | "edit";
+  viewMode: "table" | "chart";
 };

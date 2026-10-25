@@ -1,15 +1,18 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { ACTION_BUTTONS_BY_PATCH, NAV_BY_PATCH } from "../constants";
+import { ACTION_BUTTONS_BY_PATCH, NAV_BY_PATCH } from "../model/constants";
 import { useTransition } from "react";
 import TabsOptions from "@/components/tabs/tabs-options";
 import SaveButton from "@/components/button/save-button";
 import EditButton from "@/components/button/edit-button";
 import { useSwipeable } from "react-swipeable";
+import { ParamsValue } from "@/type/params-value";
+import ViewModeButton from "@/components/button/chart-button";
 
-type Mode = "edit" | "view";
+type Mode = ParamsValue["mode"];
+type ViewMode = ParamsValue["viewMode"];
 
-export default function FooterBar() {
+export function FooterBar() {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -26,11 +29,22 @@ export default function FooterBar() {
 
   const rawMode = searchParams.get("mode");
   const mode: Mode = rawMode === "edit" ? "edit" : "view";
+  const rawViewMode = searchParams.get("viewMode");
+  const viewMode: ViewMode = rawViewMode === "chart" ? "chart" : "table";
   const isEdit = mode === "edit";
 
   const setMode = (value: Mode) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("mode", value);
+
+    startTransition(() => {
+      router.replace(`${pathname}?${params.toString()}`);
+    });
+  };
+
+  const setViewMode = (value: ViewMode) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("viewMode", value);
 
     startTransition(() => {
       router.replace(`${pathname}?${params.toString()}`);
@@ -64,7 +78,7 @@ export default function FooterBar() {
   return (
     <div
       {...handlers}
-      className="bg-background sticky bottom-0 z-20 flex w-full items-center justify-between px-4 py-2 md:justify-start md:gap-4"
+      className="bg-background sticky bottom-0 z-20 flex w-full items-center justify-between px-2 py-2 md:justify-start md:gap-4"
     >
       <div>
         <TabsOptions
@@ -83,6 +97,9 @@ export default function FooterBar() {
           />
         )}
 
+        {has("chart") && !isEdit && (
+          <ViewModeButton viewMode={viewMode} setViewMode={setViewMode} />
+        )}
         {has("edit") && (
           <EditButton
             isEdit={isEdit}

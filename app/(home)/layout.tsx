@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import NavMenuHeader from "@/components/nav-layout/nav-menu";
+import { HeaderBar, FooterBar } from "@/features/nav-layout";
 
 export default function HomeLayout({
   children,
@@ -7,8 +7,16 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Suspense fallback={null}>
-      <NavMenuHeader>{children}</NavMenuHeader>
-    </Suspense>
+    <div className="flex h-dvh flex-col justify-between">
+      <Suspense fallback={null}>
+        <HeaderBar />
+      </Suspense>
+      <div className="flex-1 md:flex md:w-full md:items-center md:justify-center">
+        {children}
+      </div>{" "}
+      <Suspense fallback={null}>
+        <FooterBar />
+      </Suspense>
+    </div>
   );
 }
