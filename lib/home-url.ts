@@ -28,6 +28,10 @@ export function getHomeUrl(request: NextRequest, pathname?: string) {
     "mode",
     request.nextUrl.searchParams.get("mode") ?? "view",
   );
+  url.searchParams.set(
+    "viewMode",
+    request.nextUrl.searchParams.get("viewMode") ?? "table",
+  );
 
   return url;
 }

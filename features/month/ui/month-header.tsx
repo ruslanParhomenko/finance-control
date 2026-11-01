@@ -28,7 +28,7 @@ export default function MonthHeader({
               <div
                 className={cn(
                   "text-center text-xs font-semibold md:text-sm",
-                  day.day === todayDay && "text-blue-900",
+                  day.day === todayDay && "text-red-500",
                 )}
               >
                 {day.day}

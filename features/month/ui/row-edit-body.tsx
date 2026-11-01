@@ -36,6 +36,18 @@ export default function RowEditBody({
     setSelectedDay(day);
   };
 
+  const today = 17;
+
+  const todayRef = React.useRef<HTMLTableCellElement>(null);
+
+  React.useEffect(() => {
+    todayRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "center",
+    });
+  }, []);
+
   const register = form?.register;
   const { expenseTotal } = calculateOverallTotals(totals ?? {});
   return (
@@ -69,6 +81,7 @@ export default function RowEditBody({
                         selectedRow === index &&
                         "bg-border",
                     )}
+                    ref={dayIndex === today - 1 ? todayRef : null}
                   >
                     <NumericInput
                       fieldName={`rowExpenseData.${row}.${dayIndex}`}
