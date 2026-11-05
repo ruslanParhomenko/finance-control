@@ -6,6 +6,10 @@ import { getHomeUrl } from "./lib/home-url";
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  const date = new Date();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+
   if (pathname === "/not-authorized") {
     return NextResponse.next();
   }

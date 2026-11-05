@@ -36,7 +36,7 @@ export default function RowEditBody({
     setSelectedDay(day);
   };
 
-  const today = 17;
+  const today = new Date().getDate();
 
   const todayRef = React.useRef<HTMLTableCellElement>(null);
 

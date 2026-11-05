@@ -17,6 +17,10 @@ export function FooterBar() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const currentDate = new Date();
+  const currentMonth = currentDate.getMonth() + 1;
+  const currentYear = currentDate.getFullYear();
+
   const mainRoute = pathname?.split("/").pop();
   const formId = mainRoute;
 
@@ -53,6 +57,8 @@ export function FooterBar() {
 
   const handleTabChange = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());
+    // const currentMonth = searchParams.get("month");
+    // const currentYear = searchParams.get("year");
     params.set("mode", "view");
 
     startTransition(() => {
