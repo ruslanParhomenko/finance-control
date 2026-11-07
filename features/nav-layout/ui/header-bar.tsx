@@ -5,12 +5,15 @@ import SelectOptions from "@/components/select/select-options";
 
 import { CURRENCY, MONTHS, YEAR } from "@/utils/get-month-days";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useTransition } from "react";
+import { useEffect, useTransition } from "react";
 
 export function HeaderBar() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+
+  const currentMonth = new Date().getMonth() + 1;
+  const currentYear = new Date().getFullYear();
 
   const monthUrl = searchParams.get("month");
   const yearUrl = searchParams.get("year");
@@ -50,19 +53,41 @@ export function HeaderBar() {
       router.replace(`${pathname}?${params.toString()}`);
     });
   };
+
+  useEffect(() => {
+    if (
+      monthUrl !== currentMonth.toString() ||
+      yearUrl !== currentYear.toString() ||
+      pathname === "/bank"
+    ) {
+      const params = new URLSearchParams(searchParams.toString());
+
+      const monthByPathname =
+        pathname === "/bank" ? String(currentMonth - 1) : String(currentMonth);
+
+      params.set("month", monthByPathname);
+      params.set("year", String(new Date().getFullYear()));
+
+      startTransition(() => {
+        router.replace(`${pathname}?${params.toString()}`);
+      });
+    }
+  }, [pathname]);
   return (
     <div className="bg-background sticky top-0 z-20 my-1 flex justify-between px-4 md:gap-4">
       <div className="order-1 flex gap-4 md:order-0">
-        <SelectOptions
-          options={MONTHS.map((month, index) => ({
-            value: month,
-            label: String(index + 1),
-          }))}
-          value={monthUrl!}
-          onChange={handleMonthChange}
-          className={selectClassName}
-          isLoading={isPending}
-        />
+        {pathname !== "/year" && pathname !== "/init-bal" && (
+          <SelectOptions
+            options={MONTHS.map((month, index) => ({
+              value: month,
+              label: String(index + 1),
+            }))}
+            value={monthUrl!}
+            onChange={handleMonthChange}
+            className={selectClassName}
+            isLoading={isPending}
+          />
+        )}
 
         <SelectOptions
           options={YEAR.map((year) => ({ value: year, label: year }))}

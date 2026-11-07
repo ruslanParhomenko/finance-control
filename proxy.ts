@@ -7,7 +7,7 @@ export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const date = new Date();
-  const month = date.getMonth() + 1;
+  const month = date.getMonth();
   const year = date.getFullYear();
 
   if (pathname === "/not-authorized") {

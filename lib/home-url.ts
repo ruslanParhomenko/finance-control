@@ -6,9 +6,6 @@ const HOME_DEFAULTS = {
 
 export function getHomeUrl(request: NextRequest, pathname?: string) {
   const url = new URL(pathname || "/month", request.url);
-
-  console.log("pathname", pathname);
-
   const now = new Date();
 
   const month = String(now.getMonth() + 1);
