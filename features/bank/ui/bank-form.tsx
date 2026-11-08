@@ -13,7 +13,7 @@ export default function BankForm({
   currency: string;
 }) {
   return (
-    <Card className="m-3 mt-8 p-3">
+    <Card className="m-3 p-3">
       <Table className="w-full">
         <TableBody>
           {bankCategories.map((bank, index) => {

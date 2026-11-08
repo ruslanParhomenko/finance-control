@@ -12,7 +12,7 @@ export default async function Page({
 }) {
   const paramsValue = (await searchParams) as ParamsValue;
   const { month, year, currency, viewMode } = paramsValue;
-  if (!month || !year || !currency || !viewMode) return;
+  if (!month || !year || !currency) return;
   const [expenseData, initialState, bankByYear] = await Promise.allSettled([
     getExpenseByYear(year),
     getInitialState(year),

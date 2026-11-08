@@ -14,7 +14,7 @@ export function BankViewTable({
   const totals = bankData?.dataBank?.totals || "0";
   const selectedCurrency = bankData?.dataCurrency?.[currency as Currency] || 1;
   return (
-    <Card className="m-3 mt-8 p-3">
+    <Card className="m-3 p-3">
       <Table className="w-full md:w-100">
         <TableBody>
           {bankCategories.map((bank, index) => {
