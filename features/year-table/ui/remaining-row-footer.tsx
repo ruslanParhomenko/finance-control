@@ -18,7 +18,7 @@ export default function RemainingRowFooter({
         {roundSafe(difference)}
       </TableCell>
 
-      <TableCell className="bg-background sticky left-11" />
+      <TableCell className="bg-background sticky left-10" />
 
       {remainingByMonth.map((diff, index) => (
         <TableCell key={index} className="h-6.5 text-center text-xs">

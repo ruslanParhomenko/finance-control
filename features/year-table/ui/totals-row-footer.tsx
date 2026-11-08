@@ -15,7 +15,7 @@ export default function TotalsRowFooter({
         {finalBank}
       </TableCell>
 
-      <TableCell className="bg-background sticky left-11" />
+      <TableCell className="bg-background sticky left-10" />
 
       {totalsByMonth.map((value, index) => (
         <TableCell key={index} className="h-6.5 text-center text-xs">

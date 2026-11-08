@@ -2,6 +2,7 @@ import NumericInput from "@/components/input/numeric-input";
 import { bankCategories } from "../model/constants";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
+import { Card } from "@/components/ui/card";
 export default function BankForm({
   totals,
   selectedCurrency,
@@ -12,42 +13,44 @@ export default function BankForm({
   currency: string;
 }) {
   return (
-    <Table className="w-full">
-      <TableBody>
-        {bankCategories.map((bank, index) => {
-          return (
-            <TableRow key={bank.name + index} className="[&>td]:py-0">
-              <TableCell className="w-4 border-r">{index + 1}</TableCell>
-              <TableCell className="w-22 px-4 text-xs">
-                {bank.label.toLowerCase()}
-              </TableCell>
-              <TableCell className="text-center">
-                <NumericInput
-                  fieldName={`bank[${bank.name}].value`}
-                  className={cn(
-                    "text-md my-1 h-6 w-26 border-red-600 text-xs font-bold text-red-600 md:h-8 md:w-60",
-                  )}
-                />
-              </TableCell>
-              <TableCell className="w-12 px-4 text-xs">
-                {bank.currency}
-              </TableCell>
-            </TableRow>
-          );
-        })}
-        <TableRow>
-          <TableCell colSpan={2} />
+    <Card className="m-3 mt-8 p-3">
+      <Table className="w-full">
+        <TableBody>
+          {bankCategories.map((bank, index) => {
+            return (
+              <TableRow key={bank.name + index} className="[&>td]:py-0">
+                <TableCell className="w-4 border-r">{index + 1}</TableCell>
+                <TableCell className="w-22 px-4 text-xs">
+                  {bank.label.toLowerCase()}
+                </TableCell>
+                <TableCell className="text-center">
+                  <NumericInput
+                    fieldName={`bank[${bank.name}].value`}
+                    className={cn(
+                      "text-md my-1 h-6 w-26 border-red-600 text-xs font-bold text-red-600 md:h-8 md:w-60",
+                    )}
+                  />
+                </TableCell>
+                <TableCell className="w-12 px-4 text-xs">
+                  {bank.currency}
+                </TableCell>
+              </TableRow>
+            );
+          })}
+          <TableRow>
+            <TableCell colSpan={2} />
 
-          <TableCell>
-            <div className="flex w-26 items-center justify-center font-bold">
-              {(Number(totals.toFixed(0)) / Number(selectedCurrency)).toFixed(
-                0,
-              )}
-            </div>
-          </TableCell>
-          <TableCell className="w-12 px-4">{currency}</TableCell>
-        </TableRow>
-      </TableBody>
-    </Table>
+            <TableCell>
+              <div className="flex w-26 items-center justify-center font-bold">
+                {(Number(totals.toFixed(0)) / Number(selectedCurrency)).toFixed(
+                  0,
+                )}
+              </div>
+            </TableCell>
+            <TableCell className="w-12 px-4">{currency}</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </Card>
   );
 }

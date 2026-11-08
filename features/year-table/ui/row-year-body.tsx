@@ -1,5 +1,4 @@
 import { TableCell, TableRow } from "@/components/ui/table";
-import { CURRENCY_ICON } from "@/features/month/model/constants";
 import { cn } from "@/lib/utils";
 import { calculateOverallTotals } from "@/utils/category-totals";
 
@@ -35,7 +34,7 @@ export default function RowYearBody({
             </TableCell>
             <TableCell
               className={cn(
-                "bg-background sticky left-11 z-10 pl-2! text-start text-xs",
+                "bg-background sticky left-10 z-10 pl-2! text-start text-xs",
               )}
             >
               {row}
@@ -62,7 +61,7 @@ export default function RowYearBody({
           <TableCell className="bg-background sticky left-0 text-end md:bg-transparent">
             {(Number(expenseTotal) / Number(currencyRates)).toFixed(0)}{" "}
           </TableCell>
-          <TableCell className="bg-background sticky left-11 md:bg-transparent" />
+          <TableCell className="bg-background sticky left-10 md:bg-transparent" />
           {cellArray.map((_, dayIndex) => {
             const totalByDay = rowArray
               .reduce((acc, category) => {

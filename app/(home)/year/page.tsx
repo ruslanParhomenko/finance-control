@@ -28,20 +28,16 @@ export default async function Page({
     );
   }
 
-  if (viewMode === "table") {
-    return (
-      <YearTable
-        expenseData={
-          expenseData.status === "fulfilled" ? expenseData.value : null
-        }
-        paramsValue={paramsValue}
-        initialState={
-          initialState.status === "fulfilled" ? initialState.value : null
-        }
-        bankData={bankByYear.status === "fulfilled" ? bankByYear.value : null}
-      />
-    );
-  }
-
-  return null;
+  return (
+    <YearTable
+      expenseData={
+        expenseData.status === "fulfilled" ? expenseData.value : null
+      }
+      paramsValue={paramsValue}
+      initialState={
+        initialState.status === "fulfilled" ? initialState.value : null
+      }
+      bankData={bankByYear.status === "fulfilled" ? bankByYear.value : null}
+    />
+  );
 }
